@@ -28,7 +28,7 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 
 6. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#storage-gateway">Storage Gateway</a>
 
-7. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2)</a>
+7. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
 
 8. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
 
