@@ -841,7 +841,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Think of RDS as the DB engine in which various DBs sit on top of.
 - RDS has two key features when scaling out:
   - Read replication for improved performance
-  - Multi-AZ for high availability
+  - Multi-AZ for high availability 
 - In the database world, *Online Transaction Processing (OLTP)* differs from *Online Analytical Processing (OLAP)* in terms of the type of querying that you would do. OLTP serves up data for business logic that utimately composes the core functioning of your platform or application. OLAP is to gain insights into the data that you have stored in order to make better strategic decisions as a company.
 - RDS runs on virtual machines, but you do not have access to those machines. You cannot SSH into an RDS instance so therefore you cannot patch the OS. This means that AWS  isresponsible for the security and maintenance of RDS. You can provision an EC2 instance as a database if you need or want to manage the underlying server yourself, but not with an RDS engine.
 - Just because you cannot access the VM directly, it does not mean that RDS is serverless. There is Aurora serverless however (explained below) which serves a niche purpose.
