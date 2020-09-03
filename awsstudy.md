@@ -487,6 +487,9 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 
 ### EC2 Key Details:
 - You can launch different types of instances from a single AMI. An instance type essentially determines the hardware of the host computer used for your instance. Each instance type offers different compute and memory capabilities. You should select an instance type based on the amount of memory and computing power that you need for the application or software that you plan to run on top of the instance.   
+- From within an instance there are two useful Meta Data URL's.
+- To see the bootstrap script: http:169.254.169.254/latest/user-data. 
+- Starring place for Meta data: http:169.254.169.254/latest/meta-data. For example data/public-ipv4 shows your Public IP address (Whats my IP)
 - You can launch multiple instances of an AMI, as shown in the following figure:
 
 ![architecture_ami_instance](https://user-images.githubusercontent.com/13093517/84097031-64a4c380-a9d1-11ea-8358-1c3eec1c4471.png)
