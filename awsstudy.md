@@ -16,75 +16,75 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 
 
 ## Table of Contents
-1. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#introduction">Introduction</a>
+1. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#introduction">Introduction</a>
 
-2. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#identity-access-management-iam">Identity Access Management (IAM)</a>
+2. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#identity-access-management-iam">Identity Access Management (IAM)</a>
 
-3. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#simple-storage-service-s3">Simple Storage Service (S3)</a>
+3. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
 
-4. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#cloudfront">CloudFront</a>
+4. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudfront">CloudFront</a>
 
-5. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#snowball">Snowball</a>
+5. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#snowball">Snowball</a>
 
-6. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#storage-gateway">Storage Gateway</a>
+6. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#storage-gateway">Storage Gateway</a>
 
 7. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
 
-8. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
+8. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
 
-9. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
+9. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
 
-10. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#security-groups">Security Groups</a>
+10. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#security-groups">Security Groups</a>
 
-11. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#web-application-firewall-waf">Web Application Firewall (WAF)</a>
+11. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
 
-12. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#cloudwatch">CloudWatch</a>
+12. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudwatch">CloudWatch</a>
 
-13. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#cloudtrail">CloudTrail</a>
+13. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudtrail">CloudTrail</a>
 
-14. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-file-system-efs">Elastic File System (EFS)</a>
+14. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-file-system-efs">Elastic File System (EFS)</a>
 
-15. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#amazon-fsx-for-windows">Amazon FSx for Windows</a>
+15. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
 
-16. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
+16. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
 
-17. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#relational-database-service-rds">Relational Database Service (RDS)</a>
+17. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#relational-database-service-rds">Relational Database Service (RDS)</a>
 
-18. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#aurora">Aurora</a>
+18. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aurora">Aurora</a>
 
-19. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#dynamodb">DynamoDB</a>
+19. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#dynamodb">DynamoDB</a>
 
-20. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#redshift">Redshift</a>
+20. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#redshift">Redshift</a>
 
-21. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elasticache">ElastiCache</a>
+21. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elasticache">ElastiCache</a>
 
-22. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#route53">Route53</a>
+22. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#route53">Route53</a>
 
-23. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
+23. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
 
-24. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#auto-scaling">Auto Scaling</a>
+24. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#auto-scaling">Auto Scaling</a>
 
-25. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
+25. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
 
-26. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
+26. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
 
-27. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
+27. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
 
-28. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
+28. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
 
-29. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#kinesis"> Kinesis </a>
+29. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#kinesis"> Kinesis </a>
 
-30. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#lambda"> Lambda </a>
+30. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#lambda"> Lambda </a>
 
-31. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#api-gateway"> API Gateway </a>
+31. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#api-gateway"> API Gateway </a>
 
-32. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#cloudformation">CloudFormation </a>
+32. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">CloudFormation </a>
 
-33. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#cloudformation">ElasticBeanstalk</a>
+33. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">ElasticBeanstalk</a>
 
-34. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#aws-organizations">AWS Organizations</a>
+34. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aws-organizations">AWS Organizations</a>
 
-35. <a href="https://github.com/keenanromain/AWS-SAA-C02-Study-Guide#miscellaneous">Miscellaneous</a>
+35. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#miscellaneous">Miscellaneous</a>
 
 
 
@@ -184,11 +184,14 @@ IAM offers a centralized hub of control within AWS and integrates with all other
 
 **Roles** - any software service that needs to be granted permissions to do its job, e.g- AWS Lambda needing write permissions to S3 or a fleet of EC2 instances needing read permissions from a RDS MySQL database.
 
-**Policies** - the documented rulesets that are applied to grant or limit access. In order for users, groups, or roles to properly set permissions, they use policies. Policies are written in JSON and you can either use custom policies for your specific needs or use the default policies set by AWS.
+**Policies** - the documented rulesets that are applied to grant or limit access. In order for users, groups, or roles to properly set permissions, they use policies. Policies are written in JSON and you can either use custom policies for your specific needs or use the default policies set by AWS. Must be attached to have an effect (9/3/2020).
 
 ![Screen Shot 2020-06-06 at 10 49 48 PM](https://user-images.githubusercontent.com/13093517/83959193-11533980-a848-11ea-9d03-d8133e0aaa86.png)
 
 IAM Policies are separated from the other entities above because they are not an IAM Identity. Instead, they are attached to IAM Identities so that the IAM Identity in question can perform its neccessary function.
+
+Note: Make sure that you examine the JSON text of IAM policies within the AWS console. 
+- Version, Statement, Effect, Action, Resource. 
 
 ### IAM Key Details:
 
@@ -207,6 +210,19 @@ IAM Policies are separated from the other entities above because they are not an
 - You cannot nest IAM Groups. Individual IAM users can belong to multiple groups, but creating subgroups so that one IAM Group is embedded inside of another IAM Group is not possible.
 
 - With IAM Policies, you can easily add tags that help define which resources are accessible by whom. These tags are then used to control access via a particular IAM policy. For example, production and development EC2 instances might be tagged as such. This would ensure that people who should only be able to access development instances cannot access production instances.  
+
+- IAM Inline Policies. These are embedded in an IAM identity (user, group, role), an inherient patt of that identity.  Used to maintain strict 1:1 relationships, living within the scope of the IAM identity.
+
+### Amazon Resource Names (ARN) (Update 8-9/3/2020)
+The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniquely identify resources.
+- Format: arn:partition:service:region:account_id:
+- Partition: Separates infrastructure, 'aws' or 'aws-cn' (China)
+- Service: EC2, S3, rds.
+- Region: The major regions, like us-east-1.
+- Account: Your 12 digit account
+- ARN's end with a resource.  Like "user/don" or "s3_kick_the/bucket.jpg".
+- There can be two consecutive colons, so some values can be esparated. 
+- ARN's are embedded in IAM policies.
 
 ### Priority Levels in IAM:
 - **Explicit Deny**: Denies access to a particular resource and this ruling cannot be overruled.
@@ -231,13 +247,14 @@ This makes it a perfect candidate to host files or directories and a poor candid
 
 ![Screen Shot 2020-06-05 at 3 34 57 PM](https://user-images.githubusercontent.com/13093517/83915925-352c5780-a742-11ea-975b-53d4e5d07e7c.png)
 
-
 Data uploaded into S3 is spread across multiple files and facilities. The files uploaded into S3 have an upper-bound of 5TB per file and the number of files that can be uploaded is virtually limitless. S3 buckets, which contain all files, are named in a universal namespace so uniqueness is required. All successful uploads will return an HTTP 200 response.
+
+Amazon S3 <a href="https://aws.amazon.com/s3/faqs/#:~:text=The%20S3%20Standard%20storage%20class,availability%20and%20SLA%20of%2099.9%2">FAQ</a>.
 
 ### S3 Key Details:
 - Objects (regular files or directories) are stored in S3 with a key, value, version ID, and metadata. They can also contain torrents and subresources for access control lists which are basically permissions for the object itself.
 - The data consistency model for S3 ensures immediate read access for new objects after the initial PUT requests. These new objects are introduced into AWS for the first time and thus do not need to be updated anywhere so they are available immediately.
-- The data consistency model for S3 ensures eventual read consistency for PUTS and DELETES of already existing objects. This is because the change takes a little time to propagate across the entire Amazon network.
+- The data consistency model for S3 ensures `eventual read consistency` for PUTS and DELETES of already existing objects. This is because the change takes a little time to propagate across the entire Amazon network.
 - Because of the eventual consistency model when updating existing objects in S3, those updates might not be immediately reflected. As object updates are made to the same key, an older version of the object might be provided back to the user when the next read request is made. 
 - Amazon guarantees 99.999999999% (or 11 9s) durability for all S3 storage classes except its Reduced Redundancy Storage class.
 - S3 comes with the following main features:
@@ -364,6 +381,13 @@ The Amazon S3 notification feature enables you to receive and send notifications
    - S3 periodically collecting access log records of the bucket you want to monitor
    - S3 then consolidates those records into log files
    - S3 finally uploads the log files to your secondary monitoring bucket as log objects
+
+### S3 URL's (9/19/20)
+
+- An example ARN: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
+- S3 supports two URL styles: virtual hosted and path style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
+- For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
+- For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
 
 ### S3 Multipart Upload:
 - Multipart upload allows you to upload a single object as a set of parts. Each part is a contiguous portion of the object's data. You can upload these object parts independently and in any order. 
@@ -1051,25 +1075,27 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
 ### Route53 Key Details:
 - DNS is used to map human-readable domain names into an internet protocol address similarly to how phonebooks map company names with phone numbers.
 - AWS has its own domain registrar.
-- When you buy a domain name, every DNS address starts with an SOA (Start of Authority) record. The SOA record stores information about the name of the server that kicked off the transfer of ownership, the administrator who will now use the domain, the current metadata available, and the default number of seconds or TTL. 
-- NS records, or Name Server records, are used by the Top Level Domain hosts (.org, .com, .uk, etc.) to direct traffic to the Content servers. The Content DNS servers contain the authoritative DNS records.
-- Browsers talk to the Top Level Domains whenever they are queried and encounter domain name that they do not recognize.
-  1. Browsers will ask for the authoritative DNS records associated with the domain.
-  2. Because the Top Level Domain contains NS records, the TLD can in turn queries the Name Servers for their own SOA.
+- When you buy a domain name there is a Start of Authority (SOA) record created in the registration service. Every DNS ~~address domain ~~starts has with an SOA record. The SOA record stores information about the name of the server that kicked off the transfer of ownership, the administrator who will now use the domain, the serial number of the SOA Rec the current metadata available, and the default number of seconds or TTL.  (Revised 9/3/2020)
+- NS records, or Name Server records, are used to identify the name server that is authoratative for the domain. The Top Level Domain hosts (.org, .com, .uk, etc.) to direct traffic to the Content servers. The Content DNS servers contain the authoritative DNS records.
+- By default, an account can manage up to 50 domains. Support can increase that number. (Added 9/3/2020)
+- ~~Browsers Resolvers talk to the Top Level Domain Servers (called Root DNS servers) whenever they are queried and encounter domain name that they do not recognize.
+  1. ~~Browsers Resolvers will ask for the authoritative DNS records associated with the domain, by querrying their configured DNS server.
+  2. Because the Top Level Domain contains NS records, the TLD can in turn query a Name Servers for their own SOA.
   3. Within the SOA, there will be the requested information.
-  4. Once this information is collected, it will then be returned all the way back to the original browser asking for it.
+  4. Once this information is collected, it will then be returned all the way back to the original ~~browser Resolver  asking for it.
 - In summary: Browser -> TLD -> NS -> SOA -> DNS record. The pipeline reverses when the correct DNS record is found.
 - Authoritative name servers store DNS record information, usually a DNS hosting provider or domain registrar like GoDaddy that offers both DNS registration and hosting.
 - There are a multitude of DNS records for Route53. Here are some of the more common ones:
   - **A records**: These are the fundamental type of DNS record. The “A” in A records stands for “address”. These records are used by a computer to directly pair a domain name to an IP address. IPv4 and IPv6 are both supported with "AAAA" refering to the IPv6 version. **A: URL -> IPv4** and **AAAA: URL -> IPv6**.
-  - **CName records**: Also refered to as the Canonical Name. These records are used to resolve one domain name to another domain name. For example, the domain of the mobile version of a website may be a CName from the domain of the browser version of that same website rather than a separate IP address. This would allow mobile users who visit the site and to receive the mobile version. **CNAME: URL -> URL**.
-  - **Alias records**: These records are used to map your domains to AWS resources such as load balancers, CDN endpoints, and S3 buckets. Alias records function similarly to CNames in the sense that you map one domain to another. The key difference though is that by pointing your Alias record at a service rather than a domain name, you have the ability to freely change your domain names if needed and not have to worry about what records might be mapped to it. Alias records give you dynamic functionality. **Alias: URL -> AWS Resource**.
-  - **PTR records**: These records are the opposite of an A record. PTR records map an IP to a domain and they are used in reverse DNS lookups as a way to obtain the domain name of an IP address. **PTR: IPv4 -> URL**. 
+  - **CName records**: Also refered to as the Canonical Name. These records are used to map an alias to a true name, like "web" to "www". ~~to resolve one domain name to another domain name. For example, the domain of the mobile version of a website may be a CName from the domain of the browser version of that same website rather than a separate IP address. This would allow mobile users who visit the site and to receive the mobile version. **CNAME: URL -> URL**.
+  - ~~**Alias records**: These records are used to map your domains to AWS resources such as load balancers, CDN endpoints, and S3 buckets. They are a Route 53 DNS extension.  Alias records function similarly to CNames in the sense that you map one domain to another. The key difference though is that by pointing your Alias record at a service rather than a domain name, you have the ability to freely change your domain names if needed and not have to worry about what records might be mapped to it. Alias records give you dynamic functionality. You can also create an alias record at the top (apex). **Alias: URL -> AWS Resource**.~~
+  - **PTR records**: These records are the opposite of an A record. PTR records map an IP to a domain and they are used in reverse DNS lookups as a way to obtain the domain name of an IP address. PTR records are written "right to left" for IPv4. **PTR: IPv4 -> URL**. 
 - One other major difference between CNames and Alias records is that a CName cannot be used for the naked domain name (the apex record in your entire DNS configuration / the primary record to be used). CNames must always be secondary records that can map to another secondary record or the apex record. The primary must always be of type Alias or A Record in order to work.
 - Due to the dynamic nature of Alias records, they are often reccomended for most usecases and should be used when it is possible to.
 - TTL is the length that a DNS record is cached on either the resolving servers or the users own cache so that a fresher mapping of IP to domain can be retrieved. Time To Live is measured in seconds and the lower the TTL the faster DNS changes propagate across the internet. Most providers, for example, have a TTL that lasts 48 hours.
 - You can create health checks to send you a Simple Notification if any issues arise with your DNS setup.
 - Further, Route53 health checks can be used for any AWS endpoint that can be accessed via the Internet. This makes it an ideal option for monitoring the health of your AWS endpoints.
+- To flush your local cache on Windows you can run "`ipconfig flushdns`" in a command prompt.
 
 ### Route53 Routing Policies:
 - When you create a record, you choose a routing policy, which determines how Amazon Route 53 responds to DNS queries. The routing policies available are:
@@ -1080,18 +1106,20 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
   - Geolocation Routing
   - Geo-proximity Routing
   - Multivalue Answer Routing
-- **Simple Routing** is used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
-- **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the rest to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing.
-- **Latency-based Routing**, as the name implies, is based on setting up routing based on what would be the lowest latency for a given user. To use latency-based routing, you must create a latency resource record set in the same region as the corresponding EC2 or ELB resource receiving the traffic. When Route53 receives a query for your site, it selects the record set that gives the user the quickest speed. When creating Latency-based Routing, you need to specify a new record for each IP.
-- **Failover Routing** is used when you want to configure an active-passive failover set up. Route53 will monitor the health of your primary so that it can failover when needed. You can also manually set up health checks to monitor all endpoints if you want more detailed rules.
+- **Simple Routing** is "standard or legacy DNS" behavior. ~~You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
+- **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing.
+- **Latency-based Routing**, as the name implies, is based on setting up routing based on what would be the lowest latency for a given user. To use latency-based routing, you must create a latency resource record set in the same region as the corresponding EC2 or ELB resource receiving the traffic. When Route53 receives a query for your site, it selects the record set that gives the user the quickest speed. When creating Latency-based Routing, you need to specify a new record for each IP. 
+- **Failover Routing** is used when you want to configure active-passive failover. Route53 will monitor the health of your primary so that it can failover when needed. You can also manually set up health checks to monitor all endpoints if you want more detailed rules. Systems that fail health checks based on the failure threshold are omitted from replies.
 - **Geolocation Routing** lets you choose where traffic will be sent based on the geographic location of your users.
 - **Geo-proximity Routing** lets you choose where traffic will be sent based on the geographic location of your users *and* your resources. You can choose to route more or less traffic based on a specified weight which is referred to as a bias. This bias either expands or shrinks the availability of a geographic region which makes it easy to shift traffic from resources in one location to resources in another. To use this routing method, you must enable Route53 traffic flow. If you want to control global traffic, use Geo-proximity routing. If you want traffic to stay in a local region, use Geolocation routing.
-- **Multivalue Routing** is pretty much the same as Simple Routing, but Multivalue Routing allows you to put health checks on each record set. This ensures then that only a healthy IP will be randomly returned rather than any IP.
+- **Multivalue Routing** is pretty much the same as Simple Routing, but Multivalue Routing allows you to put health checks on each record in the record set. This ensures then that only a healthy IP will be randomly returned rather than any configured IP.
+
+Note: Health Chekcs are on a per DNS "A" record basis. A SNS notification can be setup if a record fails a health check.
 
 ## Elastic Load Balancers (ELB)
 
 ### ELB Simplified:
-Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, Docker containers, IP addresses, and Lambda functions. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones. Elastic Load Balancing offers three types of load balancers that all feature the high availability, automatic scaling, and robust security necessary to make your applications fault tolerant.
+Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, Docker containers, IP addresses, and Lambda functions. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones. Elastic Load Balancing offers three types of load balancers that all feature the high availability, automatic scaling, and robust security necessary to make your applications fault tolerant. 
 
 ### ELB Key Details:
 - Load balancers can be internet facing or application internal.
@@ -1107,7 +1135,9 @@ When an EC2 instance behind an ELB fails a health check, the ELB stops sending t
 - **Application LBs** are best suited for HTTP(S) traffic and they balance load on layer 7. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your brower which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
 - **Network LBs** are best suited for TCP traffic where performance is required and they balance load on layer 4. They are capable of managing millions of requests per second while maintaining extremely low latency.
 - **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers.
-- If you need flexible application management and TLS termination then you should use the Application Load Balancer. If extreme performance and a static IP is needed for your application then you should use the Network Load Balancer. If your application is built within the EC2 Classic network then you should use the Classic Load Balancer.
+- If you need flexible application management and TLS termination then you should use the Application Load Balancer. If extreme performance and a static IP is needed for your application then you should use the Network Load Balancer. If your application is built within the EC2 Classic network then you should use the Classic Load Balancer. 
+- Health Checks: Ping protocol (HTTP), port, ping path (filename), response timeout, interval. Then unhealthy threshold vs. healthy threshold.
+### ELB General:
 - The lifecycle of a request to view a website behind an ELB:
   1. The browser requests the IP address for the load balancer from DNS.
   2. DNS provides the IP.
@@ -1190,15 +1220,15 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 ### VPC Simplified:
 VPC lets you provision a logically isolated section of the AWS cloud where you can launch services and systems within a virtual network that you define. By having the option of selecting which AWS resources are public facing and which are not, VPC provides much more granular control over security.
 
-### VPC Key Details:
+### VPC Key Details (Updated 9/4/2020):
 - You can think of VPC as your own virtual datacenter in the cloud. You have complete control of your own network; including the IP range, the creation of sub-networks (subnets), the configuration of route tables and the network gateways used.
 - You can then launch EC2 instances into a subnet of your choosing, select the IPs to be available for the instances, assign security groups for them, and create Network Access Control Lists (NACLs) for the subnets themselves as additional protection.
 - This customization gives you much more control to specify and personalize your infrastructure setup. For example, you can have one public-facing subnet for your web servers to receive HTTP traffic and then a different private-facing subnet for your database server where internet access is forbidden.
-- You use subnets to efficiently utilize networks that have a large number of hosts
+- You use subnets to efficiently utilize networks that have a large number of hosts - /16 and smaller (no /8).
 - VPCs come with defense in depth by design. From the sub-network (NACLs) down to the individual server (security group) and further down to the application itself (secure coding practices), you can set up multiple levels of protection against malicious users and programs.
-- The default VPC for your AWS environment permits all subnets to have a route out to the internet meaning all subnets in the default VPC are internet accessible. The default setting allows you to immediately deploy instances and each EC2 instance will have both a public and private IP address.
+- The default VPC for your AWS environment permits all subnets to have a route out to the internet meaning all subnets in the default VPC are internet accessible. The default setting allows you to immediately deploy instances and each EC2 instance will have both a public and private IP address. Super easy to use. All subnets have a route out to the Internet.
 - There is one default VPC per region. However, you can have as many custom VPCs as you want and all are private by default.
-- When you create a custom VPC, new subnets are not created by default. You must create them separately. The same is true for an internet gateway. If you want your VPC to have internet access, you need to also create the gateway so that the network can be reached publicly by the world.
+- When you create a custom VPC, four resources are created: VPC definition itself w/ an IPv4 range (like 10.0.0.0/16), Network ACL, Route table, and a Security Group (for the test - just 3). New subnets are not created by default. You must create them separately. The same is true for an internet gateway. If you want your VPC to have internet access, you need to also create the gateway so that the network can be reached publicly by the world. (Updated 9/4/2020)
 - Because of this, when you create an IGW it will initially be in an detached state. You will need to manually assign it to the custom VPC.
 - Once you create a custom VPC however, the following are created by default:
   - a route table
@@ -1215,9 +1245,11 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - When creating IP ranges for your subnets, the **/16** CIDR block is the largest range of IPs that can be used. This is because subnets must have just as many IPs or fewers IPs than the VPC it belongs to. A **/28** CIDR block is the smallest IP range available for subnets.
 - With CIDR in general, a **/32** denotes a single IP address and **/0** refers to the entire network The higher you go in CIDR, the more narrow the IP range will be.
 - The above information about IPs is in regards to both public and private IP addresses. 
+- You can mark a subnet as "Enable auto-assign public IPv4 address" so EC2 instances will get a public IP.
 - Private IP addresses are not reachable over the Internet and instead are used for communication between the instances in your VPC. When you launch an instance into a VPC, a private IP address from the IPv4 address range of the subnet is assigned to the default network interface (eth0) of the instance.
 - This means that all instances within a VPC has a private IP, but only those selected to communicate with the external world have a public IP.
 - When you launch an instance into a subnet that has public access via an Internet Gateway, both a public IP address and a private IP address are created. The public IP address is instead assigned to the primary network interface (eth0) that's created for the instance. Externally, the public IP address is mapped to the private IP address through network address translation (NAT). 
+- One IGW per VPC. (Added 9 /4/2020)
 - You can optionally associate an IPv6 CIDR block with your VPC and subnets, and assign IPv6 addresses from that block to the resources in your VPC.
 - VPCs are region specific and you can have up to five VPCs per region.
 - By default, AWS is configured to have one subnet in each AZ of the regions where your application is.
@@ -1228,13 +1260,13 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 
 - Security groups can span subnets, but do not span VPCs. ICMP ensures that instances from one security group can ping others in a different security group. It is IPv4 and IPv6 compatible.
 
-### VPC Subnets:
+### VPC Subnets (Updated 9/4/2020):
 - If a network has a large number of hosts without logically grouped subdivisions, managing the many hosts can be a tedious job. Therefore you use subnets to divide a network so that management becomes easier.
 - When you create a subnet, be sure to specify which VPC you want to place it in. You can assign both IPv4 and IPv6 ranges to your subnets.
 - The main benefits of subnets:
   - They improve traffic flow, and thus speed & performance of the entire network. An Internet gateway (IGW) receiving a packet and checking which of 5 subnets the packet should be delivered to is much faster than checking 100 instances individually. And if the destination of a packet is within the subnet from where it originates, the traffic stays inside the subnet and doesn't clutter the rest of the VPC.
   - Subnets function as logical groups to put your entities inside of. It makes it much easier to configure similar resources as a group instead of for every individual instance.
-- Amazon always reserves five IP addresses within a subnet. The first four IP addresses and the last IP address of each subnet CIDR block will always be unavailable for use.
+- Amazon always reserves five IP addresses within a subnet. The first four IP addresses and the last IP address of each subnet CIDR block will always be unavailable for use. Uae .1 = VPC router, .2 = DNS, .3 = future use, .0 = network address, .25 = broadcast. Note that broadcasts are not supported in a VPC submet (9/4/2020)
 
 ### Network Access Control Lists:
 - Network Access Control Lists (or NACLs) are like security groups but for subnets rather than instances. The main difference between security groups and NACLs is that security groups are *stateless*, meaning you can perform both allow and deny rules that may be divergent, depending if traffic is inbound or outbound, for that rule. 
@@ -1275,10 +1307,10 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - So because NAT instances act as a sort of proxy, you *must* disable source/destination checks when musing a NAT instance.
 
 ### Bastion Hosts:
-- Bastion Hosts are special purpose computers designed and configured to withstand attacks. This server generally runs a single program and is stripped beyond this purpose in order to reduce attack vectors. 
-- The purpose of Bastion Hosts are to remotely access the instances behind the private subnet for system administration purposes without exposing the host via an internet gateway. 
+- Bastion Hosts are special purpose computers designed and configured to withstand attacks. This server generally runs a single program and is stripped beyond this purpose in order to reduce attack vectors. [From wikipedia, added 9/4/2020]
+- The purpose of Bastion Hosts in AWS is to remotely access the instances behind the private subnet for system administration purposes without exposing the host via an internet gateway. 
 - The best way to implement a Bastion Host is to create a small EC2 instance that only has a security group rule for a single IP address. This ensures maximum security.
-- It is perfectly fine to use a small instance rather than a large one because the instance will only be used as a jump server that connects different servers to each other.
+- It is perfectly fine to use a small instance rather than a large one because the instance will only be used as a jump server that connects different servers to each other. Relaying traffic is lightweight. 
 - If you are going to be RDPing or SSHing into the instances of your private subnet, use a Bastion Host. If you are going to be providing internet traffic into the instances of your private subnet, use a NAT.
 - Similar to NAT Gateways and NAT Instances, Bastion Hosts live within a public-facing subnet.
 - There are pre-baked Bastion Host AMIs.
@@ -1286,15 +1318,16 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 ### Route Tables:
 - Route tables are used to make sure that subnets can communicate with each other and that traffic knows where to go.
 - Every subnet that you create is automatically associated with the main route table for the VPC.
-- You can have multiple route tables. If you do not want your new subnet to be associated with the default route table, you must specify that you want it associated with a different route table.
+- You can have multiple route tables. If you do not want your new subnet to be associated with the default (or main) route table, you must specify that you want it associated with a different route table.
 - Because of this default behavior, there is a potential security concern to be aware of: if the default route table is public then the new subnets associated with it will also be public. 
 - The best practice is to ensure that the default route table where new subnets are associated with is private.
-- This means you ensure that there is no route out to the internet for the default route table. Then, you can create a custom route table that is public instead. New subnets will automatically have no route out to the internet. If you want a new subnet to be publically accessible, you can simply associate it with the custom route table.
+- This means you ensure that there is no route out to the internet for the default (main) route table. Then, you can create a custom route table that is public. New subnets will automatically have no route out to the internet. If you want a new subnet to be publically accessible, you can simply associate it with the custom route table.
 - Route tables can be configured to access endpoints (public services accessed privately) and not just the internet.
 
 ### Internet Gateway:
 - If the Internet Gateway is not attached to the VPC, which is the prerequisite for instances to be accessed from the internet, then natually instances in your VPC will not be reachable. 
 - If you want all of your VPC to remain private (and not just some subnets), then do not attach an IGW.
+- The CLI command is: aws ec2 attach-internet-gateway --vpc-id "vpc-0214123ba5d2af412" --internet-gateway-id "igw-0f5bbff6d479e7cf4" --region us-east-1
 - When a Public IP address is assigned to an EC2 instance, it is effectively registered by the Internet Gateway as a valid public endpoint. However, each instance is only aware of its private IP and not its public IP. Only the IGW knows of the public IPs that belong to instances. 
 - When an EC2 instance initiates a connection to the public internet, the request is sent using the public IP as its source even though the instance doesn't know a thing about it. This works because the IGW performs its own NAT translation where private IPs are mapped to public IPs and vice versa for traffic flowing into and out of the VPC. 
 - So when traffic from the internet is destined for an instance's public IP endpoint, the IGW receives it and forwards the traffic onto the EC2 instance using its internal private IP.
@@ -1321,8 +1354,9 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 
 ### AWS DirectConnect:
 - Direct Connect is an AWS service that establishes a dedicated network connection between your premises and AWS. You can create this private connectivity to reduce network costs, increase bandwidth, and provide more consistent network experience compared to regular internet-based connections.
-- The use case for Direct Connect is high throughput workloads or if you need a stable or reliable connection
-- VPN connects to your on-prem over the internet and DirectConnect connects to your on-prem off through a private tunnel.
+- The use case for Direct Connect is high throughput workloads or if you need a stable or reliable connection.
+- VPN connects to your on-prem over the internet and DirectConnect connects to your on-prem off through a private tunnel. There are multiple DC locations around the world. There is a AWS dedicated cage at each location. Your router is also caged. There is a cross connect cable at the cage location (a cable).
+- Video: https://www.youtube.com/watch?reload=9&v=dhpTTT6V1So&feature=youtu.be 
 - The steps for setting up an AWS DirectConnect connection:
   1. Create a virtual interface in the DirectConnect console. This is a public virtual interface.
   2. Go to the VPC console and then VPN connections. Create a customer gateway for your on-premise.
@@ -1381,11 +1415,13 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Your flow logs can be configured to log valid traffic, invalid traffic, or both
 - You can have flow logs sourced from a different VPC compared to the VPC where your Flow Logs are. However, the other VPC must be peered via VPC Peering and under your account via AWS Organizations.
 - You can customize your logs by tagging them.
-- Once you create a Flow Log, you cannot change its config. You must make a new one.
+- Once you create a Flow Log, you cannot change its config, such as changing the role. You must make a new one.
 - Not all IP traffic is monitored under VPC Flow Logs. The following is a list of things that are ignored by Flow Logs:
   - Query requests for instance metadata
   - DHCP traffic
   - Query requests to the AWS DNS server
+  - Windows licensing activitation isn't monitored (9/4/2020)
+  - Traffic to reserved IP o/t default VPC router (9/4/2020)
   
   ### AWS Global Accelerator:
 - AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static IP addresses that you can make use of.
@@ -1627,11 +1663,12 @@ The following section includes services, features, and techniques that may appea
 - When you need to easily add authentication to your mobile and desktop app, think Amazon Cognito.
 
 ### What is AWS Resource Access Manager?
-- AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
+- AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM. Underlying technology used in a Multi Account Strategy. 
 - Many organizations use multiple accounts to create administrative or billing isolation, and to limit the impact of errors as part of the AWS Organizations service.
 - RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. 
 - You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts.
 - RAM is available at no additional charge.
+- A resource in account 1 must be shared out to account 2 using the RAM. A shared resource initially lists as "associated" and the shared principle as "associating". There is a pending invite in account 2, which must be accepted in account 2. In 2, the name will say "Shared from Acct 1".
 
 ### What is Athena?
 - Athena is an interactive query service which allows you to interact and query data from S3 using standard SQL commands. This is beneficial for programmatic querying for the average developer. It is serverless, requires no provisioning, and you pay per query and per TB scanned. You basically turn S3 into a SQL supported database by using Athena. 
