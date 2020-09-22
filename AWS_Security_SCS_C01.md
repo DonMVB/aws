@@ -30,13 +30,17 @@ These are core InfoSec topics you must know
 
 # IAM (Recap from SAA C02 to Security)
 - Need to know how to manage IAM and how IAM Policies relate to other services.
-- Controlling access to "root": Preserve Keys, enable MFA, create secondary admin accounts, 
+- Controlling access to "root": Delete (preserve) Keys, enable MFA, create secondary admin accounts, 
 - IAM: Central control of users (people), groups (of users), roles (often assigned to EC2 and other services). policies (applied to groups who then inherit). Password policies. Share access. Granular perms. Identity Federation. Setup MFA. Temp access grants. 
 - Supports many regulatory, rqmts. 
 - Policy - a JSON DOC with a specific grant for specific rights to a AWS service.
 - IAM policy conflict
-- IAM UI Review Notes
--- 
+### IAM UI Review Notes
+- Security Status quick check - Delete Root keys,
+- My Sec Credentials UI
+- User Sec Creds: Password, add MFA (can deactivate and then re-activate for a refresh), 
+- Virtual MFA: You should make a screen shot of the QR code!
+
 # Cloud Trail
 
 
