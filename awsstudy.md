@@ -251,6 +251,8 @@ Data uploaded into S3 is spread across multiple files and facilities. The files 
 
 Amazon S3 <a href="https://aws.amazon.com/s3/faqs/#:~:text=The%20S3%20Standard%20storage%20class,availability%20and%20SLA%20of%2099.9%2">FAQ</a>.
 
+AWS users can create up to 100 buckets by default.
+
 ### S3 Key Details:
 - Objects (regular files or directories) are stored in S3 with a key, value, version ID, and metadata. They can also contain torrents and subresources for access control lists which are basically permissions for the object itself.
 - The data consistency model for S3 ensures immediate read access for new objects after the initial PUT requests. These new objects are introduced into AWS for the first time and thus do not need to be updated anywhere so they are available immediately.
@@ -297,10 +299,13 @@ Amazon S3 <a href="https://aws.amazon.com/s3/faqs/#:~:text=The%20S3%20Standard%2
   3.) For access via the console & the terminal, use cross-account IAM roles
 
 - S3 is a great candidate for static website hosting. When you enable static website hosting for S3 you need both an index.html file and an error.html file. Static website hosting creates a website endpoint that can be accessed via the internet.
-- When you upload new files and have versioning enabled, they will not inherit the properties of the previous version. 
+- When you upload new files and have versioning enabled, they will not inherit the properties of the previous version. Uploads are a "single operation". 
+- AWS CSAPT advises to use Multi part over stable uploads, and can help with lower reliability networks because only failed parts need to be uploaded again.
 
 ### S3 Storage Classes:
-**S3 Standard** - 99.99% availability and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
+Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket.
+
+**S3 Standard** - 99.99% availability (highest) and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
 
 **S3 Infrequently Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval.
 
@@ -369,6 +374,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - You can integrate your ElasticSearch domain with S3 and Lambda. In this setup, any new logs received by S3 will trigger an event notification to Lambda, which in turn will then run your application code on the new log data. After your code finishes processing, the data will be streamed into your ElasticSearch domain and be available for observation.
 
 ### Maximizing S3 Read/Write Performance:
+- Chose regions for S3 buckets based on placing storage close to your users, to reduce network latency, and distance from your operations center (DR scenarios.)
 - If the request rate for reading and writing objects to S3 is extremely high, then you can use hash keys or random strings to prefix the object's name. In such cases, the partitions used to store the objects will be better distributed and therefore will allow better read/write performance on your objects. 
 - If your S3 data is receiving a high number of GET requests from users, you should consider using Amazon CloudFront for performance optimization. By integrating CloudFront with S3, you can distribute content via CloudFront's cache to your users for lower latency and a higher data transfer rate. This also has the added bonus of sending fewer direct requests to S3 which will reduce costs. For example, suppose that you have a few objects that are very popular. CloudFront fetches those objects from S3 and caches them. CloudFront can then serve future requests for the objects from its cache, reducing the total number of GET requests it sends to Amazon S3.
 - <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html "> More information on how to ensure high performance in S3</a>
@@ -388,6 +394,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - S3 supports two URL styles: virtual hosted and path style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
 - For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
 - For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
+- Presigned URL's allow non AWS users object access. The creater assignes permissions.
 
 ### S3 Multipart Upload:
 - Multipart upload allows you to upload a single object as a set of parts. Each part is a contiguous portion of the object's data. You can upload these object parts independently and in any order. 
@@ -485,10 +492,10 @@ Storage Gateway is a service that connects on-premise environments with cloud-ba
 
 ### Storage Gateway Key Details:
 - The Storage Gateway service can either be a physical device or a VM image downloaded onto a host in an on-prem data center. It acts as a bridge to send or receive data from AWS.
-- Storage Gateway can sit on top of VMWare's ESXi hypervisor for Linux machines and Microsoft’s Hyper-V hypervisor for Windows machines.
+- **Storage Gateway** can sit on top of VMWare's ESXi hypervisor for Linux machines and Microsoft’s Hyper-V hypervisor for Windows machines.
 - The three types of Storage Gateways are below:
   - **File Gateway** - Operates via NFS or SMB and is used to store files in S3 over a network filesystem mount point in the supplied virtual machine. Simply put, you can think of a File Gateway as a file system mount on S3.
-  - **Volume Gateway** - Operates via iSCSI and is used to store copies of hard disk drives or virtual hard disk drives in S3. These can be achieved via *Stored Volumes* or *Cached Volumes*. Simply put, you can think of Volume Gateway as a way of storing virtual hard disk drives in the cloud. 
+  - **Volume Gateway** - Operates via iSCSI and is used to store copies of hard disk drives or virtual hard disk drives in S3. These can be achieved via *Stored Volumes* or *Cached Volumes*. Simply put, you can think of Volume Gateway as a way of storing virtual hard disk drives in the cloud. Stored Volumes back up data asynchronously. Cached volumes only keep most accessed data local, entire data set is in S3 (less data onsite that stored).
   - **Tape Gateway** - Operates as a Virtual Tape Library
 - Relevant file information passing through Storage Gateway like file ownership, permissions, timestamps, etc. are stored as metadata for the objects that they belong to. Once these file details are stored in S3, they can be managed natively. This mean all S3 features like versioning, lifecycle management, bucket policies, cross region replication, etc. can be applied as a part of Storage Gateway.
 - Applications interfacing with AWS over the Volume Gateway is done over the iSCSI block protocol. Data written to these volumes can be asynchronously backed up into AWS Elastic Block Store (EBS) as point-in-time snapshots of the volumes’ content. These kind of snapshots act as incremental backups that capture only changed state similar to a pull request in Git. Further, all snapshots are compressed to reduce storage costs.
@@ -527,6 +534,9 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 - A golden image is simply an AMI that you have fully customized to your liking with all necessary software/data/configuration details set and ready to go once. This personal AMI can then be the source from which you launch new instances.
 - Instance status checks check the health of the running EC2 server, systems status check monitor the health of the underlying hypervisor. If you ever notice a systems status issue, just stop the instance and start it again (no need to reboot) as the VM will start up again on a new hypervisor.
 
+### EC2 AMI's
+- AMI's are region specific.
+- If you build an AMI and need it in other regions, it needs to be copied to other regions <a href="https://aws.amazon.com/premiumsupport/knowledge-center/copy-ami-region/"> Tutorial </a>
 ### EC2 Instance Pricing:
 - **On-Demand instances** are based on a fixed rate by the hour or second. As the name implies, you can start an On-Demand instance whenever you need one and can stop it when you no longer need it. There is no requirement for a long-term commitment.
 - **Reserved instances** ensure that you keep exclusive use of an instance on 1 or 3 year contract terms. The long-term commitment provides significantly reduced discounts at the hourly rate. 
@@ -564,15 +574,15 @@ The following table highlights the many instance states that a VM can be in at a
 -  Placement groups balance the tradeoff between risk tolerance and network performance when it comes to your fleet of EC2 instances. The more you care about risk, the more isolated you want your instances to be from each other. The more you care about performance, the more conjoined you want your instances to be with each other. 
 - There are three different types of EC2 placement groups:
 
-  1.) Clustered Placement Groups
+  1.) Clustered Placement Groups:: Single AZ - Lowest Latency
     - Clustered Placement Grouping is when you put all of your EC2 instances in a single availability zone. This is recommended for applications that need the lowest latency possible and require the highest network throughput.
     - Only certain instances can be launched into this group (compute optimized, GPU optimized, storage optimized, and memory optimized).
   
-  2.) Spread Placement Groups
+  2.) Spread Placement Groups:: EC2 Instances on distinct HW 
     - Spread Placement Grouping is when you put each individual EC2 instance on top of its own distinct hardware so that failure is isolated. 
     - Your VMs live on separate racks, with separate network inputs and separate power requirements. Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other. 
   
-  3.) Partitioned Placement Groups
+  3.) Partitioned Placement Groups:: Mult instances on same HW, grouped diff AZ's
     - Partitioned Placement Grouping is similar to Spread placement grouping, but differs because you can have multiple EC2 instances within a single partition. Failure instead is isolated to a partition (say 3 or 4 instances instead of 1), yet you enjoy the benefits of close proximity for improved network performance.
     - With this placement group, you have multiple instances living together on the same hardware inside of different availability zones across one or more regions.
     - If you would like a balance of risk tolerance and network performance, use Partitioned Placement Groups.
@@ -621,24 +631,27 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 
 
 ### EBS Snapshots:
-- EBS Snapshots are point in time copies of volumes. You can think of Snapshots as photographs of the disk’s current state and the state of everything within it.
+- EBS Snapshots are point in time copies of volumes. 
 - A snapshot is constrained to the region where it was created.
-- Snapshots only capture the state of change from when the last snapshot was taken. This is what is recorded in each new snapshot, not the entire state of the server.
-- Because of this, it may take some time for your first snapshot to be created. This is because the very first snapshot's change of state is the entire new volume. Only afterwards will the delta be captured because there will then be something previous to compare against. 
+- Snapshots are incremental - they only capture the state of change from when the last snapshot was taken. This is what is recorded in each new snapshot, not the entire state of the server.
+- EBS Snapshots are backed up to S3 incrementally.
+- Because of this, it may take some time for your first snapshot to be created. This is because the very first snapshot's change of state is the entire new volume.
 - EBS snapshots occur asynchronously which means that a volume can be used as normal while a snapshot is taking place.
 - When creating a snapshot for a future root device, tt is considered best practices to stop the running instance where the original device is before taking the snapshot.
 - The easiest way to move an EC2 instance and a volume to another availability zone is to take a snapshot.
 - When creating an image from a snapshot, if you want to deploy a different volume type for the new image (e.g. General Pupose SSD -> Throughput Optimized HDD) then you must make sure that the virtualization for the new image is hardware-assisted.
 - A short summary for creating copies of EC2 instances: Old instance -> Snapshot -> Image (AMI) -> New instance
 - You cannot delete a snapshot of an EBS Volume that is used as the root device of a registered AMI. If the original snapshot was deleted, then the AMI would not be able to use it as the basis to create new instances. For this reason, AWS protects you from accidentally deleting the EBS Snapshot, since it could be critical to your systems. To delete an EBS Snapshot attached to a registered AMI, first remove the AMI, then the snapshot can be deleted.
-
-
+- AWS <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html"> Article </a>
 
 ### EBS Root Device Storage:
 - All AMI root volumes (where the EC2's OS is installed) are of two types: EBS-backed or Instance Store-backed
 - When you delete an EC2 instance that was using an Instance Store-backed root volume, your root volume will also be deleted. Any additional or secondary volumes will persist however.
 - If you use an EBS-backed root volume, the root volume will not be terminated with its EC2 instance when the instance is brought offline. EBS-backed volumes are not temporary storage devices like Instance Store-backed volumes.
-- EBS-backed Volumes are launched from an AWS EBS snapshot, as the name implies
+- EBS-backed Volumes are launched from an AWS EBS snapshot, as the name implies.
+- To preserve the EBS Root Store volume when an EC2 Instance is terminated, set the `DeleteOnTermination` attribute to "False" using the AWS CLI. <a href="https://aws.amazon.com/premiumsupport/knowledge-center/deleteontermination-ebs/"> Article </a>
+
+Instance Store Notes
 - Instance Store-backed Volumes are launched from an AWS S3 stored template. They are ephemeral, so be careful when shutting down an instance!
 - Secondary instance stores for an instance-store backed root device must be installed during the original provisioning of the server. You cannot add more after the fact. However, you can add EBS volumes to the same instance after the server's creation.
 - With these drawbacks of Instance Store volumes, why pick one? Because they have a very high IOPS rate. So while an Instance Store can't provide data persistence, it can provide much higher IOPS compared to network attached storage like EBS. 
@@ -1178,7 +1191,7 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - Auto Scaling is a major benefit from the cloud's economies of scale so if you ever have a requirement for scaling, automatically think of using the Auto Scaling service. 
 - Auto Scaling has three components:
   - **Groups**: These are logical components. A webserver group of EC2 instances, a database group of RDS instances, etc.
-  - **Configuration Templates**: Groups use a template to configure and launch new instances to better match the scaling needs. You can specify information for the new instances like the AMI to use, the instance type, security groups, block devices to associate with the instances, and more.
+  - **Configuration Templates**: Groups use a template to configure and launch new instances to better match the scaling needs. You can specify information for the new instances like the AMI to use, the instance type, security groups, IAM Role, block devices to associate with the instances, and more.
   - **Scaling Options**: Scaling Options provides several ways for you to scale your Auto Scaling groups. You can base the scaling trigger on the occurence of a specified condition or on a schedule.
 - The following image highlights the state of an Auto scaling group. The orange squares represent active instances. The dotted squares represent potential instances that can and will be spun up whenever necessary. The minimum number, the maximum number, and the desired capacity of instances are all entirely configurable.
 
@@ -1334,16 +1347,17 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - You can only have one IGW per VPC.
 - **Summary**: IGW connects *your VPC with the internet*.
 
-### Virtual Private Networks (VPNs):
+### Virtual Private Networks (VPNs): (Updated 9/27/20)
 - VPCs can also serve as a bridge between your corporate data center and the AWS cloud. With a VPC Virtual Private Network (VPN), your VPC becomes an extension of your on-prem environment.
 - Naturally, your instances that you launch in your VPC can't communicate with your own on-premise servers. You can allow the access by first:
-  - attaching a virtual private gateway to the VPC
+  - attaching a virtual private gateway which has a Public IP address (the AWS Anchor) to the VPC
   - creating a custom route table for the connection
   - updating your security group rules to allow traffic from the connection
   - creating the managed VPN connection itself.
-- To bring up VPN connection, you mustalso  define a customer gateway resource in AWS, which provides AWS information about your customer gateway device. And you have to set up an Internet-routable IP address of the customer gateway's external interface.
+- To bring up VPN connection, you must also define a customer gateway with a Public IP address resource in AWS, which provides AWS information about your customer gateway device. And you have to set up an Internet-routable IP address of the customer gateway's external interface.
 - A customer gateway is a physical device or software application on the on-premise side of the VPN connection.
 - Although the term "VPN connection" is a general concept, a VPN connection for AWS always refers to the connection between your VPC and your own network. AWS supports Internet Protocol security (IPsec) VPN connections.
+- Create two IPSec Tunnels for redundancy.
 - The following diagram illustrates a single VPN connection.
 
 ![Screen Shot 2020-06-21 at 6 13 17 PM](https://user-images.githubusercontent.com/13093517/85236301-e857aa80-b3ea-11ea-9de9-08d150d34864.png)
