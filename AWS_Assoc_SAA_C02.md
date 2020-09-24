@@ -1,4 +1,3 @@
- 
 # AWS SAA-C02 Study Guide
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
 
@@ -17,75 +16,75 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 
 
 ## Table of Contents
-1. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#introduction">Introduction</a>
+1. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#introduction">Introduction</a>
 
-2. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#identity-access-management-iam">Identity Access Management (IAM)</a>
+2. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#identity-access-management-iam">Identity Access Management (IAM)</a>
 
-3. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
+3. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
 
-4. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudfront">CloudFront</a>
+4. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudfront">CloudFront</a>
 
-5. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#snowball">Snowball</a>
+5. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#snowball">Snowball</a>
 
-6. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#storage-gateway">Storage Gateway</a>
+6. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#storage-gateway">Storage Gateway</a>
 
-7. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
+7. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
 
-8. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
+8. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
 
-9. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
+9. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
 
-10. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#security-groups">Security Groups</a>
+10. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#security-groups">Security Groups</a>
 
-11. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
+11. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
 
-12. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudwatch">CloudWatch</a>
+12. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudwatch">CloudWatch</a>
 
-13. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudtrail">CloudTrail</a>
+13. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudtrail">CloudTrail</a>
 
-14. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-file-system-efs">Elastic File System (EFS)</a>
+14. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-file-system-efs">Elastic File System (EFS)</a>
 
-15. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
+15. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
 
-16. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
+16. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
 
-17. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#relational-database-service-rds">Relational Database Service (RDS)</a>
+17. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#relational-database-service-rds">Relational Database Service (RDS)</a>
 
-18. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aurora">Aurora</a>
+18. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aurora">Aurora</a>
 
-19. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#dynamodb">DynamoDB</a>
+19. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#dynamodb">DynamoDB</a>
 
-20. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#redshift">Redshift</a>
+20. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#redshift">Redshift</a>
 
-21. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elasticache">ElastiCache</a>
+21. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elasticache">ElastiCache</a>
 
-22. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#route53">Route53</a>
+22. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#route53">Route53</a>
 
-23. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
+23. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
 
-24. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#auto-scaling">Auto Scaling</a>
+24. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#auto-scaling">Auto Scaling</a>
 
-25. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
+25. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
 
-26. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
+26. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
 
-27. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
+27. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
 
-28. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
+28. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
 
-29. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#kinesis"> Kinesis </a>
+29. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#kinesis"> Kinesis </a>
 
-30. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#lambda"> Lambda </a>
+30. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#lambda"> Lambda </a>
 
-31. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#api-gateway"> API Gateway </a>
+31. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#api-gateway"> API Gateway </a>
 
-32. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">CloudFormation </a>
+32. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">CloudFormation </a>
 
-33. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">ElasticBeanstalk</a>
+33. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">ElasticBeanstalk</a>
 
-34. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aws-organizations">AWS Organizations</a>
+34. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aws-organizations">AWS Organizations</a>
 
-35. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#miscellaneous">Miscellaneous</a>
+35. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#miscellaneous">Miscellaneous</a>
 
 
 
@@ -1832,7 +1831,7 @@ Insights
 Settings
 aws/AWS_Assoc_SAA_C02
 @DonMVB
-DonMVB Rename awsstudy.md to AWS_Assoc_SAA_C02
+DonMVB Rename AWS_Assoc_SAA_C02.md to AWS_Assoc_SAA_C02
 Latest commit 03f7610 26 seconds ago
  History
  1 contributor
@@ -1856,75 +1855,75 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 
 
 ## Table of Contents
-1. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#introduction">Introduction</a>
+1. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#introduction">Introduction</a>
 
-2. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#identity-access-management-iam">Identity Access Management (IAM)</a>
+2. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#identity-access-management-iam">Identity Access Management (IAM)</a>
 
-3. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
+3. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
 
-4. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudfront">CloudFront</a>
+4. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudfront">CloudFront</a>
 
-5. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#snowball">Snowball</a>
+5. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#snowball">Snowball</a>
 
-6. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#storage-gateway">Storage Gateway</a>
+6. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#storage-gateway">Storage Gateway</a>
 
-7. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
+7. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
 
-8. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
+8. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
 
-9. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
+9. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
 
-10. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#security-groups">Security Groups</a>
+10. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#security-groups">Security Groups</a>
 
-11. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
+11. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
 
-12. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudwatch">CloudWatch</a>
+12. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudwatch">CloudWatch</a>
 
-13. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudtrail">CloudTrail</a>
+13. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudtrail">CloudTrail</a>
 
-14. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-file-system-efs">Elastic File System (EFS)</a>
+14. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-file-system-efs">Elastic File System (EFS)</a>
 
-15. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
+15. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
 
-16. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
+16. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
 
-17. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#relational-database-service-rds">Relational Database Service (RDS)</a>
+17. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#relational-database-service-rds">Relational Database Service (RDS)</a>
 
-18. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aurora">Aurora</a>
+18. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aurora">Aurora</a>
 
-19. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#dynamodb">DynamoDB</a>
+19. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#dynamodb">DynamoDB</a>
 
-20. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#redshift">Redshift</a>
+20. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#redshift">Redshift</a>
 
-21. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elasticache">ElastiCache</a>
+21. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elasticache">ElastiCache</a>
 
-22. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#route53">Route53</a>
+22. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#route53">Route53</a>
 
-23. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
+23. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
 
-24. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#auto-scaling">Auto Scaling</a>
+24. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#auto-scaling">Auto Scaling</a>
 
-25. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
+25. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
 
-26. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
+26. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
 
-27. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
+27. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
 
-28. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
+28. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
 
-29. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#kinesis"> Kinesis </a>
+29. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#kinesis"> Kinesis </a>
 
-30. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#lambda"> Lambda </a>
+30. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#lambda"> Lambda </a>
 
-31. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#api-gateway"> API Gateway </a>
+31. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#api-gateway"> API Gateway </a>
 
-32. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">CloudFormation </a>
+32. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">CloudFormation </a>
 
-33. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">ElasticBeanstalk</a>
+33. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">ElasticBeanstalk</a>
 
-34. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aws-organizations">AWS Organizations</a>
+34. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aws-organizations">AWS Organizations</a>
 
-35. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#miscellaneous">Miscellaneous</a>
+35. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#miscellaneous">Miscellaneous</a>
 
 
 
@@ -3686,7 +3685,7 @@ Insights
 Settings
 aws/AWS_Assoc_SAA_C02
 @DonMVB
-DonMVB Rename awsstudy.md to AWS_Assoc_SAA_C02
+DonMVB Rename AWS_Assoc_SAA_C02.md to AWS_Assoc_SAA_C02
 Latest commit 03f7610 26 seconds ago
  History
  1 contributor
@@ -3710,75 +3709,75 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 
 
 ## Table of Contents
-1. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#introduction">Introduction</a>
+1. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#introduction">Introduction</a>
 
-2. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#identity-access-management-iam">Identity Access Management (IAM)</a>
+2. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#identity-access-management-iam">Identity Access Management (IAM)</a>
 
-3. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
+3. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-storage-service-s3">Simple Storage Service (S3)</a>
 
-4. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudfront">CloudFront</a>
+4. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudfront">CloudFront</a>
 
-5. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#snowball">Snowball</a>
+5. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#snowball">Snowball</a>
 
-6. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#storage-gateway">Storage Gateway</a>
+6. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#storage-gateway">Storage Gateway</a>
 
-7. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
+7. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-compute-cloud-ec2">Elastic Compute Cloud (EC2) (Updated)</a>
 
-8. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
+8. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-block-store-ebs">Elastic Block Store (EBS)</a>
 
-9. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
+9. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-network-interfaces-eni">Elastic Network Interfaces (ENI)</a>
 
-10. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#security-groups">Security Groups</a>
+10. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#security-groups">Security Groups</a>
 
-11. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
+11. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#web-application-firewall-waf">Web Application Firewall (WAF)</a>
 
-12. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudwatch">CloudWatch</a>
+12. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudwatch">CloudWatch</a>
 
-13. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudtrail">CloudTrail</a>
+13. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudtrail">CloudTrail</a>
 
-14. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-file-system-efs">Elastic File System (EFS)</a>
+14. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-file-system-efs">Elastic File System (EFS)</a>
 
-15. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
+15. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-windows">Amazon FSx for Windows</a>
 
-16. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
+16. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#amazon-fsx-for-lustre">Amazon FSx for Lustre</a>
 
-17. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#relational-database-service-rds">Relational Database Service (RDS)</a>
+17. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#relational-database-service-rds">Relational Database Service (RDS)</a>
 
-18. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aurora">Aurora</a>
+18. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aurora">Aurora</a>
 
-19. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#dynamodb">DynamoDB</a>
+19. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#dynamodb">DynamoDB</a>
 
-20. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#redshift">Redshift</a>
+20. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#redshift">Redshift</a>
 
-21. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elasticache">ElastiCache</a>
+21. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elasticache">ElastiCache</a>
 
-22. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#route53">Route53</a>
+22. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#route53">Route53</a>
 
-23. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
+23. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#elastic-load-balancers-elb">Elastic Load Balancers (ELB)</a>
 
-24. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#auto-scaling">Auto Scaling</a>
+24. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#auto-scaling">Auto Scaling</a>
 
-25. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
+25. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#virtual-private-cloud-vpc"> Virtual Private Cloud (VPC)</a>
 
-26. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
+26. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-queuing-service-sqs"> Simple Queuing Service (SQS)</a>
 
-27. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
+27. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-workflow-service-swf"> Simple Workflow Service (SWF)</a>
 
-28. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
+28. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#simple-notification-service-sns"> Simple Notification Service (SNS)</a>
 
-29. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#kinesis"> Kinesis </a>
+29. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#kinesis"> Kinesis </a>
 
-30. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#lambda"> Lambda </a>
+30. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#lambda"> Lambda </a>
 
-31. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#api-gateway"> API Gateway </a>
+31. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#api-gateway"> API Gateway </a>
 
-32. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">CloudFormation </a>
+32. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">CloudFormation </a>
 
-33. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#cloudformation">ElasticBeanstalk</a>
+33. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#cloudformation">ElasticBeanstalk</a>
 
-34. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#aws-organizations">AWS Organizations</a>
+34. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#aws-organizations">AWS Organizations</a>
 
-35. <a href="https://github.com/DonMVB/aws/blob/master/awsstudy.md#miscellaneous">Miscellaneous</a>
+35. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#miscellaneous">Miscellaneous</a>
 
 
 
@@ -5504,32 +5503,4 @@ The following section includes services, features, and techniques that may appea
   - Retrieve historical configurations of one or more resources. ·     
   - Receive a notification whenever a resource is created, modified, or deleted.     
   - View relationships between resources. For example, you might want to find all resources that use a particular security group.
-© 2020 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-supported resources that are associated with your AWS account. ·        
-  - Retrieve configurations of one or more resources that exist in your account. ·       
-  - Retrieve historical configurations of one or more resources. ·     
-  - Receive a notification whenever a resource is created, modified, or deleted.     
-  - View relationships between resources. For example, you might want to find all resources that use a particular security group.
-© 2020 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+
