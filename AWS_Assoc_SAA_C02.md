@@ -1,34 +1,4 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
  
-@DonMVB 
-DonMVB
-/
-aws
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-aws/AWS_Assoc_SAA_C02
-@DonMVB
-DonMVB Rename awsstudy.md to AWS_Assoc_SAA_C02
-Latest commit 03f7610 26 seconds ago
- History
- 1 contributor
-1810 lines (1411 sloc)  207 KB
-  
 # AWS SAA-C02 Study Guide
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
 
