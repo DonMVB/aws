@@ -1453,17 +1453,21 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Route53's latency based routing might also appear similar to Global Accelerator, but Route 53 is for simply helping choose which region for the user to use. Route53 has nothing to do with actually providing a fast network path.
 - Global Accelerator also provides fast regional failover.
 
-## Simple Queuing Service (SQS)
+## Simple Queuing Service (SQS) (Updated 9/24/2)
 
-### SQS Simplified:
- SQS is a web-based service that gives you access to a message queue that can be used to store messages while waiting for a queue to process them. It helps in the decoupling of systems and the horizontal scaling of AWS resources.
+### SQS Simplified (Updated 9/24/2020)
+ SQS is a web-based service that gives you access to a message queue that can be used to store messages while waiting for a system (EC2) to process them using *polling* (not push). It helps in the *decoupling* of systems and the horizontal scaling of AWS resources. Queues are temp repository for messages, which can be up to 256 KB in any format. Can also have a reference to a up to 2GB structure in an S3 bucket, w/ ref into in the SQS message queue.
+ 
+ Example: User visits a image generator site, a Lamba function montiors the request. A group of EC2 instances poll for alerts, process the request, and drop the output on an S3 bucket. If you lose an EC2 instance, the message can become available again so another EC2 can pick up and run (like an app fault).
+ 
+ Example: Travel site. User wants deal of flight, hotel, car. Various EC2 servers can process the user request queue, get thier part of the answer, pass the answers back to web server. 
 
 ### SQS Key Details:
 - The point behind SQS is to decouple work across systems. This way, downstream services in a system can perform work when they are ready to rather than when upstream services feed them data.
 - In a hypothetical AWS environment running without SQS, *Application A* would pass *Application B* data regardless if Application B was ready to receive the info. With SQS however, there is an intermediary step where the data is stored temporarily in a buffer. It waits there until Application B pulls the temporarily stored data. SQS is not a push-based service so it is necessary for SQS to work in tandem with another service that queries it for information.
 - There are two types of SQS queues; **standard** and **FIFO**. Standard queues may be received out of order based on message size or however else the SQS queues decide to optimize. FIFO queues guarantees that the order of messages that went into the queue is the same as the order of messages that leave it.
-- Standard SQS queues guarantee that a message is delivered at least once and because of this, it is possible on occasion that a message might be delivered more than once due to the asynchronous and highly distributed architecture. With standard queues, you have a nearly unlimited number of transactions per second.
-- FIFO SQS queues guarantee exactly-once processing and is limited to 300 transactions per second.
+- Standard SQS queues (the default) guarantee that a message is delivered at least once and because of this, it is possible on occasion that a message might be delivered more than once due to the asynchronous and highly distributed architecture. With standard queues, you have a nearly unlimited number of transactions per second.  They provide best effort ordering. App needs to cope with out of order possibility, duplicate possibility.
+- FIFO SQS queues guarantee *exactly-once processing* and is limited to 300 transactions per second. Messages remain until processed. FIFO queues support multiple ordered message groups.
 - Messages in the queue can be kept there from one minute to 14 days and the default retention period is 4 days.
 - Visibility timeouts in SQS are the mechanism in which messages marked for delivery from the queue are given a timeframe to be fully received by a reader. This is done by temporarily making them invisible to other readers. If the message is not fully processed within the time limit, the message becomes visible again. This is another way in which messages can be duplicated. If you want to reduce the chance of duplication, increase the visibility timeout. 
 - The visibility timeout maximum is 12 hours.
@@ -1478,10 +1482,10 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - The ReceiveMessageWaitTimeSeconds is the queue attribute that determines whether you are using Short or Long polling. By default, its value is zero which means it is using short-polling. If it is set to a value greater than zero, then it is long-polling.
 - Everytime you poll the queue, you incur a charge. So thoughtfully deciding on a polling strategy that fits your use case is important.
 
-## Simple Workflow Service (SWF)
+## Simple Workflow Service (SWF) (Updated 9/24/2020)
 
 ### SWF Simplified:
-SWF is a web service that makes it easy to coordinate work across distributed application components. SWF has a range of use cases including media processing, web app backends, business process workflows, and analytical pipelines.
+SWF is a web service that makes it easy to coordinate work across distributed application components. SWF has a range of use cases including media processing, web app backends, business process workflows, and analytical pipelines. Tasks: processing steps in an application - exec code, web service call, people, scripts, lamba functions, etc. Amazon uses this for its order processing / shipping pipeline in the warehouse.
 
 ### SWF Key Details:
 - SWF is a way of coordinating tasks between application and people. It is a service that combines digital and human-oriented workflows.
@@ -1496,18 +1500,23 @@ SWF is a web service that makes it easy to coordinate work across distributed ap
 ## Simple Notification Service (SNS)
 
 ### SNS Simplified:
-Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible, and cost-effective method to publish a custom messages to subscribers who wish to be informed about a certain topic.
+Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible, and cost-effective (inexpensive) method to publish a custom messages to subscribers who wish to be informed about a certain topic. First steps for new customers is to setup a billing alert. Publish messages and imediately deliver to subscribers or applications. 
 
-### SNS Key Details:
+### SNS Key Details (Updated 9/27/20)
 - SNS is mainly used to send alarms or alerts.
 - SNS provides topics for high-throughput, push-based, many-to-many messaging. 
 - Using Amazon SNS topics, your publisher systems can fan out messages to a large number of subscriber endpoints for parallel processing, including Amazon SQS queues, AWS Lambda functions, and HTTP/S webhooks. Additionally, SNS can be used to fan out notifications to end users using mobile push, SMS, and email. 
-- You can send these push notifications to Apple, Google, Fire OS, and Windows devices.
+- You can send these push notifications to Apple, Google, Fire OS, and Windows devices. Native methods for Apple and Android are supported. SMS text is supported. Other methdods include email and to an HTTP endpoint. 
 - SNS allows you to group multiple recipients using topics. A topic is an access point for allowing recipients to dynamically subscribe for identical copies of the same notification.
 - One topic can support deliveries to multiple endpoint types. When you publish to a topic, SNS appropriately formats copies of that message to send to whichever kind of device.
 - To prevent messages being lost, messages are stored redundantly across multiple AZs.
 - There is no long or short polling involved with SNS due to the instantaneous pushing of messages
 - SNS has flexible message delivery over multiple transport protocols and has a simple API.
+
+### SNS vs. SQS
+- Both support messaging capabilities. 
+- SNS: Push the message 'now'
+- SQS: Poll the queue 'quicly'
 
 ## Kinesis 
 
@@ -1731,9 +1740,11 @@ The following section includes services, features, and techniques that may appea
 - OpsWorks Stacks  is complex enough for you to deploy and configure Amazon EC2 instances in each layer or connect to other resources such as Amazon RDS databases.
 
 ### What is Elastic Transcoder?
-- A media transcoder in the cloud. Basically, it is a service that converts media files from their original format to the media format specified whether for phones, tablets, PCs, etc.
+- A media transcoder in the cloud. Basically, it is a service that converts media files from their original format to the media format specified whether for phones, tablets, PCs, etc.  Provides transcoding presets for output.
 - Because of the built-in support for different media types, you can trust that the resulting quality will be good.
 - With Elastic Transcoder, you pay per minute of the transcode job and the resolution of the finished work.
+- You pay for transcoded minutes by resolution. 
+- Process: Upload, which triggers a lambda function, transcoder runs, output is stored in a different bucket.
 
 ### What is AWS Directory Service?
 - AWS Directory Service provides multiple ways to use Amazon Cloud Directory and Microsoft Active Directory (AD) with other AWS services. 
@@ -3409,30 +3420,30 @@ AWS Lambda lets you run code without provisioning or managing servers. You pay o
 - You'd use Lambda@Edge to simplify and reduce origin infrastructure.
 
 
-## API Gateway
+## API Gateway (Updated 9/27/20)
 
-### API Gateway Simplified:
-API Gateway is a fully managed service for developers that makes it easy to build, publish, manage, and secure entire APIs. With a few clicks in the AWS Management Console, you can create an API that acts as a “front door” for applications to access data, business logic, or functionality from your back-end services, such as workloads running on EC2) code running on AWS Lambda, or any web application. 
+### API Gateway Simplified: (Updated 9/27/20)
+API Gateway is a fully managed service for developers that makes it easy to build, publish, manage, and secure entire APIs. You can create an API that acts as a “front door” for applications to access data, business logic, or functionality from your back-end services, such as workloads running on EC2) code running on AWS Lambda, or any web application. Somewhat like a load balancer. Typically used for Lambda functions; other targets are EC2 and Dynamo DB.
 
-### API Gateway Key Details:
+### API Gateway Key Details: (Updated 9/27/20)
 - Amazon API Gateway handles all the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, authorization and access control, monitoring, and API version management.
 - Amazon API Gateway has no minimum fees or startup costs. You pay only for the API calls you receive and the amount of data transferred out.
 - API Gateway does the following for your APIs:
-  - Exposes HTTP(S) endpoints for RESTful functionality
+  - Exposes HTTP(S) endpoints for RESTful functionality 
   - Uses serverless functionality to connect to Lambda & DynamoDB
   - Can send each API endpoint to a different target
-  - Runs cheaply and efficiently
+  - Runs cheaply and efficiently: no worry about auto scaling groups
   - Scales readily and effortlessly
-  - Can throttle requests to prevent attacks
+  - Can throttle requests to prevent attacks (DDOS protection)
   - Track and control usage via an API key
   - Can be version controlled
-  - Can be connected to CloudWatch for monitoring and observability
+  - Can be connected to CloudWatch for logging, monitoring, and observability
 - Since API Gateway can function with AWS Lambda, you can run your APIs and code without needing to maintain servers.
 - Amazon API Gateway provides throttling at multiple levels including global and by a service call.
   - In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.
   - Throttling limits can be set for standard rates and bursts. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure Amazon API Gateway to handle a burst of 2,000 requests per second for a few seconds. 
   - Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response. The client SDKs generated by Amazon API Gateway retry calls automatically when met with this response.
-- You can add caching to API calls by provisioning an Amazon API Gateway cache and specifying its size in gigabytes. The cache is provisioned for a specific stage of your APIs. This improves performance and reduces the traffic sent to your back end. Cache settings allow you to control the way the cache key is built and the time-to-live (TTL) of the data stored for each method. Amazon API Gateway also exposes management APIs that help you invalidate the cache for each stage.
+- You can add caching to API calls by provisioning an Amazon API Gateway cache and specifying its size in gigabytes. The cache is provisioned for a specific stage of your APIs. This improves performance and reduces the traffic sent to your back end. Cache settings allow you to control the way the cache key is built and the time-to-live in seconds (TTL) of the data stored for each method. Amazon API Gateway also exposes management APIs that help you invalidate the cache for each stage. For example, a GET. If the same GET was recently seen, the prior results are sent back. 
 - You can enable API caching for improving latency and reducing I/O for your endpoint.
 - When caching for a particular API stage (version controlled version), you cache responses for a particular TTL in seconds.
 - API Gateway supports AWS Certificate Manager and can make use of free TLS/SSL certificates.
@@ -3440,13 +3451,20 @@ API Gateway is a fully managed service for developers that makes it easy to buil
   - Calls to the API Gateway API to create, modify, delete, or deploy REST APIs. These are logged in CloudTrail.
   - API calls set up by the developers to deliver their custom functionality: These are not logged in CloudTrail.
 
+### Deployment (Added 9/27/2020)
+- Configure API GW by defining the container, define resources and nested resources which are URL paths.
+- For ea. resource, select HTTP verbs (methods), set security, and chose target.
+- Can also set response transforms.
+- Uses its own domain name by default, which can be customized
+- Now supports AWS Cert mgr for TLS certificats (these are no cost if using SSL mgr)
 
-### Cross Origin Resource Sharing:
-- In computing, the same-origin policy is an important concept where a web browser permits scripts contained in one page to access data from another page, but only if both pages have the same origin.
-- This behavior is enforced by browsers, but is ignored by tools like cURL and PostMan.
+### Cross Origin Resource Sharing and Same Origin Policy: (Updated 9/27/2020)
+- In computing, the same-origin policy (SOP) is an important concept where a web browser access such as scripts, cookies, etc. (Prior was incorrect - not only scripts) contained in one page to access data from another page, but only if both pages have the same origin.  Note: ACG lists this as a 'hinderence' - it isn't. It is *critical* for web browser security and end user acceptance. 
+- SOP:  An origin is defined as a combination of URI scheme, host name, and port number. (Wikipedia)
+- This behavior is enforced by browsers, but is ignored by command line tools like cURL and PostMan.
 - Cross-origin resource sharing (CORS) is one way the server at the origin can relax the same-origin policy. CORS allows sharing of restricted resources like fonts to be requested from another domain outside the original domain of where the first resource was shared from.
-- CORS defines a way for client web applications that are loaded in one domain to interact with resources in a different domain. With CORS support, you can build rich client-side web applications with Amazon S3 and selectively allow cross-origin access to your Amazon S3 resources.
-- If you ever come across an error that mentions that an origin policy cannot be read at the remote resource, then you need to enable CORS on API Gateway.
+- CORS defines a way through an HTTP OPTIONS method for client web applications that are loaded in one domain to interact with resources in a different domain. Server return a specific response - "These domains are approved for GET this URL". With CORS support, you can build rich client-side web applications with Amazon S3 and selectively allow cross-origin access to your Amazon S3 resources.
+- If you ever come across an error that says "Origin policy cannot be read at the remore resource", then you need to enable CORS on API Gateway.
 - CORS is enforced on the client (web browser) side.
 - A common example of this issue is if you are using a site with Javascript/AJAX for multiple domains under API Gateway. You would need to ensure that CORS is enabled.
 - CORS does not prevent XSS attacks, but does protect against CSRF attacks. What it does is controls who can use the data served by your endpoint. So if you have a weather website with callbacks to an API that checks the forecast, you could stop someone from writing a website that serves JavaScript calls into your API when they navigate to your website.
@@ -5201,23 +5219,33 @@ Simple Notification Service is a pushed-based messaging service that provides a 
 - There is no long or short polling involved with SNS due to the instantaneous pushing of messages
 - SNS has flexible message delivery over multiple transport protocols and has a simple API.
 
-## Kinesis 
+## Kinesis (Updated 9/27/2020)
 
 ### Kinesis Simplified:
-Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information. With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications. Amazon Kinesis enables you to process and analyze data as it arrives and respond instantly instead of having to wait until all your data is collected before the processing can begin.
+Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information (think KB in size). With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications. Amazon Kinesis enables you to process and analyze data as it arrives and respond instantly instead of having to wait until all your data is collected before the processing can begin. Examples: stock, social network, gaming, eCommerce, geospatial. 
 
 ### Kinesis Key Details:
-- Amazon Kinesis makes it easy to load and analyze the large volumes of data entering AWS.
+- Amazon Kinesis makes it easy to load and analyze the large volumes of data entering AWS (a platform.) 
 - Kinesis is used for processing real-time data streams (data that is generated continuously) from devices constantly sending data into AWS so that said data can be collected and analyzed.
 - It is a fully managed service that automatically scales to match the throughput of your data and requires no ongoing administration. It can also batch, compress, and encrypt the data before loading it, minimizing the amount of storage used at the destination and increasing security.
 - There are three different types of Kinesis:
-  - Kinesis Streams
+  - Kinesis Streams - data producers
   - Kinesis Firehose
   - Kinesis Analytics
-- Kinesis Streams works where the data producers stream their data into Kinesis Streams which can retain the data that enters it from one day up until 7 days. Once inside Kinesis Streams, the data is contained within shards. 
+
+Kinesis Streams (Updated 9/27/2020)
+- Kinesis Streams works where the data producers stream their data into Kinesis Streams which can retain the data that enters it from one day (default) up until 7 days. Once inside Kinesis Streams, the data is contained within shards. 
+- Shards store for consumers (EC2 instances), which analyse data in the shard who do something with the data, so it supports persistance and post processing.
+- Shards "reads" 5x/second, up to 2MB/second.
+- Shard "Writes" 1,000/second, up to 1MB/second (includes partition keys)
+- Capacity is defined by sum of capacity of the shards defined for a stream.
 - Kinesis Streams can continuously capture and store terabytes of data per hour from hundreds of thousands of sources such as website clickstreams, financial transactions, social media feeds, IT logs, and location-tracking events. For example: purchase requests from a large online store like Amazon, stock prices, Netflix content, Twitch content, online gaming data, Uber positioning and directions, etc.
-- Amazon Kinesis Firehose is the easiest way to load streaming data into data stores and analytics tools. When data is streamed into Kinesis Firehose, there is no persistent storage there to hold onto it. The data has to be analyzed as it comes in so it's optional to have Lambda functions inside your Kinesis Firehose. Once processed, you send the data elsewhere.
+
+Kinesis Firehose (Updated 9/27/2020)
+- Amazon Kinesis Firehose is the easiest way to load streaming data into data stores and analytics tools. When data is streamed into Kinesis Firehose, there is no persistent storage there to hold onto it. The data must be analyzed as it comes in. It is optional to have Lambda functions inside your Kinesis Firehose. Once processed, you send the data elsewhere like S3 or Elastic Search cluster.
 - Kinesis Firehose can capture, transform, and load streaming data into Amazon S3, Amazon Redshift, Amazon Elasticsearch Service, and Splunk, enabling near real-time analytics with existing business intelligence tools and dashboards you’re already using today.
+
+Kinesys Analyitics (Updated 9/27/2020)
 - Kinesis Analytics works with both Kinesis Streams and Kinesis Firehose and can analyze data on the fly. The data within Kinesis Analytics also gets sent elsewhere once it is finished processing. It analyzes your data inside of the Kinesis service itself.
 - Partition keys are used with Kinesis so you can organize data by shard. This way, input from a particular device can be assigned a key that will limit its destination to a specific shard.
 - Partition keys are useful if you would like to maintain order within your shard.
