@@ -1,4 +1,383 @@
-# AWS SAA-C02 Study Guide
+- [AWS SAA-C02 Study Guide](#aws-saa-c02-study-guide)
+  - [Table of Contents](#table-of-contents-1)
+  - [Introduction](#introduction-1)
+    - [Exam Content Breakdown:](#exam-content-breakdown-1)
+    - [Recommended Reading:](#recommended-reading-1)
+  - [Identity Access Management (IAM)](#identity-access-management-iam-1)
+    - [IAM Simplified:](#iam-simplified-1)
+    - [IAM Entities:](#iam-entities-1)
+    - [IAM Key Details:](#iam-key-details-1)
+    - [Amazon Resource Names (ARN) (Update 8-9/3/2020)](#amazon-resource-names-arn-update-8-932020-1)
+    - [Priority Levels in IAM:](#priority-levels-in-iam-1)
+  - [Simple Storage Service (S3)](#simple-storage-service-s3)
+    - [S3 Simplified:](#s3-simplified-1)
+    - [S3 Key Details:](#s3-key-details-1)
+    - [S3 Storage Classes:](#s3-storage-classes-1)
+    - [S3 Encryption:](#s3-encryption-1)
+    - [S3 Versioning:](#s3-versioning)
+    - [S3 Lifecycle Management:](#s3-lifecycle-management-1)
+    - [S3 Cross Region Replication:](#s3-cross-region-replication-1)
+    - [S3 Transfer Acceleration:](#s3-transfer-acceleration-1)
+    - [S3 Event Notications:](#s3-event-notications-1)
+    - [S3 and ElasticSearch:](#s3-and-elasticsearch-1)
+    - [Maximizing S3 Read/Write Performance:](#maximizing-s3-readwrite-performance-1)
+    - [S3 Server Access Logging:](#s3-server-access-logging-1)
+    - [S3 Multipart Upload:](#s3-multipart-upload-1)
+    - [S3 URL's (9/19/20)](#s3-urls-91920-2)
+    - [S3 Pre-signed URLs:](#s3-pre-signed-urls-1)
+    - [S3 Select:](#s3-select-1)
+  - [CloudFront](#cloudfront-1)
+    - [CloudFront Simplified:](#cloudfront-simplified-1)
+    - [CloudFront Key Details:](#cloudfront-key-details-1)
+    - [CloudFront Signed URLs and Signed Cookies:](#cloudfront-signed-urls-and-signed-cookies-1)
+  - [Snowball](#snowball-1)
+    - [Snowball Simplified:](#snowball-simplified-1)
+    - [Snowball Key Details:](#snowball-key-details-1)
+    - [Snowball Edge and Snowmobile:](#snowball-edge-and-snowmobile-1)
+  - [Storage Gateway](#storage-gateway-1)
+    - [Storage Gateway Simplified:](#storage-gateway-simplified-1)
+    - [Storage Gateway Key Details:](#storage-gateway-key-details-1)
+    - [Stored Volumes vs. Cached Volumes:](#stored-volumes-vs-cached-volumes-1)
+  - [Elastic Compute Cloud (EC2)](#elastic-compute-cloud-ec2-1)
+    - [EC2 Simplified:](#ec2-simplified-1)
+    - [EC2 Key Details:](#ec2-key-details-1)
+    - [EC2 AMI's](#ec2-amis-1)
+    - [EC2 Instance Pricing:](#ec2-instance-pricing-1)
+    - [Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:](#standard-reserved-vs-convertible-reserved-vs-scheduled-reserved-1)
+    - [EC2 Instance Lifecycle:](#ec2-instance-lifecycle-1)
+    - [EC2 Security:](#ec2-security-1)
+    - [EC2 Placement Groups:](#ec2-placement-groups-1)
+  - [Elastic Block Store (EBS)](#elastic-block-store-ebs-1)
+    - [EBS Simplified:](#ebs-simplified-1)
+    - [EBS Key Details:](#ebs-key-details-1)
+    - [SSD vs. HDD:](#ssd-vs-hdd-1)
+    - [EBS Snapshots:](#ebs-snapshots-1)
+    - [EBS Root Device Storage:](#ebs-root-device-storage-1)
+    - [EBS Encryption:](#ebs-encryption-1)
+  - [Elastic Network Interfaces (ENI)](#elastic-network-interfaces-eni-1)
+    - [ENI Simplified:](#eni-simplified-1)
+    - [ENI Key Details:](#eni-key-details-1)
+  - [Security Groups](#security-groups-1)
+    - [Security Groups Simplified:](#security-groups-simplified-1)
+    - [Security Groups Key Details:](#security-groups-key-details-1)
+  - [Web Application Firewall (WAF)](#web-application-firewall-waf-1)
+    - [WAF Simplified:](#waf-simplified-1)
+    - [WAF Key Details:](#waf-key-details-1)
+    - [WAF Protection Capabilities:](#waf-protection-capabilities-1)
+  - [CloudWatch](#cloudwatch-1)
+    - [CloudWatch Simplified:](#cloudwatch-simplified-1)
+    - [CloudWatch Key Details:](#cloudwatch-key-details-1)
+    - [CloudWatch Logs:](#cloudwatch-logs-1)
+    - [CloudWatch Events:](#cloudwatch-events-1)
+    - [CloudWatch Alarms:](#cloudwatch-alarms-1)
+    - [CloudWatch Metrics:](#cloudwatch-metrics-1)
+    - [CloudWatch Dashboards:](#cloudwatch-dashboards-1)
+  - [CloudTrail](#cloudtrail-1)
+    - [CloudTrail Simplified:](#cloudtrail-simplified-1)
+    - [CloudTrail Key Details:](#cloudtrail-key-details-1)
+  - [Elastic File System (EFS)](#elastic-file-system-efs-1)
+    - [EFS Simplified:](#efs-simplified-1)
+    - [EFS Key Details:](#efs-key-details-1)
+  - [Amazon FSx for Windows](#amazon-fsx-for-windows-1)
+    - [Amazon FSx for Windows Simplified:](#amazon-fsx-for-windows-simplified-1)
+    - [Amazon FSx for Windows Key Details:](#amazon-fsx-for-windows-key-details-1)
+  - [Amazon FSx for Lustre](#amazon-fsx-for-lustre-1)
+    - [Amazon FSx for Lustre Simplified:](#amazon-fsx-for-lustre-simplified-1)
+    - [Amazon FSx for Lustre Key Details:](#amazon-fsx-for-lustre-key-details-1)
+  - [Relational Database Service (RDS)](#relational-database-service-rds-1)
+    - [RDS Simplified:](#rds-simplified-1)
+    - [RDS Key Details:](#rds-key-details-1)
+    - [RDS Multi-AZ:](#rds-multi-az-1)
+    - [RDS Read Replicas:](#rds-read-replicas-1)
+    - [RDS Backups:](#rds-backups-1)
+    - [RDS Security:](#rds-security-1)
+    - [RDS Enhanced Monitoring:](#rds-enhanced-monitoring-1)
+  - [Aurora](#aurora-1)
+    - [Aurora Simplified:](#aurora-simplified-1)
+    - [Aurora Key Details:](#aurora-key-details-1)
+    - [Aurora Serverless:](#aurora-serverless-1)
+    - [Aurora Cluster Endpoints:](#aurora-cluster-endpoints-1)
+    - [Aurora Reader Endpoints:](#aurora-reader-endpoints-1)
+  - [DynamoDB](#dynamodb-1)
+    - [DynamoDB Simplified:](#dynamodb-simplified-1)
+    - [DynamoDB Key Details:](#dynamodb-key-details-1)
+    - [DynamoDB Accelerator (DAX):](#dynamodb-accelerator-dax-1)
+    - [DynamoDB Streams:](#dynamodb-streams-1)
+    - [DynamoDB Global Tables](#dynamodb-global-tables-1)
+  - [Redshift](#redshift-1)
+    - [Redshift Simplified:](#redshift-simplified-1)
+    - [Redshift Key Details:](#redshift-key-details-1)
+  - [Redshift Spectrum:](#redshift-spectrum-1)
+  - [Redshift Enhanced VPC Routing:](#redshift-enhanced-vpc-routing-1)
+  - [ElastiCache](#elasticache-1)
+    - [ElastiCache Simplified:](#elasticache-simplified-1)
+    - [ElastiCache Key Details:](#elasticache-key-details-1)
+  - [Route53](#route53-1)
+    - [Route53 Simplified:](#route53-simplified-1)
+    - [Route53 Key Details:](#route53-key-details-1)
+    - [Route53 Routing Policies:](#route53-routing-policies-1)
+  - [Elastic Load Balancers (ELB)](#elastic-load-balancers-elb-1)
+    - [ELB Simplified:](#elb-simplified-1)
+    - [ELB Key Details:](#elb-key-details-1)
+    - [ELB General:](#elb-general-1)
+    - [ELB Advanced Features:](#elb-advanced-features-1)
+    - [ELB Cross Zone Load Balancing:](#elb-cross-zone-load-balancing-1)
+    - [ELB Security:](#elb-security-1)
+  - [Auto Scaling](#auto-scaling-1)
+    - [Auto Scaling Simplified:](#auto-scaling-simplified-1)
+    - [Auto Scaling Key Details:](#auto-scaling-key-details-1)
+    - [Auto Scaling Default Termination Policy:](#auto-scaling-default-termination-policy-1)
+  - [Auto Scaling Cooldown Period:](#auto-scaling-cooldown-period-1)
+  - [Virtual Private Cloud (VPC)](#virtual-private-cloud-vpc-1)
+    - [VPC Simplified:](#vpc-simplified-1)
+    - [VPC Key Details (Updated 9/4/2020):](#vpc-key-details-updated-942020-1)
+    - [VPC Subnets (Updated 9/4/2020):](#vpc-subnets-updated-942020-1)
+    - [Network Access Control Lists:](#network-access-control-lists-1)
+    - [NAT Instances vs. NAT Gateways:](#nat-instances-vs-nat-gateways-1)
+    - [Bastion Hosts:](#bastion-hosts-1)
+    - [Route Tables:](#route-tables-1)
+    - [Internet Gateway:](#internet-gateway-1)
+    - [Virtual Private Networks (VPNs): (Updated 9/27/20)](#virtual-private-networks-vpns-updated-92720-1)
+    - [AWS DirectConnect:](#aws-directconnect-1)
+    - [VPC Endpoints:](#vpc-endpoints-1)
+    - [AWS PrivateLink:](#aws-privatelink-1)
+    - [VPC Peering:](#vpc-peering-1)
+    - [VPC Flow Logs:](#vpc-flow-logs-1)
+    - [AWS Global Accelerator:](#aws-global-accelerator-1)
+  - [Simple Queuing Service (SQS)](#simple-queuing-service-sqs)
+    - [SQS Simplified:](#sqs-simplified)
+    - [SQS Key Details:](#sqs-key-details-1)
+    - [SQS Polling:](#sqs-polling-1)
+  - [Simple Workflow Service (SWF)](#simple-workflow-service-swf)
+    - [SWF Simplified:](#swf-simplified-1)
+    - [SWF Key Details:](#swf-key-details-1)
+  - [Simple Notification Service (SNS)](#simple-notification-service-sns-1)
+    - [SNS Simplified:](#sns-simplified-1)
+    - [SNS Key Details:](#sns-key-details)
+  - [Kinesis](#kinesis-1)
+    - [Kinesis Simplified:](#kinesis-simplified-1)
+    - [Kinesis Key Details:](#kinesis-key-details-1)
+  - [Lambda](#lambda-1)
+    - [Lambda Simplified:](#lambda-simplified-1)
+    - [Lambda Key Details:](#lambda-key-details-1)
+    - [Lambda@Edge:](#lambdaedge-1)
+  - [API Gateway (Updated 9/27/20)](#api-gateway-updated-92720)
+    - [API Gateway Simplified: (Updated 9/27/20)](#api-gateway-simplified-updated-92720)
+    - [API Gateway Key Details: (Updated 9/27/20)](#api-gateway-key-details-updated-92720)
+    - [Deployment (Added 9/27/2020)](#deployment-added-9272020)
+    - [Cross Origin Resource Sharing and Same Origin Policy: (Updated 9/27/2020)](#cross-origin-resource-sharing-and-same-origin-policy-updated-9272020)
+  - [CloudFormation](#cloudformation-1)
+    - [CloudFormation Simplified:](#cloudformation-simplified-1)
+    - [CloudFormation Key Details:](#cloudformation-key-details-1)
+  - [ElasticBeanstalk](#elasticbeanstalk-1)
+    - [ElasticBeanstalk Simplified:](#elasticbeanstalk-simplified-1)
+    - [ElasticBeanstalk Key Details:](#elasticbeanstalk-key-details-1)
+  - [AWS Organizations](#aws-organizations-1)
+    - [AWS Organizations Simplified:](#aws-organizations-simplified-1)
+    - [AWS Organizations Key Details:](#aws-organizations-key-details-1)
+  - [Miscellaneous](#miscellaneous-1)
+    - [What is the Amazon Cognito?](#what-is-the-amazon-cognito-1)
+    - [What is AWS Resource Access Manager?](#what-is-aws-resource-access-manager-1)
+    - [What is Athena?](#what-is-athena-1)
+    - [What is AWS Macie?](#what-is-aws-macie-1)
+    - [What is AWS KMS?](#what-is-aws-kms-1)
+    - [What is AWS Secrets Manager?](#what-is-aws-secrets-manager-1)
+    - [What is AWS STS?](#what-is-aws-sts-1)
+    - [What is OpsWorks?](#what-is-opsworks-1)
+    - [What is Elastic Transcoder?](#what-is-elastic-transcoder-1)
+    - [What is AWS Directory Service?](#what-is-aws-directory-service-1)
+    - [What is IoT Core?](#what-is-iot-core-1)
+    - [What is AWS WorkSpaces?](#what-is-aws-workspaces-1)
+    - [What is AWS Fargate?](#what-is-aws-fargate-1)
+    - [What is Amazon Elastic Container Service?](#what-is-amazon-elastic-container-service-1)
+    - [What is Amazon Elastic Kubernetes Service?](#what-is-amazon-elastic-kubernetes-service-1)
+    - [What does pilot light mean?](#what-does-pilot-light-mean-1)
+    - [What are Blue-Green deployments?](#what-are-blue-green-deployments-1)
+    - [What is Amazon Data Lifecycle Manager?](#what-is-amazon-data-lifecycle-manager-1)
+    - [What is Route Origin Authorization?](#what-is-route-origin-authorization-1)
+    - [What is Amazon MQ?](#what-is-amazon-mq-1)
+    - [What is AWS Config?](#what-is-aws-config-1)
+- [AWS SAA-C02 Study Guide](#aws-saa-c02-study-guide-1)
+  - [Table of Contents](#table-of-contents-2)
+  - [Introduction](#introduction-2)
+    - [Exam Content Breakdown:](#exam-content-breakdown-2)
+    - [Recommended Reading:](#recommended-reading-2)
+  - [Identity Access Management (IAM)](#identity-access-management-iam-2)
+    - [IAM Simplified:](#iam-simplified-2)
+    - [IAM Entities:](#iam-entities-2)
+    - [IAM Key Details:](#iam-key-details-2)
+    - [Amazon Resource Names (ARN) (Update 8-9/3/2020)](#amazon-resource-names-arn-update-8-932020-2)
+    - [Priority Levels in IAM:](#priority-levels-in-iam-2)
+  - [CloudFront](#cloudfront-2)
+    - [CloudFront Simplified:](#cloudfront-simplified-2)
+    - [CloudFront Key Details:](#cloudfront-key-details-2)
+    - [CloudFront Signed URLs and Signed Cookies:](#cloudfront-signed-urls-and-signed-cookies-2)
+  - [Snowball](#snowball-2)
+    - [Snowball Simplified:](#snowball-simplified-2)
+    - [Snowball Key Details:](#snowball-key-details-2)
+    - [Snowball Edge and Snowmobile:](#snowball-edge-and-snowmobile-2)
+  - [Storage Gateway](#storage-gateway-2)
+    - [Storage Gateway Simplified:](#storage-gateway-simplified-2)
+    - [Storage Gateway Key Details:](#storage-gateway-key-details-2)
+    - [Stored Volumes vs. Cached Volumes:](#stored-volumes-vs-cached-volumes-2)
+  - [Elastic Compute Cloud (EC2)](#elastic-compute-cloud-ec2-2)
+    - [EC2 Simplified:](#ec2-simplified-2)
+    - [EC2 Key Details:](#ec2-key-details-2)
+    - [EC2 AMI's](#ec2-amis-2)
+    - [EC2 Instance Pricing:](#ec2-instance-pricing-2)
+    - [Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:](#standard-reserved-vs-convertible-reserved-vs-scheduled-reserved-2)
+    - [EC2 Instance Lifecycle:](#ec2-instance-lifecycle-2)
+    - [EC2 Security:](#ec2-security-2)
+    - [EC2 Placement Groups:](#ec2-placement-groups-2)
+  - [Elastic Block Store (EBS)](#elastic-block-store-ebs-2)
+    - [EBS Simplified:](#ebs-simplified-2)
+    - [EBS Key Details:](#ebs-key-details-2)
+    - [SSD vs. HDD:](#ssd-vs-hdd-2)
+    - [EBS Snapshots:](#ebs-snapshots-2)
+    - [EBS Root Device Storage:](#ebs-root-device-storage-2)
+    - [EBS Encryption:](#ebs-encryption-2)
+  - [Elastic Network Interfaces (ENI)](#elastic-network-interfaces-eni-2)
+    - [ENI Simplified:](#eni-simplified-2)
+    - [ENI Key Details:](#eni-key-details-2)
+  - [Security Groups](#security-groups-2)
+    - [Security Groups Simplified:](#security-groups-simplified-2)
+    - [Security Groups Key Details:](#security-groups-key-details-2)
+  - [Web Application Firewall (WAF)](#web-application-firewall-waf-2)
+    - [WAF Simplified:](#waf-simplified-2)
+    - [WAF Key Details:](#waf-key-details-2)
+    - [WAF Protection Capabilities:](#waf-protection-capabilities-2)
+  - [CloudWatch](#cloudwatch-2)
+    - [CloudWatch Simplified:](#cloudwatch-simplified-2)
+    - [CloudWatch Key Details:](#cloudwatch-key-details-2)
+    - [CloudWatch Logs:](#cloudwatch-logs-2)
+    - [CloudWatch Events:](#cloudwatch-events-2)
+    - [CloudWatch Alarms:](#cloudwatch-alarms-2)
+    - [CloudWatch Metrics:](#cloudwatch-metrics-2)
+    - [CloudWatch Dashboards:](#cloudwatch-dashboards-2)
+  - [CloudTrail](#cloudtrail-2)
+    - [CloudTrail Simplified:](#cloudtrail-simplified-2)
+    - [CloudTrail Key Details:](#cloudtrail-key-details-2)
+  - [Elastic File System (EFS)](#elastic-file-system-efs-2)
+    - [EFS Simplified:](#efs-simplified-2)
+    - [EFS Key Details:](#efs-key-details-2)
+  - [Amazon FSx for Windows](#amazon-fsx-for-windows-2)
+    - [Amazon FSx for Windows Simplified:](#amazon-fsx-for-windows-simplified-2)
+    - [Amazon FSx for Windows Key Details:](#amazon-fsx-for-windows-key-details-2)
+  - [Amazon FSx for Lustre](#amazon-fsx-for-lustre-2)
+    - [Amazon FSx for Lustre Simplified:](#amazon-fsx-for-lustre-simplified-2)
+    - [Amazon FSx for Lustre Key Details:](#amazon-fsx-for-lustre-key-details-2)
+  - [Relational Database Service (RDS)](#relational-database-service-rds-2)
+    - [RDS Simplified:](#rds-simplified-2)
+    - [RDS Key Details:](#rds-key-details-2)
+    - [RDS Multi-AZ:](#rds-multi-az-2)
+    - [RDS Read Replicas:](#rds-read-replicas-2)
+    - [RDS Backups:](#rds-backups-2)
+    - [RDS Security:](#rds-security-2)
+    - [RDS Enhanced Monitoring:](#rds-enhanced-monitoring-2)
+  - [Aurora](#aurora-2)
+    - [Aurora Simplified:](#aurora-simplified-2)
+    - [Aurora Key Details:](#aurora-key-details-2)
+    - [Aurora Serverless:](#aurora-serverless-2)
+    - [Aurora Cluster Endpoints:](#aurora-cluster-endpoints-2)
+    - [Aurora Reader Endpoints:](#aurora-reader-endpoints-2)
+  - [DynamoDB](#dynamodb-2)
+    - [DynamoDB Simplified:](#dynamodb-simplified-2)
+    - [DynamoDB Key Details:](#dynamodb-key-details-2)
+    - [DynamoDB Accelerator (DAX):](#dynamodb-accelerator-dax-2)
+    - [DynamoDB Streams:](#dynamodb-streams-2)
+    - [DynamoDB Global Tables](#dynamodb-global-tables-2)
+  - [Redshift](#redshift-2)
+    - [Redshift Simplified:](#redshift-simplified-2)
+    - [Redshift Key Details:](#redshift-key-details-2)
+  - [Redshift Spectrum:](#redshift-spectrum-2)
+  - [Redshift Enhanced VPC Routing:](#redshift-enhanced-vpc-routing-2)
+  - [ElastiCache](#elasticache-2)
+    - [ElastiCache Simplified:](#elasticache-simplified-2)
+    - [ElastiCache Key Details:](#elasticache-key-details-2)
+  - [Route53](#route53-2)
+    - [Route53 Simplified:](#route53-simplified-2)
+    - [Route53 Key Details:](#route53-key-details-2)
+    - [Route53 Routing Policies:](#route53-routing-policies-2)
+  - [Elastic Load Balancers (ELB)](#elastic-load-balancers-elb-2)
+    - [ELB Simplified:](#elb-simplified-2)
+    - [ELB Key Details:](#elb-key-details-2)
+    - [ELB General:](#elb-general-2)
+    - [ELB Advanced Features:](#elb-advanced-features-2)
+    - [ELB Cross Zone Load Balancing:](#elb-cross-zone-load-balancing-2)
+    - [ELB Security:](#elb-security-2)
+  - [Auto Scaling](#auto-scaling-2)
+    - [Auto Scaling Simplified:](#auto-scaling-simplified-2)
+    - [Auto Scaling Key Details:](#auto-scaling-key-details-2)
+    - [Auto Scaling Default Termination Policy:](#auto-scaling-default-termination-policy-2)
+  - [Auto Scaling Cooldown Period:](#auto-scaling-cooldown-period-2)
+  - [Virtual Private Cloud (VPC)](#virtual-private-cloud-vpc-2)
+    - [VPC Simplified:](#vpc-simplified-2)
+    - [VPC Key Details (Updated 9/4/2020):](#vpc-key-details-updated-942020-2)
+    - [VPC Subnets (Updated 9/4/2020):](#vpc-subnets-updated-942020-2)
+    - [Network Access Control Lists:](#network-access-control-lists-2)
+    - [NAT Instances vs. NAT Gateways:](#nat-instances-vs-nat-gateways-2)
+    - [Bastion Hosts:](#bastion-hosts-2)
+    - [Route Tables:](#route-tables-2)
+    - [Internet Gateway:](#internet-gateway-2)
+    - [Virtual Private Networks (VPNs): (Updated 9/27/20)](#virtual-private-networks-vpns-updated-92720-2)
+    - [AWS DirectConnect:](#aws-directconnect-2)
+    - [VPC Endpoints:](#vpc-endpoints-2)
+    - [AWS PrivateLink:](#aws-privatelink-2)
+    - [VPC Peering:](#vpc-peering-2)
+    - [VPC Flow Logs:](#vpc-flow-logs-2)
+    - [AWS Global Accelerator:](#aws-global-accelerator-2)
+  - [Simple Queuing Service (SQS)](#simple-queuing-service-sqs-1)
+    - [SQS Simplified:](#sqs-simplified-1)
+    - [SQS Key Details:](#sqs-key-details-2)
+    - [SQS Polling:](#sqs-polling-2)
+  - [Simple Workflow Service (SWF)](#simple-workflow-service-swf-1)
+    - [SWF Simplified:](#swf-simplified-2)
+    - [SWF Key Details:](#swf-key-details-2)
+  - [Simple Notification Service (SNS)](#simple-notification-service-sns-2)
+    - [SNS Simplified:](#sns-simplified-2)
+    - [SNS Key Details:](#sns-key-details-1)
+  - [Kinesis (Updated 9/27/2020)](#kinesis-updated-9272020)
+    - [Kinesis Simplified:](#kinesis-simplified-2)
+    - [Kinesis Key Details:](#kinesis-key-details-2)
+  - [Lambda](#lambda-2)
+    - [Lambda Simplified:](#lambda-simplified-2)
+    - [Lambda Key Details:](#lambda-key-details-2)
+    - [Lambda@Edge:](#lambdaedge-2)
+  - [API Gateway](#api-gateway-1)
+    - [API Gateway Simplified:](#api-gateway-simplified-1)
+    - [API Gateway Key Details:](#api-gateway-key-details-1)
+    - [Cross Origin Resource Sharing:](#cross-origin-resource-sharing-1)
+  - [CloudFormation](#cloudformation-2)
+    - [CloudFormation Simplified:](#cloudformation-simplified-2)
+    - [CloudFormation Key Details:](#cloudformation-key-details-2)
+  - [ElasticBeanstalk](#elasticbeanstalk-2)
+    - [ElasticBeanstalk Simplified:](#elasticbeanstalk-simplified-2)
+    - [ElasticBeanstalk Key Details:](#elasticbeanstalk-key-details-2)
+  - [AWS Organizations](#aws-organizations-2)
+    - [AWS Organizations Simplified:](#aws-organizations-simplified-2)
+    - [AWS Organizations Key Details:](#aws-organizations-key-details-2)
+  - [Miscellaneous](#miscellaneous-2)
+    - [What is the Amazon Cognito?](#what-is-the-amazon-cognito-2)
+    - [What is AWS Resource Access Manager?](#what-is-aws-resource-access-manager-2)
+    - [What is Athena?](#what-is-athena-2)
+    - [What is AWS Macie?](#what-is-aws-macie-2)
+    - [What is AWS KMS?](#what-is-aws-kms-2)
+    - [What is AWS Secrets Manager?](#what-is-aws-secrets-manager-2)
+    - [What is AWS STS?](#what-is-aws-sts-2)
+    - [What is OpsWorks?](#what-is-opsworks-2)
+    - [What is Elastic Transcoder?](#what-is-elastic-transcoder-2)
+    - [What is AWS Directory Service?](#what-is-aws-directory-service-2)
+    - [What is IoT Core?](#what-is-iot-core-2)
+    - [What is AWS WorkSpaces?](#what-is-aws-workspaces-2)
+    - [What is AWS Fargate?](#what-is-aws-fargate-2)
+    - [What is Amazon Elastic Container Service?](#what-is-amazon-elastic-container-service-2)
+    - [What is Amazon Elastic Kubernetes Service?](#what-is-amazon-elastic-kubernetes-service-2)
+    - [What does pilot light mean?](#what-does-pilot-light-mean-2)
+    - [What are Blue-Green deployments?](#what-are-blue-green-deployments-2)
+    - [What is Amazon Data Lifecycle Manager?](#what-is-amazon-data-lifecycle-manager-2)
+    - [What is Route Origin Authorization?](#what-is-route-origin-authorization-2)
+    - [What is Amazon MQ?](#what-is-amazon-mq-2)
+    - [What is AWS Config?](#what-is-aws-config-2)
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
 
   1. Stephane Maarek's <a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c02/">Ultimate AWS Certified Solutions Architect Associate 2020 course</a> or A Cloud Guru's <a href="https://acloud.guru/learn/aws-certified-solutions-architect-associate">AWS Certified Solutions Architect Associate 2020 course</a>
@@ -337,7 +716,7 @@ You can encrypted on the AWS supported server-side in the following ways:
 - **AWS Key Management Service / SSE - KMS** - when Amazon and you both manage the encryption and decryption keys together.
 - **Server Side Encryption w/ customer provided keys / SSE - C** - when I give Amazon my own keys that I manage. In this scenario, you concede ease of use in exchange for more control.
 
-### S3 Versioning:
+### S3 Versioning (Updated 9/2020):
 - When versioning is enabled, S3 stores all versions of an object including all writes and even deletes.
 - Versioning can be enabled by the root acct, bucket owner, and IAM users auth'd on the bucket.
 - It is a great feature for implictly backing up content and for easy rollbacks in case of human error.
@@ -409,6 +788,14 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - You can use an AWS SDK to upload an object in parts. Alternatively, you can perform the same action via the AWS CLI.
 - You can also parallelize downloads from S3 using **byte-range fetches**. If there's a failure during the download, the failure is localized just to the specfic byte range and not the whole object.
 
+### S3 URL's (9/19/20)
+- An example ARN: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
+- S3 supports two URL styles: virtual hosted and path style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
+- For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
+- For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
+- Presigned URL's allow non AWS users object access. The creater assignes permissions.
+
+
 ### S3 Pre-signed URLs:
 - All S3 objects are private by default, however the object owner of a private bucket with private objects can optionally share those objects with without having to change the permissions of the bucket to be public.
 - This is done by creating a pre-signed URL. Using your own security credentials, you can grant time-limited permission to download or view your private S3 objects.
@@ -433,6 +820,9 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - By reducing the volume of data that has to be loaded and processed by your applications, S3 Select can improve the performance of most applications that frequently access data from S3 by up to 400% because you’re dealing with significantly less data.
 - You can also use S3 Select for Glacier.
 
+### S3 REST API (Added 9/24/2020)
+- Review the article that discusses MFA delete https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
+- REST API calls use 'x-amz' as part of the header,and x-amz-mfa request header for MFA DELETE (AWS CSAPT)
 
 ## CloudFront
 
@@ -1819,34 +2209,6 @@ The following section includes services, features, and techniques that may appea
   - Evaluate your AWS resource configurations for desired settings. ·         
   - Get a snapshot of the current configurations of the Skip to content
 Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@DonMVB 
-DonMVB
-/
-aws
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-aws/AWS_Assoc_SAA_C02
-@DonMVB
-DonMVB Rename AWS_Assoc_SAA_C02.md to AWS_Assoc_SAA_C02
-Latest commit 03f7610 26 seconds ago
- History
- 1 contributor
-1810 lines (1411 sloc)  207 KB
   
 # AWS SAA-C02 Study Guide
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
@@ -1862,8 +2224,6 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 *Note*: When experimenting on your AWS account, be sure to understand what is <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc">free</a> and what isn't. Relevant Free Tier FAQs can be found <a href="https://aws.amazon.com/free/free-tier-faqs/">here</a>.
 
 *Note*: Udemy often has their courses go on sale from time to time. It might be worth waiting to purchase either the Tutorial Dojo practice exam or Stephane Maarek's course depending on how urgently you need the study material.
-
-
 
 ## Table of Contents
 1. <a href="https://github.com/DonMVB/aws/blob/master/AWS_Assoc_SAA_C02.md#introduction">Introduction</a>
@@ -3943,209 +4303,6 @@ The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniq
 - **Default Deny (or Implicit Deny)**: IAM identities start off with no resource access. Access instead must be granted.
 
 
-## Simple Storage Service (S3)
-
-### S3 Simplified:
-S3 provides developers and IT teams with secure, durable, and highly-scalable object storage. Object storage, as opposed to block storage, is a general term that refers to data composed of three things:
-
-  1.) the data that you want to store
-
-  2.) an expandable amount of metadata
-
-  3.) a unique identifier so that the data can be retrieved 
-
-This makes it a perfect candidate to host files or directories and a poor candidate to host databases or operating systems. The following table highlights key differences between object and block storage:
-
-![Screen Shot 2020-06-05 at 3 34 57 PM](https://user-images.githubusercontent.com/13093517/83915925-352c5780-a742-11ea-975b-53d4e5d07e7c.png)
-
-Data uploaded into S3 is spread across multiple files and facilities. The files uploaded into S3 have an upper-bound of 5TB per file and the number of files that can be uploaded is virtually limitless. S3 buckets, which contain all files, are named in a universal namespace so uniqueness is required. All successful uploads will return an HTTP 200 response.
-
-Amazon S3 <a href="https://aws.amazon.com/s3/faqs/#:~:text=The%20S3%20Standard%20storage%20class,availability%20and%20SLA%20of%2099.9%2">FAQ</a>.
-
-AWS users can create up to 100 buckets by default.
-
-### S3 Key Details:
-- Objects (regular files or directories) are stored in S3 with a key, value, version ID, and metadata. They can also contain torrents and subresources for access control lists which are basically permissions for the object itself.
-- The data consistency model for S3 ensures immediate read access for new objects after the initial PUT requests. These new objects are introduced into AWS for the first time and thus do not need to be updated anywhere so they are available immediately.
-- The data consistency model for S3 ensures `eventual read consistency` for PUTS and DELETES of already existing objects. This is because the change takes a little time to propagate across the entire Amazon network.
-- Because of the eventual consistency model when updating existing objects in S3, those updates might not be immediately reflected. As object updates are made to the same key, an older version of the object might be provided back to the user when the next read request is made. 
-- Amazon guarantees 99.999999999% (or 11 9s) durability for all S3 storage classes except its Reduced Redundancy Storage class.
-- S3 comes with the following main features:
-
-  1.) tiered storage and pricing variability
-
-  2.) lifecycle management to expire older content
-
-  3.) versioning for version control
-
-  4.) encryption for privacy
-
-  5.) MFA deletes to prevent accidental or malicious removal of content
-
-  6.) access control lists & bucket policies to secure the data
-
-- S3 charges by:
-
-  1.) storage size
-
-  2.) number of requests
-
-  3.) storage management pricing (known as tiers)
-
-  4.) data transfer pricing (objects leaving/entering AWS via the internet)
-
-  5.) transfer acceleration (an optional speed increase for moving objects via Cloudfront)
-
-  6.) cross region replication (more HA than offered by default
-
-- Bucket policies secure data at the bucket level while access control lists secure data at the more granular object level.
-- By default, all newly created buckets are private.
-- S3 can be configured to create access logs which can be shipped into another bucket in the current account or even a separate account all together. This makes it easy to monitor who accesses what inside S3.
-- There are 3 different ways to share S3 buckets across AWS accounts:
-
-  1.) For programmatic access only, use IAM & Bucket Policies to share entire buckets
-
-  2.) For programmatic access only, use ACLs & Bucket Policies to share objects
-
-  3.) For access via the console & the terminal, use cross-account IAM roles
-
-- S3 is a great candidate for static website hosting. When you enable static website hosting for S3 you need both an index.html file and an error.html file. Static website hosting creates a website endpoint that can be accessed via the internet.
-- When you upload new files and have versioning enabled, they will not inherit the properties of the previous version. Uploads are a "single operation". 
-- AWS CSAPT advises to use Multi part over stable uploads, and can help with lower reliability networks because only failed parts need to be uploaded again.
-
-### S3 Storage Classes:
-Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket.
-
-**S3 Standard** - 99.99% availability (highest) and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
-
-**S3 Infrequently Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval.
-
-**S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA.
-
-**S3 Intelligent Tiering** - Uses built-in ML/AI to determine the most cost-effective storage class and then automatically moves your data to the appropriate tier. It does this without operational overhead or performance impact.
-
-**S3 Glacier** - low-cost storage class for data archiving. This class is for pure storage purposes where retrieval isn’t needed often at all. Retrieval times range from minutes to hours. There are differing retrieval methods depending on how acceptable the default retrieval times are for you:
-
-    Expedited: 1 - 5 minutes, but this option is the most expensive.
-    Standard: 3 - 5 hours to restore.
-    Bulk: 5 - 12 hours. This option has the lowest cost and is good for a large set of data.
-
-The Expedited duration listed above could possibly be longer during rare situations of unusually high demand across all of AWS. If it is absolutely critical to have quick access to your Glacier data under all circumstances, you must purchase *Provisioned Capacity*. Provisioned Capacity guarentees that Expedited retrievals always work within the time constraints of 1 to 5 minutes.
-
-**S3 Deep Glacier** - The lowest cost S3 storage where retrieval can take 12 hours.
-
-<img width="1246" alt="storage_types" src="https://user-images.githubusercontent.com/13093517/83919060-e1247180-a747-11ea-9336-e92ee163ac7a.png">
-
-### S3 Encryption:
-S3 data can be encrypted both in transit and at rest.
-
-**Encryption In Transit**: When the traffic passing between one endpoint to another is indecipherable. Anyone eavesdropping between server A and server B won’t be able to make sense of the information passing by. Encryption in transit for S3 is always achieved by SSL/TLS.
-
-**Encryption At Rest**: When the immobile data sitting inside S3 is encrypted. If someone breaks into a server, they still won’t be able to access encrypted info within that server. Encryption at rest can be done either on the server-side or the client-side. The server-side is when S3 encrypts your data as it is being written to disk and decrypts it when you access it. The client-side is when you personally encrypt the object on your own and then upload it into S3 afterwards.
-
-You can encrypted on the AWS supported server-side in the following ways:
-- **S3 Managed Keys / SSE - S3 (server side encryption S3 )** - when Amazon manages the encryption and decryption keys for you automatically. In this scenario, you concede a little control to Amazon in exchange for ease of use.
-- **AWS Key Management Service / SSE - KMS** - when Amazon and you both manage the encryption and decryption keys together.
-- **Server Side Encryption w/ customer provided keys / SSE - C** - when I give Amazon my own keys that I manage. In this scenario, you concede ease of use in exchange for more control.
-
-### S3 Versioning:
-- When versioning is enabled, S3 stores all versions of an object including all writes and even deletes.
-- It is a great feature for implictly backing up content and for easy rollbacks in case of human error.
-- It can be thought of as analogous to Git.
-- Once versioning is enabled on a bucket, it cannot be disabled - only suspended.
-- Versioning integrates w/ lifecycle rules so you can set rules to expire or migrate data based on their version.
-- Versioning also has MFA delete capability to provide an additional layer of security.
-
-### S3 Lifecycle Management:
-- Automates the moving of objects between the different storage tiers.
-- Can be used in conjunction with versioning.
-- Lifecycle rules can be applied to both current and previous versions of an object.
-
-### S3 Cross Region Replication:
-- Cross region replication only work if versioning is enabled.
-- When cross region replication is enabled, no pre-existing data is transferred. Only new uploads into the original bucket are replicated. All subsequent updates are replicated.
-- When you replicate the contents of one bucket to another, you can actually change the ownership of the content if you want. You can also change the storage tier of the new bucket with the replicated content.
-- When files are deleted in the original bucket (via a delete marker as versioning prevents true deletions), those deletes are not replicated.
-- <a href="https://aws.amazon.com/solutions/cross-region-replication-monitor/">Cross Region Replication Overview</a>
-- <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#replication-what-is-not-replicated ">What is and isn’t replicated such as encrypted objects, deletes, items in glacier, etc.</a>
-
-### S3 Transfer Acceleration:
-- Transfer acceleration makes use of the CloudFront network by sending or receiving data at CDN points of presence (called edge locations) rather than slower uploads or downloads at the origin.
-- This is accomplished by uploading to a distinct URL for the edge location instead of the bucket itself. This is then transferred over the AWS network backbone at a much faster speed.
-- <a href="https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html">You can test transfer acceleration speed directly in comparison to regular uploads.</a>
-
-### S3 Event Notications:
-The Amazon S3 notification feature enables you to receive and send notifications when certain events happen in your bucket. To enable notifications, you must first configure the events you want Amazon S3 to publish (new object added, old object deleted, etc.) and the destinations where you want Amazon S3 to send the event notifications. Amazon S3 supports the following destinations where it can publish events:
-- **Amazon Simple Notification Service (Amazon SNS)** - A web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
-- **Amazon Simple Queue Service (Amazon SQS)** - SQS offers reliable and scalable hosted queues for storing messages as they travel between computers.
-- **AWS Lambda** - AWS Lambda is a compute service where you can upload your code and the service can run the code on your behalf using the AWS infrastructure. You package up and upload your custom code to AWS Lambda when you create a Lambda function. The S3 event triggering the Lambda function also can serve as the code's input.
-
-###  S3 and ElasticSearch:
-- If you are using S3 to store log files, ElasticSearch provides full search capabilities for logs and can be used to search through data stored in an S3 bucket.
-- You can integrate your ElasticSearch domain with S3 and Lambda. In this setup, any new logs received by S3 will trigger an event notification to Lambda, which in turn will then run your application code on the new log data. After your code finishes processing, the data will be streamed into your ElasticSearch domain and be available for observation.
-
-### Maximizing S3 Read/Write Performance:
-- Chose regions for S3 buckets based on placing storage close to your users, to reduce network latency, and distance from your operations center (DR scenarios.)
-- If the request rate for reading and writing objects to S3 is extremely high, then you can use hash keys or random strings to prefix the object's name. In such cases, the partitions used to store the objects will be better distributed and therefore will allow better read/write performance on your objects. 
-- If your S3 data is receiving a high number of GET requests from users, you should consider using Amazon CloudFront for performance optimization. By integrating CloudFront with S3, you can distribute content via CloudFront's cache to your users for lower latency and a higher data transfer rate. This also has the added bonus of sending fewer direct requests to S3 which will reduce costs. For example, suppose that you have a few objects that are very popular. CloudFront fetches those objects from S3 and caches them. CloudFront can then serve future requests for the objects from its cache, reducing the total number of GET requests it sends to Amazon S3.
-- <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html "> More information on how to ensure high performance in S3</a>
-
-### S3 Server Access Logging:
-- Server access logging provides detailed records for the requests that are made to a bucket. Server access logs are useful for many applications. For example, access log information can be useful in security and access audits. It can also help you learn about your customer base and better understand your Amazon S3 bill. 
-- By default, logging is disabled. When logging is enabled, logs are saved to a bucket in the same AWS Region as the source bucket. 
-- Each access log record provides details about a single access request, such as the requester, bucket name, request time, request action, response status, and an error code, if relevant.
-- It works in the following way:
-   - S3 periodically collecting access log records of the bucket you want to monitor
-   - S3 then consolidates those records into log files
-   - S3 finally uploads the log files to your secondary monitoring bucket as log objects
-
-### S3 URL's (9/19/20)
-- An example ARN: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
-- S3 supports two URL styles: virtual hosted and path style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
-- For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
-- For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
-- Presigned URL's allow non AWS users object access. The creater assignes permissions.
-
-### S3 Multipart Upload:
-- Multipart upload allows you to upload a single object as a set of parts. Each part is a contiguous portion of the object's data. You can upload these object parts independently and in any order. 
-- Multipart uploads are recommended for files over 100 MB and is *the only way* to upload files over 5 GB. It achieves functionality by uploading your data in parallel to boost efficiency.
-- If transmission of any part fails, you can retransmit that part without affecting other parts. After all parts of your object are uploaded, Amazon S3 assembles these parts and creates the object.
-- Possible reasons for why you would want to use Multipart upload:
-  - Multipart upload delivers the ability to begin an upload before you know the final object size.
-  - Multipart upload delivers improved throughput.
-  - Multipart upload delivers the ability to pause and resume object uploads.
-  - Multipart upload delivers quick recovery from network issues.
-- You can use an AWS SDK to upload an object in parts. Alternatively, you can perform the same action via the AWS CLI.
-- You can also parallelize downloads from S3 using **byte-range fetches**. If there's a failure during the download, the failure is localized just to the specfic byte range and not the whole object.
-
-### S3 Pre-signed URLs:
-- All S3 objects are private by default, however the object owner of a private bucket with private objects can optionally share those objects with without having to change the permissions of the bucket to be public.
-- This is done by creating a pre-signed URL. Using your own security credentials, you can grant time-limited permission to download or view your private S3 objects.
-- When you create a pre-signed URL for your S3 object, you must do the following:
-  - provide your security credentials
-  - specify a bucket
-  - specify an object key
-  - specify the HTTP method (GET to download the object)
-  - specift the expiration date and time.
-  
-- The pre-signed URLs are valid only for the specified duration and anyone who receives the pre-signed URL within that duration can then access the object.
-- The following diagram highlights how Pre-signed URLs work:
-
-![Screen Shot 2020-06-09 at 8 20 53 PM](https://user-images.githubusercontent.com/13093517/84213482-c6773300-aa8e-11ea-84a1-3c17e14197bc.png)
-
-### S3 Select:
-- S3 Select is an Amazon S3 feature that is designed to pull out only the data you need from an object, which can dramatically improve the performance and reduce the cost of applications that need to access data in S3. 
-- Most applications have to retrieve the entire object and then filter out only the required data for further analysis. S3 Select enables applications to offload the heavy lifting of filtering and accessing data inside objects to the Amazon S3 service. 
-- As an example, let’s imagine you’re a developer at a large retailer and you need to analyze the weekly sales data from a single store, but the data for all 200 stores is saved in a new GZIP-ed CSV every day. 
-  - Without S3 Select, you would need to download, decompress and process the entire CSV to get the data you needed. 
-  - With S3 Select, you can use a simple SQL expression to return only the data from the store you’re interested in, instead of retrieving the entire object. 
-- By reducing the volume of data that has to be loaded and processed by your applications, S3 Select can improve the performance of most applications that frequently access data from S3 by up to 400% because you’re dealing with significantly less data.
-- You can also use S3 Select for Glacier.
-
-### S3 REST API (Added 9/24/2020)
-- Review the article that discusses MFA delete https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
-- REST API calls use 'x-amz' as part of the header,and x-amz-mfa request header for MFA DELETE (AWS CSAPT)
-
 ## CloudFront
 
 ### CloudFront Simplified:
@@ -5531,4 +5688,3 @@ The following section includes services, features, and techniques that may appea
   - Retrieve historical configurations of one or more resources. ·     
   - Receive a notification whenever a resource is created, modified, or deleted.     
   - View relationships between resources. For example, you might want to find all resources that use a particular security group.
-
