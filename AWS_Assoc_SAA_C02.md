@@ -8,7 +8,7 @@
   - [Elastic Block Store (EBS)](#elastic-block-store-ebs)
   - [Elastic Network Interfaces (ENI) (Updated 0/29/2020)](#elastic-network-interfaces-eni-updated-0292020)
   - [Security Groups](#security-groups)
-  - [Web Application Firewall (WAF)](#web-application-firewall-waf)
+  - [Web Application Firewall (WAF) (Updated 10/02/2020)](#web-application-firewall-waf-updated-10022020)
   - [CloudWatch](#cloudwatch)
   - [CloudTrail](#cloudtrail)
   - [Elastic File System (EFS)](#elastic-file-system-efs)
@@ -30,7 +30,7 @@
   - [Simple Workflow Service (SWF) (Updated 9/28/2020)](#simple-workflow-service-swf-updated-9282020)
   - [Simple Notification Service (SNS)](#simple-notification-service-sns)
   - [Kinesis (Updated 9/27/2020)](#kinesis-updated-9272020)
-  - [Lambda](#lambda)
+  - [Lambda (Updated 10/12/2020)](#lambda-updated-10122020)
   - [API Gateway (Updated 9/28/20)](#api-gateway-updated-92820)
   - [CloudFormation](#cloudformation)
   - [ElasticBeanstalk](#elasticbeanstalk)
@@ -41,7 +41,8 @@
   - [Publisher / Subscriber (Added 9/28/2020)](#publisher--subscriber-added-9282020)
   - [Dead Letter Queue (Added 9/28/2020](#dead-letter-queue-added-9282020)
   - [FanOut Pattern](#fanout-pattern)
-  - [Miscellaneous](#miscellaneous)
+- [Miscellaneous](#miscellaneous)
+  - [Reducing Security Threats (Added 10/12/2020)](#reducing-security-threats-added-10122020)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
 
@@ -699,19 +700,22 @@ Security Groups are used to control access (SSH, HTTP, RDP, etc.) with EC2. They
 - You can increase your Security Group limit by submitting a request to AWS.
 - New security groups are "default deny" - you must add allow rules. 
 
-## Web Application Firewall (WAF)
+## Web Application Firewall (WAF) (Updated 10/02/2020)
 
 ### WAF Simplified:
-AWS WAF is a web application that lets you allow or block the HTTP(s) requests that are bound for CloudFront, API Gateway, Application Load Balancers, EC2, and other Layer 7 entrypoints into your AWS environment. AWS WAF gives you control over how traffic reaches your applications by enabling you to create security rules that block common attack patterns, such as SQL injection or cross-site scripting, and rules that filter out specific traffic patterns that you can define. WAF's default rule-set addresses issues like the OWASP Top 10 security risks and is regularly updated whenever new vulnerbilities are discovered.
+AWS WAF is a web application that lets you allow or block the HTTP(s) requests that are bound for CloudFront, API Gateway, Application Load Balancers, EC2, and other Layer 7 entrypoints into your AWS environment. AWS WAF gives you control access to content, over how traffic reaches your applications by enabling you to create security rules that block common attack patterns. Filtering rules such as SQL injection or cross-site scripting, and rules that filter out specific traffic patterns that you can define. WAF's default rule-set addresses issues like the OWASP Top 10 security risks and is regularly updated whenever new vulnerbilities are discovered.
 
 ### WAF Key Details:
-- As mentioned above, WAF operates as a Layer 7 firewall. This grants it the ability to monitor granular web-based conditions like URL query string parameters. This level of detail helps to detect both foul play and honest issues with the requests getting passed onto your AWS environment.
+- WAF operates as a Layer 7 (HTTP application) firewall. This grants it the ability to monitor granular web-based conditions like URL query string parameters. This level of detail helps to detect both foul play and honest issues with the requests getting passed onto your AWS environment.
 - With WAF, you can set conditions such as which IP addresses are allowed to make what kind of requests or access what kind of content.
 - Based off of these conditions, the corresponding endpoint will either allow the request by serving the requested content or return an HTTP 403 Forbidden status.
 - At the simplest level, AWS WAF lets you choose one of the following behaviors:
   - **Allow all requests except the ones that you specify**: This is useful when you want CloudFront or an Application Load Balancer to serve content for a public website, but you also want to block requests from attackers.
   - **Block all requests except the ones that you specify**: This is useful when you want to serve content for a restricted website whose users are readily identifiable by properties in web requests, such as the IP addresses that they use to browse to the website.
   - **Count the requests that match the properties that you specify**: When you want to allow or block requests based on new properties in web requests, you first can configure AWS WAF to count the requests that match those properties without allowing or blocking those requests. This lets you confirm that you didn't accidentally configure AWS WAF to block all the traffic to your website. When you're confident that you specified the correct properties, you can change the behavior to allow or block requests.
+- AWS Firewall Manager
+  - Centrally manages fw riles accross the AWS - ORG.
+  - For WAF rules - ALB, API GW, ...
 
 ### WAF Protection Capabilities:
 - The different request characteristics that can be used to limit access:
@@ -720,8 +724,11 @@ AWS WAF is a web application that lets you allow or block the HTTP(s) requests t
   - The values found in the request headers
   - Any strings that appear in the request (either specific strings or strings that match a regex pattern)
   - The length of the request
+  - An upper or lower size bound
+  - Missing headers, such as a user agent, or bad bots as a user agent
   - Any presence of SQL code (likely a SQL injection attempt)
   - Any presence of a script (likely a cross-site scripting attempt)
+- Rules can be combined sch as looking for sql-i on PHP files and not jpg or png files.- 
 - You can also use NACLs to block malicious IP addresses, prevent SQL injections / XSS, and block requests from specific countries. However, it is good form to practice defense in depth. 
 - Denying or blocking malicious users at the WAF level has the added advantage of protecting your AWS ecosystem at its outermost border.
 
@@ -1537,18 +1544,30 @@ Kinesys Analyitics (Updated 9/27/2020)
 - The total capacity of a Kinesis stream is the sum of data within its constituent shards.
 - You can always increase the write capacity assigned to your shard table.
 
-## Lambda
+## Lambda (Updated 10/12/2020)
 
-### Lambda Simplified:
-AWS Lambda lets you run code without provisioning or managing servers. You pay only for the compute time you consume. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. You upload your code and Lambda takes care of everything required to run and scale your code with high availability. You can set up your code to be automatically triggered from other AWS services or be called directly from any web or mobile app.
+
+### Lambda Simplified (Updated 10/12/2020)
+AWS Lambda lets you run code without provisioning or managing servers. It is an event driven service. You pay only for the compute time you consume. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. You upload your code and Lambda takes care of everything required to run and scale your code with high availability. You can set up your code to be automatically triggered from other AWS services or be called directly from any web or mobile app.  Scales out, not up. 
+
+### Example Pattern (Added 10/12/2020)
+- An HTTP request comes into API GW, which proxies to Lambda, which runs code, and returns information back to GW, and then the user.
+- Each execution is separate from one anohter.  
+- Not the same as auto scaling (It just scales...)
+- Compare to Traditional architecture.
+  - Request comes into a load balancer, then a web server, which talks to the DB, does some action, and returns data.
+  - Instead. API GW to Lambda which can write Dynamo DB and other activities.
+- Triggers:
+  - YOu can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
+  - 
 
 ### Lambda Key Details:
 - Lambda is a compute service where you upload your code as a function and AWS provisions the necessary details underneath the function so that the function executes successfully. 
 - AWS Lambda is the ultimate abstraction layer. You only worry about code, AWS does everything else.
 - Lambda supports Go, Python, C#, PowerShell, Node.js, and Java
 - Each Lambda function maps to one request. Lambda scales horizontally automatically.
-- Lambda is priced on the number of requests and the first one million are free. Each million afterwards is $0.20.
-- Lambda is also priced on the runtime of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates.
+- Lambda is priced on the number of requests. First one million are free. Each million afterwards is $0.20 per million.  
+- Lambda is also priced on the runtime (duration) of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates.
 - Lambda works globally.
 - Lambda functions can trigger other Lambda functions.
 - You can use Lambda as an event-driven service that executes based on changes in your AWS ecosystem.
@@ -1559,7 +1578,6 @@ AWS Lambda lets you run code without provisioning or managing servers. You pay o
 - When you create or update Lambda functions that use environment variables, AWS Lambda encrypts them using the AWS Key Management Service. When your Lambda function is invoked, those values are decrypted and made available to the Lambda code.
 - The first time you create or update Lambda functions that use environment variables in a region, a default service key is created for you automatically within AWS KMS. This key is used to encrypt environment variables. However, if you wish to use encryption helpers and use KMS to encrypt environment variables after your Lambda function is created, you must create your own AWS KMS key and choose it instead of the default key. 
 - To enable your Lambda function to access resources inside a private VPC, you must provide additional VPC-specific configuration information that includes VPC subnet IDs and security group IDs. AWS Lambda uses this information to set up elastic network interfaces (ENIs) that enable your function to connect securely to other resources within a private VPC.
-
 - AWS X-Ray allows you to debug your Lambda function in case of unexpected behavior.
 
 
@@ -1709,11 +1727,19 @@ AWS Organizations is an account management service that enables you to consolida
 - S3 Events: S3 can send a notification on a bucket event such as a new PNG or MOV file. These can be received by SQS queue, SNS topic, Lambda. S3 events are Object Created, Object Removed, Object Restore from Glacier, and Replication related failures. 
 
 ## FanOut Pattern
-- A system/solution that need to send the same message to two sides, say the fullfillment warehouse and the data warehouse directly. A better way is to dend a message to a SNS topic, and then have fullfillment/data-warehouse subscribe.
+- A system/solution that need to send the same message to two sides, say the fullfillment warehouse and the data warehouse directly. A better way is to dend a message to a SNS topic, and then have fullfillment/data-warehouse subscribe. 
+- 
+# Miscellaneous
 
-## Miscellaneous
 
 The following section includes services, features, and techniques that may appear on the exam. They are also extremely useful to know as an engineer using AWS. If the following items do appear on the exam, they will not be tested in detail. You'll just have to know what the meaning is behind the name. It is a great idea to learn each item in depth for your career's benefit, but it is not necessary for the exam.
+
+## Reducing Security Threats (Added 10/12/2020)
+We inheriently trust that clients are well behaved and using services as intended. "Bad Actors" can fake a browsers user agent, or otherwise perform recon. Some will attempt DDOS. Protection mechanisms include Network ACL's to disallow inbound evil IP's, a host based firewall on EC2. For Linux - uwf, iptables. An application load balancer introduces a problem area though - the host won't see hte originating IP, so a host FW is ineffective because communication terminates at the ALB. Can allow the ALB's Sec Group access (only) to the EC2.  Won't completely block traffic through - still ened a NACL. How about a Net Load Balancer (NLB)? With a NLB, the origin IP is visible to the EC2 instance, so the FW would be effective. 
+
+Enter WAF - it will montiro web access requests, and can block/allow. WAF has prefoncifugred excetipns for common attacks / exploits (SQL I, XSS). This works because WAF operations at the web applicaiton layer. Public web apps prefer WAF.
+
+Enter Cloud Front - Clients connection term at the Cloud Front distribution - so the client IP isn't visible to the EC2 FW. Can use geoblocking to stop traffic from a country all together. 
 
 ### What is the Amazon Cognito? (Legacy text)
 - Before discussing Amazon Cognito, it is first important to understand what Web Identity Federation is. Web Identity Federation lets you give your users access to AWS resources after they have successfully authenticated into a web-based identity provider such as Facebook, Google, Amazon, etc. Following a successful login into these services, the user is provided an auth code from the identity provider which can be used to gain temporary AWS credentials.
@@ -1754,19 +1780,60 @@ The following section includes services, features, and techniques that may appea
 - Macie continuously monitors data access activity for anomalies, and delivers alerts when it detects risk of unauthorized access or inadvertent data leaks. 
 - Macie has ability to detect global access permissions inadvertently being set on sensitive data, detect uploading of API keys inside source code, and verify sensitive customer data is being stored and accessed in a manner that meets their compliance standards.
 
-### What is AWS KMS?
-- AWS Key Management Service (AWS KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. The master keys that you create in AWS KMS are protected by FIPS 140-2 validated cryptographic modules. 
+### What is AWS KMS? (Updated 10/12/2020)
+- AWS Key Management Service (AWS KMS) is a regional managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. KMS manages Customer Managed Keys - CMKs. CMK's can encrypt/decrypt data up to 4KB in size (ideal for a Symetric Key).  The master keys that you create in AWS KMS are protected by FIPS 140-2 validated cryptographic modules. 
+- Three types of CMK's
+  - Cusomter Managed - Customers can create and are in charge of life cycle
+  - AWS Managed CMK - Free, created automatically when an encrypted resource is created. Can track use, wif life cycle managed by KMS. 
+  - AWS Owned CMK  an AWS owns and manages, used by an AWS serbice. we can't view, use, audit.
 - AWS KMS is integrated with most other AWS services that encrypt your data with encryption keys that you manage. AWS KMS is also integrated with AWS CloudTrail to provide encryption key usage logs to help meet your auditing, regulatory and compliance needs.
 - You can configure your application to use the KMS API to encrypt all data before saving it to disk.
+- Audit Trail is delivered via Cloud Trail to S3. 
+- Multi tennanct FIPS 140 L2, while L3 is supported by Cloud HSM. 
+- Symetcic CMD's are created by default by KMS. They are AES 256. Must call KMS CPI to use these. Primarily used to encrypt, dectypt data.
+- Asymetric keys are pub/priv key based. (TLS certificates). Based on ECC. Private key never leaves AWS in clear text. AWS services not integrated with KMS cannot use these. 
+- You *can* break your environment. You can grant specific actions for an app to a key in KMS. 
+- Cmd Line (did we mention keys and KMS are regional):
+  - `aws kms create key --description "something useful"` : will return the KeyId value.
+  - `aws kms create-alias --target-key-id FROM_ABOVE --alias-name "alias/something_useeful"`
+  - `aws ksm list keys`
+  - `aws kms encrypt --key-id 'alias/something_useful' --plaintext file://a_file.txt --output text --query CiperTextBlod | base64 --decode > file://a_file.txt.encrypted` :: writes_a base64_blob
+  - `aws kms decrypt --ciphertext-blob fileb://a_file.txt.encrypted --output text --query Plaintext`
+  - The CMK is embedded in the data. Note that the file that is querried is binary. 
+- To encrypt data sizes > 4K, we ask for a data encryption key.  Once you get a DEK, you can use it to bulk encrypt. Envelope Encryption. 
+  - `aws kms generate-data-key --keyid "alias/something_useful" --key-spec AES_256` :: returns a three component JSON output. Store the ciphertextblob as well.  Need to be able to call KMS to get at the cipher text blob. 
+- You pay for each API call
 
-### What is AWS Secrets Manager?
-- AWS Secrets Manager is an AWS service that makes it easier for you to manage secrets.
+### What is Cloud HSM (Added 11/12/2020)
+- Dedicated Sec Module. KMS is L2 compliant, meaning it can show evidence of tampering. L3 is much higher.
+- Customers can't access the HSM directly. Single tennant, runs ina n AZ cluster.  Uses industry standard API's. There are no AWS API's - instead, industry standard are used.
+- Cloud HSM operates into its own VPC. It can project ENI's into other VPC's. 
+- Not high available by default - need to provision one HSM per subnet in two AZ's.
+- Solves for Strict regulatory compoiance. 
+
+### What is Systems Manager Parameter Store (10/12/2020)
+- Secure management of sedrets - caching, distributing them. Part of SSM.  If you have an EC2 fleet that needs parameters like connection strings and passwords, SSM PS is for you.
+- Examples: Passwords, DB connect strings, license code, API keys, user accounts, ... in hierarchies ... with version control.
+- Parameters can be plain text or encrypted with a KMS key.
+- Can set a TTL so that a parameter, like a password, will be updated over time. 
+- Hierarchies - idea is that you have "prod" and "non-prod" with the same path of a leaf node so it is consistant. Can control access to brahcnes in the tree. Limit is 15 levels deep. Access is path based = /dev/db/ or /prod/app.
+- Param Store can be referenced directly by Cloud Formation.  Can get the latest AMI ID and pull it in as a parameter. 
+- Can create Lambda functions that access SSM PS as well. 
+  - In IAM, create a policy for a role - something like "lambda_parameter_store_policy".  Attach the role to a policy, which would be lambda. Role will need a good name - lambda_parameter_store_role.
+  - Create a function inside of lambda - useful name - parameter_store_access, then the language like Python and the role. 
+  - Update the boiler plate code. Need to setup the ENVironment variables - like ENV for QA, Prod; and APP_CONFIG_PATH. The 'env' is used as part of the path for parameter store.
+  - In Services | KMS, create a new symetric key.  Need a name and a Key Admin user. Key Admin is different than the acceing user - that is the role we created above. The policy as access, encrypt, decrypt, ...  
+  - In SSM, create parameter in a hierarchy. Like /prod/org/db/server.  Can use 'standard' for small values. Values are tring, string list, or secure string. The path is the KMS alias.  String list are comma separated. Store a password like /prod/org/servpass. Net is that KMS keys need to be associated with parameters. 
+  - To trigger the Lambda, need a test event.  the console will give a variety of output. 
+
+### What is AWS Secrets Manager? (Updated 10/12/2020)
+- AWS Secrets Manager is an AWS service that makes it easier for you to manage secrets. You get 10K secrets at no charge. 
 - Secrets can be database credentials, passwords, third-party API keys, and even arbitrary text. You can store and control access to these secrets centrally by using the Secrets Manager console, the Secrets Manager command line interface (CLI), or the Secrets Manager API and SDKs.
 - In the past, when you created a custom application that retrieves information from a database, you typically had to embed the credentials (the secret) for accessing the database directly in the application. When it came time to rotate the credentials, you had to do much more than just create new credentials. You had to invest time to update the application to use the new credentials. Then you had to distribute the updated application. If you had multiple applications that shared credentials and you missed updating one of them, the application would break. 
 - Because of this risk, many customers have chosen not to regularly rotate their credentials, which effectively substitutes one risk for another (functionality vs. security).
 - Secrets Manager enables you to replace hard-coded credentials in your code (including passwords), with an API call to Secrets Manager to retrieve the secret programmatically.
 - This helps ensure that the secret can't be compromised by someone examining your code, because the secret simply isn't there. 
-- Also, you can configure Secrets Manager to automatically rotate the secret for you according to a schedule that you specify. This enables you to replace long-term secrets with short-term ones, which helps to significantly reduce the risk of compromise.
+- Also, you can configure Secrets Manager to automatically rotate the secret for you according to a schedule that you specify with a highly randomized value. This enables you to replace long-term secrets with short-term ones, which helps to significantly reduce the risk of compromise.
 
 ### What is AWS STS?
 - AWS Security Token Service (AWS STS) is the service that you can use to create and provide trusted users with temporary security credentials that can control access to your AWS resources. 
@@ -1845,6 +1912,13 @@ The following section includes services, features, and techniques that may appea
 - You can then create an Elastic IP address from your address pool and use it with your AWS resources, such as EC2 instances, NAT gateways, and Network Load Balancers. This is also called "Bring Your Own IP Addresses (BYOIP)".
 - To ensure that only you can bring your address range to your AWS account, you must authorize Amazon to advertise the address range and provide proof that you own the address range.
 - The benefit of ROA is that you can migrate pre-existing applications to AWS without requiring your partners and customers to change their IP address whitelists.  
+
+### What is AWS Shield (Added 10/12/2020)
+- Standard: Included with AWS WAF. Protects against common OSI L3/L4 attacks, use as a UDP flood or SYN floods with half open connections. 
+- Can also respond to reflection attacks. 
+- In Feb 2020, AWS was hit with a 2.3 TBps DDOS for 3 days - but AWS stayed up.
+- Shield Advanced - $3k/mo per org. Users get 24/7 access to the DDOS response team and DDOS cost protection. 
+- Provides enhanced protection for EC2, ELB, Cloud Front, Global Accelerator. 
 
 ### What is Amazon MQ?
 - Amazon MQ is a managed message broker service that makes it easy to set up and operate message brokers in the cloud.
