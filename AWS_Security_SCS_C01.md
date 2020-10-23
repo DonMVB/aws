@@ -1,4 +1,4 @@
-- [Basics - Terms and Foundations](#basics---terms-and-foundations)
+\- [Basics - Terms and Foundations](#basics---terms-and-foundations)
   - [Security In AWS](#security-in-aws)
 - [IAM (Recap from SAA C02 to Security) (Added 9/24/2020)](#iam-recap-from-saa-c02-to-security-added-9242020)
   - [IAM UI Review Notes](#iam-ui-review-notes)
@@ -37,6 +37,53 @@
 - [AWS Organizations and Service Control Policies (added 10/1/2020)](#aws-organizations-and-service-control-policies-added-1012020)
 - [Amazon Key Management Service (KMS) (Added 10/1/2020)](#amazon-key-management-service-kms-added-1012020)
   - [Lab for KMS](#lab-for-kms)
+  - [Setup customer managed key](#setup-customer-managed-key)
+  - [KMS Key Rotation Options (10/15/2020)](#kms-key-rotation-options-10152020)
+  - [Customer Managed Key Pairs on Mac (Added 10/14/2020)](#customer-managed-key-pairs-on-mac-added-10142020)
+  - [KMS and EBS (Added 10/16/2020)](#kms-and-ebs-added-10162020)
+  - [KMS Grants](#kms-grants)
+  - [Key Policy Conditions by Service](#key-policy-conditions-by-service)
+  - [Cross Account Access for Customer Master Keys](#cross-account-access-for-customer-master-keys)
+  - [EC2 and Key Pairs (Added 10/16/2020)](#ec2-and-key-pairs-added-10162020)
+- [MarketPlace Security Products](#marketplace-security-products)
+- [AWS WAF and AWS Shield (Added 10/16/2020)](#aws-waf-and-aws-shield-added-10162020)
+- [EC2 Dedicated Instancs vs Dedicated Hosts  (Added 10/16/2020)](#ec2-dedicated-instancs-vs-dedicated-hosts-added-10162020)
+- [Hypervisor Security and resource isolation (Added 10/16/2020)](#hypervisor-security-and-resource-isolation-added-10162020)
+- [Microservices (Added 10/17/2020)](#microservices-added-10172020)
+- [Containers (Added 10/17/2020)](#containers-added-10172020)
+  - [Best Practices for Containers (Added 10/17/2020)](#best-practices-for-containers-added-10172020)
+  - [ECS Sample Application in the Console](#ecs-sample-application-in-the-console)
+- [Creating a Custom VPC (Added 10/17/2020)](#creating-a-custom-vpc-added-10172020)
+- [NAT Instances and Gateways (Added 10/17/2020)](#nat-instances-and-gateways-added-10172020)
+- [NACL vs. Sec Groups (added 10/17/2020)](#nacl-vs-sec-groups-added-10172020)
+- [Load Balancers and Custom VPC's (Added 10/19/2020)](#load-balancers-and-custom-vpcs-added-10192020)
+- [Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)](#elastic-load-balancers-albs-and-tls--ssl-termination-added-10192020)
+- [VPC Flow Logs (Added 10/19/2020)](#vpc-flow-logs-added-10192020)
+- [NAT vs. Bastion Servers (Jump Boxes) (Added 10/19/2020)](#nat-vs-bastion-servers-jump-boxes-added-10192020)
+- [Systems Manager Session Manager (Added 10/19/2020)](#systems-manager-session-manager-added-10192020)
+- [Systems Manager Parameter Store (Added 10/23/2020)](#systems-manager-parameter-store-added-10232020)
+- [System Manager Run Command (Added 10/23/2020)](#system-manager-run-command-added-10232020)
+- [VPC End Points (Added 10/19/2020)](#vpc-end-points-added-10192020)
+  - [VPC Clean Ups (Added 10/202020)](#vpc-clean-ups-added-10202020)
+- [AWS Cloud HSM (Added 10/19/2020)](#aws-cloud-hsm-added-10192020)
+  - [Cloud HSM User Types (Added 10/19/2020)](#cloud-hsm-user-types-added-10192020)
+  - [Cloud HSM Comamnds of Note (Added 10/19/2020)](#cloud-hsm-comamnds-of-note-added-10192020)
+  - [Clean up (Lab Tear Down) (Added 10/20/2020)](#clean-up-lab-tear-down-added-10202020)
+- [Amazon DNS and Custom VPC's (Added 10/20/2020)](#amazon-dns-and-custom-vpcs-added-10202020)
+- [Transit Gateway (Added 10/20/2020)](#transit-gateway-added-10202020)
+  - [DDOS and Real World (Added 10/20/2020)](#ddos-and-real-world-added-10202020)
+- [Incident Response Scenarios (Added 10/20/2020)](#incident-response-scenarios-added-10202020)
+  - [EC2 Hacked - What to do? (Added 10/20/2020)](#ec2-hacked---what-to-do-added-10202020)
+  - [Leaked Credentials in Source Code Site (Added 10/20/2020)](#leaked-credentials-in-source-code-site-added-10202020)
+  - [Reading Cloud Trail Logs (Added 10/20/2020)](#reading-cloud-trail-logs-added-10202020)
+- [Penetration Testing in AWS Added 10/20/2020)](#penetration-testing-in-aws-added-10202020)
+- [Certificate Manager (Added 10/20/2020)](#certificate-manager-added-10202020)
+- [Securing Load Balancers with PFS (Added 10/20/2020)](#securing-load-balancers-with-pfs-added-10202020)
+- [API Gateway (Added 10/23/2020)](#api-gateway-added-10232020)
+- [Compliance Frameworks (Added 10/23/2020)](#compliance-frameworks-added-10232020)
+- [AWS Athena (Added 10/23/2020)](#aws-athena-added-10232020)
+- [AWS Macie (Added 10/23/2020)](#aws-macie-added-10232020)
+- [GuardDuty (Added 10/23/2020)](#guardduty-added-10232020)
 
 This study guide paralles the A Cloud Guru Q3 2020 AWS Security course.
 # Basics - Terms and Foundations
@@ -358,15 +405,24 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
   - Ex. Effect: Deny, { Action"cloudtrail:StopLogging", "Resource":"*" } will prevent someone from turning off logging (JSON isn't perfect ...)
   
   # Amazon Key Management Service (KMS) (Added 10/1/2020)
-  - Multi tennant Managed service that makes it easy to create/control encryption keys. To separate, Uses HSM's.
-  - Users can protect thier data by being issued keys. 
-  - KMS is region based!
-  - Group: AdministratorAccessPermission
+  - NOTE: KMS is huge for the exam: Must know inside / outside / all around.
+  - Multi tennant Managed service that makes it easy to create/control encryption keys. To separate, Uses HSM's.  Integrated with many services.
+  - Users can protect thier data by being issued keys.  KMS is region based!  Group: AdministratorAccessPermission. A backing key is a prior use key, kept to decrypt older data.
+  - Customer Master Key (CMK)
+    - AWS Customer Master Key and the Customer managed customer master key. 
+    - Attributes - Alias, create date, description, key state, key material. 
+    - Key material can be AWS or customer provided.
+    - You can *never* export a KSM key from KMS. 
+    - Each service has its own managed key. These are mapped on a per region basis. 
+  - Imported Keys:
+    - Customers can provide key material to build customer managed keys. Can import a symmetric 256 bit key and use ot. 
+    - Imporiting your own key material - might do this to affirm entroyp (randomness); to delete without the 7-30d wait (imediate). Also to be resiliant to AWS failure by escrowing keys outside of AWS. 
+    - Avail / Durability is different. No automatic rotation with customer managed keys. 
   - S3:
     - We can see encryption in use on KMS. Won't work with anonymous access.
     - From within the AWS console, auth'd users can open files b/c users have access to the key. 
     - Users can also download.
-  - IAM - how can you make access more secure?
+  - IAM: How can you make access more secure?
     - Can grant access to keys, like we can grant admin access to a given key. 
     - Can grant "key user" access. 
     - Changing a group (like full access to SystemAdministrator) assigns a subset of access. For KMS, there are common usage capabilities. 
@@ -375,7 +431,7 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
     - Can create a cloud trail + alert + SNS notification to see these though. 
     - Once a key is pending deletion, you will get errors upon any file access attempt. 
     - Root User can cancel key deletion, which will leave the key as disabled. Must specifically enable. 
-  - RNew EC2 instance
+  - New EC2 instance
     - Can enable EBS volume encryption at the "Add Storage" step. You see the name in select dropdown, adn then the ID in the EC2 window. 
   - Encrypted Key Materials
     - On an EC2 Linux AMI< you can perform OpenSSL actions to setup key material.  Can be done on a Mac and on Windows, but troubleshooting can be a pain.
@@ -407,3 +463,377 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
 - For C's account - review IAM users area. If you attmept to add yourself as an adimn, you should get an error message at the top of page. 
 - Net effect - User C can't mod the key or object.
 - How about trying to change...
+
+## Setup customer managed key
+- Create alias, description, chose material option.
+- Defined key administative permission - who has what access and manage the key
+- Define key usage permissions - IAM user/role that can use, and how they can use, the key. 
+
+## KMS Key Rotation Options (10/15/2020)
+- Avoid reusing keys, instead rorating them on a regular basis. Regulatory may push a rotation cycle. 
+- Methods vary based on the type of key in use - AWS Managed vs. customer imported.
+- AWS Managed - will rotate every 3 years, and cannot change.  A new backing key is created, marked as 'active' for new reqeusts, while the old key is availabe for previously encryped file access. 
+- Customer Managed - once per year, automatic but disabled by default. Can rotate on demand. Old keys can be deleted - which can be very dangerous. in KMS, go to customer managed keys. Create one, assign an admin, define key usage permissions. Rotation is a check box. 
+- Customer Managed w/ imported key material - you must rotate these manually. 
+- Process - import / buidl new, update applications, the new one will be the current key - prior is around to decrypt older data.  Update the aliases. 
+
+## Customer Managed Key Pairs on Mac (Added 10/14/2020)
+- EC2 has a Key Pairs link. You import the public key only. It gets a name, and you import the public key. Make 100% sure you know where the private key is.
+- Linux Command: ssh-keygen -t rsa -b 2048 -> will generate two output files. 
+- Then change permissions for linux, Mac - windows doesn't care.
+- Windows Command: putty keygen w/ mouse movement for Randomness. Need to get the 64 bit installer.
+
+## KMS and EBS (Added 10/16/2020)
+- Services | Key Mgmt Services | Create Key. 
+- EBS needs symetric keys. Select a solid name and add a tag.
+- KMS Keys must have unique names for your account.
+- Assign the key admin the approp usage permissions. 
+- Then a named KMS key will be available in the EC2 Launch Wiz so you can select the named key on  Storage, step 3. Note 
+- Note that you *cannot* copy a KMS key from one region to another.that there is a default KMS key for EBS named "aws/ebs". You can also add volumes and select your KMS key. To solve WRT EBS, stop the instance, copy the volume to a new region, and then encrypt in that region. 
+- On a live EC2 instance:
+  - You can stop an EC2 instance, then go into the root volume - still can't change encryption on a running system. 
+  - To solve, you stop the instance and create a snapshot. (again - name it well). The snap shows up in the snap list. When you "copy", you can a) change the region and/or b) check the "Encrypt this snapshot" box, encrypt the volume, and then create a new VM based on the encrypted volume. 
+
+## KMS Grants
+- Alternative access control to the Key Policy. Key Policies are for relatively static definitions. 
+- Programatically delegate use of CMK's to other principals - another user. Can only "grant" on a temp basis.
+- Three commands
+  - `aws kms create-key` - will give you an ARN.
+  - `asc cli create-grant`
+  - `aws cli list-grants`
+  - `aws cli revoke-grant`
+  - etc.
+
+## Key Policy Conditions by Service
+- Policy Conditions must be TRUE for the policy to take effect. May want to allow / deny based on reuqesting service. 
+- KMS has a load of predefined condition keys. 
+- Most Important: KMSViaService. Allow user to access when it comes from a specific service that *originated* the request.
+- Effect the principle or ARN, resource is all, and the kms:ViaService option.
+
+## Cross Account Access for Customer Master Keys
+- Access is controlled using Key policy, IAM policy.  You can enable another account access, but you must enable cross account access. Two steps.
+  - Acct A has a Customer Master Key. Acct B needs access to use the CMK (second uses CMK in first)
+  - Change the key policy in A.  Select a key, on the details page there is an "add other accounts". Need the number.
+  - Add IAM policy for users/roles in B. In the JSON - we give encrypt/decrypt/reencrypt to the resource by ARN in account A - so B needs the Acct ID and the key ID value (like a GUID). 
+
+## EC2 and Key Pairs (Added 10/16/2020)
+- When creating a Linux EC2 Instance you must create or specify a SSH key pair. They apper in the .ssh directory, in the authorized_keys file (type, key, name). Can "curl http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key" for the default SSH pub key name and value. 
+- From there, drop your keys onto the bucket. Use "ssh-keygen -t rsa", whcih will create a key and a key.pub. Add the key to the autorized_keys list - 'cat kepair.pub >> ../authorized_keys' (note that you do NOT use s single > sign!!!)  Note that you can attach and replace a role on the EC2 instance. Like adding access to S3 - and then use "aws s3 ls" to see buckets, and then copy new / updated keys to/from the bucket with 'aws s3 cp  filenames s3://path/direc' and the files will then be visible in the S3 area of the console. 
+- You can delete a key pair from the AWS console. Must understand what happens if you breaka key pair.  If you look at the "curl http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key" URL, it shows the key is present on the machine (but gone from the AWS console). Key pair name will be visible in EC2 machine details.  You can "clone" a running EC2 instance (Actions menu). In the EC2 create process, you can create a new key pair. Note that you will need to download the private key along the way. OS's keep the public key side of a key pair in tact as you clone them, or manipulate the key file. You just must have the private key. (this can be a real problem if someone keeps the Priv K, and you don't know this...)
+
+# MarketPlace Security Products
+- There are sec prod's in the AWS marketplace. Look for products that folow the CIS Security Benchmarks. 
+- Variety of solutions are offered.  Be aware of different revenue models and licensing.
+
+# AWS WAF and AWS Shield (Added 10/16/2020)
+- WAF - Web App FW for HTTP/S forwarded to Cloud Front or an App Load Balancer. Controls access to content. URL decision making engine - disects query string parameters, and decides if it is allowed or not. (source=someging&a=b&evil=true_4 ...)
+- On a block, WAF returns a 403 status code.
+- AWS WAF integrates directly with Cloud Front or Application Load Balancers - nothing else in the AWS services world. 
+- ALB's integrate w/ WAF at the regional level and Cloud Front at the global level.  Can actually protect sites not hosted in AWS (...) b/c CF supports custom origins outside of AWS.
+- Three behaviors
+  - Allow All except black listed = Black list
+  - Block all except granted = White List
+  - Count reuqests that match (analsys capability)
+- Protection: IP, country, request header values, strings in requests, length of request, Presance of SQL code / query (looks for maliciousness), presance of a script
+- Can create a WAF for a Cloud Formation Template (there is a small amoutn of cost if you use the template - only works in some regions)
+- Cloud Formation Template (Mgmt Tools | Cloud Formation )
+  - CF scripts infrastructure for you - provisions resources for you. These are called Stack Templates. "common-attacks.json"
+  - You name the stack when you use it, an IAM role, parameters for advanced issues as well. Takes w ehile to setup (15 min on everage).  After your review and test you can disable CF Distrib. 
+  - Services - WAF, WAF ACL's (Change filter to global), Cloud Front definition, App Load Balancer, WAF common attack pattern protection, Manual IP block set (/32, /24, /16 /8), Origin S3 bucket (must make that public - web content)
+  - Need to add an association between the CF Distro w/ the WAF. To Test: once done, add your client IP, block it in the manual IP block set, and then you won't have access to content. 
+- Shield
+  - Should look over (Shield)[https://aws.amazon.com/shield/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc]
+  - $3k for enterprise version - small biz likely just to use basic.
+
+# EC2 Dedicated Instancs vs Dedicated Hosts  (Added 10/16/2020)
+- Dedicated HW may share HW w/ other instances from the same AWS Acct which are not 'dedicated'.
+. - Both types have dedicated HW (DI or DH). DI - share hardware w/ instances from your acct. DH give more visbility.
+- Dedicated Hosts
+  - Phys server dedicated to YOU. Provides more visibility / control of how instance are deployed to same server. 
+  - Support using HW bound licenses 
+  - Billed for the host
+- Provisioning Notes
+  - To provision: EC2 | Dedicated Hosts (left side). Select Instance type, and continue - doesn't take that long.
+  - Can also provision a dedicated Instance inthe EC2 wiz as well. 
+
+# Hypervisor Security and resource isolation (Added 10/16/2020)
+- HyperVisor is a VM Monitor - Hosts and Guests. Idea is resource is shared to virt hosts.
+- AWS Hypervisors are a mixture of Xen and Nitro. AWS created thier own Hypervisor w/ Nitro. All mograting there.
+- HVM = Hardware VM.  (today, this is the preference). Windows EC2 can only be HVM.
+- PV = lighter, Paravirtualization. 
+- Guest has no elevated access to CPU - Host OS (Xen, Nigro) runs at Ring 0, for PV, EC2 run at Ring 1; applications operate at Ring 3.
+- Isolation - there is a FW at the hypervisor layer which allows us to create Security Groups. Virtual interface sits on top of the Sec Grp. 
+- Very few have access to Hypervisor; MFA is required. 
+- Guest access - these OS's are controlled by the customer, we connect w/ SSH key pairs.
+- Mem Scrubbing (disk and ram), EBS resets access when memory (RAM and Disk) is scrubbed. Not returned to pool until complete. 
+
+# Microservices (Added 10/17/2020)
+- Historically, applications were monolithic such that a change would require a large redeploy. Microservices solve that because they are small, specialized, focused, independent services that communicate over a well defined API. Modern applications are more likely to consist of small services running in a container (Docker). 
+- Example: Cart, Recomendation engine, comment acceptance and posting, shipping, CC charge, user email messaging, shipping notification, ...
+- Separating out services supports a much easier upgrade and scalability configuration.
+
+# Containers (Added 10/17/2020)
+- More like a virtual operating environment, with libraries, system tools/code, and language specific run time. Basically enough to run a micro service. Most often a Docker image. Docker images are run by the Docker engine.
+- AWS has Elastic Container Service (ECS) and Kubernetes Service (EKS). Both can be deployed on EC2 instances. ECS is deeply integrated with other AWS services, wehreas EKS is Kubernetes conformant (benefits from FOSS community.)
+- AWS Fargate is the preferred / recommended option. Fargate is 'serverless' and fully AWS managed (no need for a host OS)
+
+## Best Practices for Containers (Added 10/17/2020)
+- Avoid storing secrets on the container / code. Use AWS Secrets Manager instead. "Less is More".
+- Use IAM roles instead of hard codeing credentials. 
+- Don't run as the root account - create a service account. 
+- Rule of thumb is to run a single service per container to minimize the container specific attack surface. 
+- Trusted container sources only! Develop in house or use a trusted source. 
+- AWS provides Image Scanning for containers in the Container Registry. Reports on identifiable CVE's. 
+- Use an ECS endpoint interface to send traffic over the AWS private internet.
+- If you need to use the public Internet, ensure that TLS is setup. This begs the question - where to store the certificate and the private key. Avoid dropping it in the Docker image, because thats a mgmt overhead. Limit of 4K in secrets manager / parameter store. Best is to AWS Certificate Manager (ACM). ACM is a single interface.  Read this (blog post)[https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-part-2-using-aws-certificate-manager-private-certificate-authority/].
+
+## ECS Sample Application in the Console
+- Console | Containers | Elastic Container Service. There is a get started button with a sample app provided (wizard, takes about 10 minutes). Creates a VPV, public IP, task definition for the Fargate cluster, no auto scaling, cluster, log group, uses a CloudFormation stack, two subnets, and a security group.  When done reviewing you can "Delete cluster."
+-  To see the sample in action, get the public IP from the Tasks tab and hit the site.
+
+# Creating a Custom VPC (Added 10/17/2020)
+- Note the address range in the default VPC.
+- Create:
+  - VPC - Name, IP range, and don't click "dedicated".
+    - Route Table will be created, but it won't be named.
+    - A Network ACL is created, but it won't be named. 
+    - A single security group is created as well, and it won't be named.
+  - Subnets are next.
+    - Name - Ideally you will have a naming convention = "Prv-10-0-1-us-east-1" might be a good one. Consider creating them on /24 boundaries for labs. 
+    - VPC - Select the VPC it belongs to
+    - AZ - which AZ will serve the subnet. Subnets cannot span AZs.
+    - NOTE: in a subnet, you cannot use the first four ( 0, 1 for VPC router, 2 for DNS, 3 is reserved) and the last one (255) IP address.
+  - Internet Gateway: Simple to create, you get one per VPC. Must separately attach a IGW to a VPC. The CLI command is `aws ec2 attach-internet-gateway --vpc-id "vpc-ID" --internet-gateway-id "igw-ID" --region us-east-1`
+  - Attach the IGW to the route table: 
+  - Create a specific route table. Avoid using the 'default'. If you don't associate subnets to a route table, they are automatically associated with the 'main' route table. Create a route table w/ a good name and attach it to your VPC.
+  - Create a route out to the Internet. Edit the route table, add a route to 0.0.0.0. Select the target (there are several), and chose the IGW created above. Therefore any subnet that is assocaited w/ this one will have Internet Access. Select the subnet you intended to be 'public' to be associated w/ this route table. 
+  - Enable Internet accessable subnet to get an auto-assigned public IP (subnets area Action). 
+  - Test - setup an EC2 instance in priv and public subnets. 
+
+
+# NAT Instances and Gateways (Added 10/17/2020)
+- There are two types of NAT. Older are instances, newer are NAT GW's.
+- Instances are an EC2 instance with updates to handle source rotuing - must disable the source / dest check.
+- Gateways are created from the VPC.
+- Creating a NAT GW.  
+  - Select the Public Subnet. 
+  - Create a new Elastic IP (there is a small charge for these)
+  - Wait to edit the route table - it takes 10-15 minutes for a NAT GW to complete provisioning.
+- After created, edit the route table.
+  - In the route table, the 0.0.0.0/0 entry needs to point to the NatGW as the Target. 
+- One key difference - a NAT Instance can be a Bastion server between the pub and priv subnets.
+
+# NACL vs. Sec Groups (added 10/17/2020)
+- NACLs have rule numbers for each rule which orders the rules. NACL's are first match out, lowest first.  Each subnet can only have one NACL, NACL's can have one or more subnets. 
+- Emperically, the NACL controls inbound access to your VPC once it is associated with a subnet. Note that you need inbound access from, say, your IP to an EC2 server and response traffic via Ephemoral ports back outbound. 
+- The default NACL allows inbound/outbound by default. Not so with a custom (or private) - deny only at create time.
+- Rule numbers define the order, smaller integers to larger. 
+- NACL's have inbound and outbound rules, each can control traffic. They are stateless, so if you want response traffic you need to permit ephemoral ports outbound for responses. This means you have to add 1024-65535 as an outbound in the ;output; rule in order to get response traffic back out through the NACL. This opens up response from any inbound permitted traffic. 
+- One way to test - drop an inbound deny for a given port from your IP at a lower rule number than the 'allow' rule.
+
+# Load Balancers and Custom VPC's (Added 10/19/2020)
+- Three types - Application for HTTP/HTTPS and Network for TCP / UDP traffic. 
+- Configure the load balancer through the wizard. We setup the LB for the VPC, and you must have two subnets into two public subnets for effecitveness. You get one subnet per AZ. 
+
+# Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)
+- You can terminate the TLS/sSL session at the LB or the EC2 Host. If you term at the LB, data is forwarded to the EC2 host in clear text.  Effectively, the decryption overhead and TLS certificate are on the LB itself, with the effect that the EC2 instances aren't doing crytographic processing. Be aware that if you use the ALB as the Termination point to the EC2 system is not encrypted. 
+- If you have a reason or some requirement to have encryption End to End (client browser to WebServer) then you need to use the Network Load Balancer w/ the TCP protocol on port 443 / 8443 / etc. The Classic LB is still available, but not recommeended. 
+
+# VPC Flow Logs (Added 10/19/2020)
+- Flow tuples between network interfaces to/from ENI's in the VPC. Can be created at three levels, which define how much data is collected. 1) VPC 2) subnet 3) interface. 
+- To create: VPC | actions | create flow log. Can define a filter - the type of traffic (All, accept, reject). There is a role thats required - something like "FlowLogRole" works.  Logs go to a Destination Log Group, which are defined under Cloud Watch w/ an appropriate name. Once these are setup, you cannot change the definition. 
+- Logs can be streamed to Lambda (which will run a lot of functions!)
+- Can't setup a flow log for VPC's that are peered w/ your VPC unless both VPC's are in your account. No tagging yet.
+- Not monitored: AWS DNS, Windows activation, 169.234 metadata, DHCP, and the AWS reserved IP's per subnet isn't logged. 
+
+# NAT vs. Bastion Servers (Jump Boxes) (Added 10/19/2020)
+- NAT handles Internet traffic, usually outbound.  Note that NAT Instances are on the way out. 
+- Bastions are used for admin only. Idea is to have a single hardened Bastion, locked down, SSH and RDP from your main network only, use over a private network, that sort of thing. 
+
+# Systems Manager Session Manager (Added 10/19/2020)
+- Enables secure remote login to EC2 Instances. An alternative to using SSH and RDP. Browser Based using PowerShell or Bash, invoked from within the console, or the CLI / SDK.  Single solution for Linux and Windows.  No true SSH or RDP connection involved. No Bastion either. 
+- Can be used for Phys/On Prem servers as well (hmmm). 
+- Connections are fully auditable as well because you have centralized access control by user to specific or groups of instances. Logs come through Cloud Trail (session history). Keystroke logging is inclueded (wow) which can be sent to Cloud Watch and/or S3 buckets.
+- You need a Role for SMSM to enable EC2 instances to communicate to SMSM. Service Role | EC2 Role | search for SSM, select AmazonEc2RoleforSSM. Launch an EC2 Instance w/ this role assigned.  Note: You cannot attach multiple IAM roles to a single instance (so if you want to use all of this cool AWS stuff... you will end up creating a Mega Role).
+- To begin a session, in SSM, select the instance and start the session to get an interactive shell. 
+- NOTE: On Linux, the SSM user starts w/ Root permissions by default. Once the log is written and the session is terminated, there will be a entry under "Totput Location" where you can review the output log - commands and output (so you have a recording of commands and results). 
+
+# Systems Manager Parameter Store (Added 10/23/2020)
+- Used to store confidential information. Idea is to store the data (license, credential, etc.) and control access to the paremter. 
+- In the console, under EC2 under Shared Resources you will find parameter store. Sensitive data is stored, variety of access methods. You create a unique name, description, and the paramter itself. Parameters can be string, secure string, and string list (mult values, comma separated). Secure string is encrypted w/ a KMS key. 
+
+# System Manager Run Command (Added 10/23/2020)
+- Allws you to automate common tasks and ad hoc vonfig changes without having to login to each instance. Global machine interaction tool.
+- Manageement Tools | Systems Manager or EC2 | Systems Manager. To get it to work, you will need a role and then apply the role to the instances. In the SSM portal, under Actions, hit "run command". There areseveral. Can add configuation in JSON, document the run event, and other options. At the bottom the run command shows you the AWS CLI command. 
+- Commands can be applied based on tags, or selected manually. the SSM agent is in the Windows 2016 and other base images. 
+
+# VPC End Points (Added 10/19/2020)
+- Remember there are private network segments behind NAT GW's. VPC endpoints setup a network connection or a gateway for instances to communicate to AWS services. 
+- In the console, create a Role for EC2. We want to allow EC2 instances to call AWS services. 
+- Under Network and Content Delivery, you need to associate a subnet.
+- IN the VPC dashboard, go to EndPoint. There are two types - Interface which create an ENI, or Gateways, which are HA.  Generally, use gateway. Associate the GW w/ the 'main' route table. Note that when using an endpoint you use private IP's not public IP's. You 'create', which will add an etry in the route table w/ a DNS like name (com.amazonaws.us-east-1.s3 as an example).
+
+## VPC Clean Ups (Added 10/202020)
+- Make sure that you enable Cost Explorer early in your lab use process. 
+- For Labs: 
+  - Remove Snapshots
+  - Remove specialiezed services like Cloud HSM, NAT Gateway
+  - Remove EC2 instances
+  - Detach and Remove Internet Gateway
+  - Delete any VPC endpoints
+  - Delete any subnets
+  - Check the billing / cost explorer page next day see if anything is stacking up a cost
+- Optional
+  - You *may* want to delete keypairs. Make sure that you know you have the private key if you chose to keep the Key Pairs
+
+# AWS Cloud HSM (Added 10/19/2020)
+- $1.45 / hr. For those of you doing labs, you can spend some dollars!
+- Details: Single tenant, You control the keys, broad AWS support, supports Symmetric / asymetric (inlike KMS which is symmetric only), FIPS 140-2 and EAL 4 compliant.
+- For labs, you will create a cluster. verify the HSM identitiy, launch an EC2 instance, load/config to client. ...
+- Clusters can have systems in multiple AZ's. Once created, you *cannot* change the subnets! One Way Operation!
+- For the Security Groups, you ned 2223 to 2225 inbound permitted for CloudHSM.
+- To Initialize a cluster:
+  - Click on the cluster ID and Initialize. Create the HSM in the cluster in private SubNet - takes a while.  Will assign an IP in the subnet. For ACG, there is an init-script - need to replace the cluster ID.  Need to download and sign a CSR from an EC2 instance. 
+  - Need two certificates - Cluster CSR and the Issuing Certificate. These are generated froman EC2 image, where you need the CSR. You will use the CSR to generate a private key, create a self signed certificate, and then push both up to the Cloud HSM. *Do Not* lose the password you generate along the way! Name your files well so that you can upload the files back into AWS console for the CA certificate and the HSM certificate. 
+  - For the client on EC2, need to get the 'cloudhsm-client-latest' file to have the AWS client package.  The pubkey needs to be dropped into the right location - /opt/cloudhsm/etc.  Connect to the cluster by using the private IP and the "cloudhsm_mgmt_util" script. 
+  - Initialization then continues w/ logging in as the pre-crypto officer, updating the user/pass. Then login as the Crypto officer, and create some users. 
+  - To import/export keys, you will need to use (generate and export) a "Wrapping key". 
+  - When interacting with CloudHSM from the CLI, make sure you note the Key Handle ID as numerous commands require a specific key. 
+  - Four user types: Precrypto Officer, Crypto Officer, Crypto User, Appliance User. 
+  - NOTE: Passwords are non-recoverable, so you will have an availability outage should you lose the CloudHSM password that was used to gen up the system. 
+  - Review the (HSM role chart)[https://docs.aws.amazon.com/cloudhsm/latest/userguide/hsm-users.html]
+  
+  ## Cloud HSM User Types (Added 10/19/2020)
+  - Pre Crypto Officer (admin/password) - once changed, promo'd to Crypto Officer, then it dissappears. 
+  - Ctypto Officer - Can manage user accounts. New users, password changes. Can't manage keys. 
+  - Ctypto Users - manage keys: create, delete, share, import, export. Perform various cryptographic operations: sign, enc/decrypt.
+  - Appliance User - cloning and synch operations. Exists on all 
+  
+  ## Cloud HSM Comamnds of Note (Added 10/19/2020)
+  - loginHSM <role> <user> <pass>
+  - listusers
+  - changePswd
+  - changePswd PRECO admin <passwd>
+  - createUser <username> <passwd>
+  - # service cloudhsm-client start 
+  - genSymKey -t # -s # -l aes256 : this command will return a 'key handles'
+  - genSymKey -t # -s # -sess -l export-wrapping-key
+  - exSymkey -k # -out aes256.key.exp -w handle#
+  - exportPrivKey -k handle# -out rsa2048.key.exp -w handle# :: will produce a PEM file
+  - exportPubKey -k handle# -out rsa2048.pub.exp
+
+## Clean up (Lab Tear Down) (Added 10/20/2020)
+- Delete the EC2 instance you used w/ a terminate option.
+- Services - find CloudHSM, delete the HSM from within the cluster. Wait.
+- Delete the cluster itself. 
+- Review the VPC - remove the associations and delete the auto-created security group.  Note you may need to update the Sec Grp itself and remove ref's.
+
+# Amazon DNS and Custom VPC's (Added 10/20/2020)
+- When you create a VPC, the VPC includes a DNS server. It uses a reserved IP in the CIDR range. For example 10.0.0.0/16, the .2 address will be the DNS server. 
+- Can disable AWS DNS if you want: Network and Content Delivery | VPC. On the VPC ID there is an 'enabled' option. Click on the DHCP Option Set. This configures the AWS provided DNS. 
+- From the VPC, Actions | Edit DNS resolution - uncheck 'enabled'. Save. 
+- To have a new DNS server, you need to create a new DHCP option set, specify the DNS server (up to 4 IP's).
+
+# Transit Gateway (Added 10/20/2020)
+- Simplifies network management when you have multiple VPCs and on-prem netowork as well.  A service that allows you to use a centralized GW to talk to VPC's from the DC. Use when you have lots (100+) VPC's and you don't want to meticulously manage them.  You avoid managing point to point communications. 
+- Assume you have multiple VPC's and a few different accounts, then the data center. Hub/Spoke. 
+- TG sits between your data center and the VPC's. You use route tables to control what VPC's can communicate. 
+- Much easiter to manage to/from VPC to data center. Also uses AWS private side network, not the public Internet. Oh, and its encrypted to boot. 
+- Want more? ReInvent 2019 preso. 
+
+## DDOS and Real World (Added 10/20/2020)
+- DDoS - an attempt o exhaust a resource with network traffic. Specific methods include floods, half open scans, aplification/reflection attacks from ICMP/UDP services. 
+- Attack Types
+  - Half Open Scan: Exhausts connection pool, requiring timeout. Slowloris is an example.
+  - Reflection Attack
+  - ICMP Amplification Attack
+- Mitigations
+  - Minimze attack surface: Eliminate multiple access points wherever possible. Mitigation: Bastion / Jump Box with whitelisted connection IP's like your business network. Ideally, drop a B/JB in one VPC and permit that VPC to talk to other VPC's where resources reside. 
+  - DDoS: Multiple requests at the same time, bring infrastructure to a breaking point (assumption is there is a stopping point). Mitigation: Scale horizontally and Vertically. Attackers must have a wider attack range to attack your resource range. 
+  - Technucal App Attacks: Mitigation: Safeguard Exposed Resources. Cloud Front has GEO restriction (Should the Norks be able to talk to your website?). Use Origin access identity, users must be using CF URL's. Route 53: redirect to AWS CF distributions or different ELB w/ capacity, and of course WAF's which have L7 HTTP awareness and can interrogate/block specific URL's. Pricate DNS for internal resource names as well. 
+  - Baseline: Understand what "normal" is for your usage pattern so you can understand spikes and their cyclical nature. This allows you to create an alarm for awareness. 
+  - Having a plan for an attack.
+    - Validate the Architecture design. 
+    - You have a CBA for resiliancy tooling. 
+    - AWS Shield is available at two levels. It is 'always on' flow based monitoring. 
+      - L1: handles SYN/UDP floods, reflection attacks, some other session based attacks.
+      - L2 @ 3k/mo: ELB protection, CloudFront / Route 53, handles more sophisticated attacks.
+
+# Incident Response Scenarios (Added 10/20/2020)
+
+## EC2 Hacked - What to do? (Added 10/20/2020)
+- Recommended Process
+  - Stop instance!
+  - Snapshot the EBS volume. 
+  - Deploy into an isolated VPC / Environment w/ no Internet connectivity.
+  - Access using a forensic workstation (SANS SIFT, FSecure remote collection, book with Linux and mousnt the disk ...)
+  - Read through original VPC logs (Flow, cloud watch, etc.)
+
+## Leaked Credentials in Source Code Site (Added 10/20/2020)
+- Assume that any exposure IS an exposure. 
+- Process: From the Root User level, security credentials (upper right). (not in IAM)
+- Find keys, mark them as inactive, create a new one, delete the old one.
+- Same process for any exposed account. Not a bad idea if there is a remote possibility of other accounts as well.
+
+## Reading Cloud Trail Logs (Added 10/20/2020)
+- A traditional flow is: Start Time, Duration, Src-IP, Src-Port, Dest-IP, Dest-Port, protocol, bytes sent.  Some flow logs store bytes exchanged betwwn the two systems - should know the difference. 
+- Flow log are stored in S3. Account+Region.
+- Logs are KVP in JSON. Type, PrincipalID, arn, accountID, username, session, ... what occurred, when, etc.
+- Effectively - any API call should be in a Cloud Trail log.
+- Best Practice is to replicate to another account w/ another S3 bucket. 
+
+# Penetration Testing in AWS Added 10/20/2020)
+- AWS has a posted support policy for pen tests for a variety, but not all, services. Zome activies are prohibited. 
+- Prohibited - DNS zone walk, port/protocol flooding, DDoS.
+
+# Certificate Manager (Added 10/20/2020)
+- Networking | Route 53: registered domains. It may take a bit. 
+- Sec Compliance | Certificate Manager.  Need the name o/t domain. You can import mainstream certificates from other providers. There are two ways to validate. 1) DNS, proving you can validate 2). Email validation for the domain. Request and Confirm - then add the CNAME they asked for into the domain. Basically, prove that you can update the domain. 
+- You can buy, auto renew, and extend domains in AWS.
+- Amazon issued certicicates will auto renew. 
+- Two services use AWS Certificates - Cloud Front distribution and Applicaion Load Balancer in the EC2 area. 
+- You cannot export AWS Certificates - they are delivered at no charge, but you cannot use them elsewhere. 
+
+# Securing Load Balancers with PFS (Added 10/20/2020)
+- PFS: Perfect Forward Secrecy. Objective is that aquiring a future key does not jepardize a prior key. Alternately, if a key is compromised a year from now, you should not be able to read older data. (Worth reading the Wikipedia articles). Requires the "ECHDE-" TLS ciphers and the 2608 security policy. 
+- You add a HTTPS listener (443/TCP). 
+
+# API Gateway (Added 10/23/2020)
+- API GW Throttling: You get a steady state of 10,999 / second, and if requests exceed that a "429 To Many Requests" message is returned to the client. Think of this as a DDoS mitigation technique. Furher limit of 5K burst across all API's in the account. If a client sends 10K in first milisecond, API GW servies 5K, then stops for the rest of the one second period.
+- AWS support can increse the rate limit if desired. 
+- What if you get identical requeests? Can reduece the number of calls to the end point. Caching is enabled by stage, API GW caches for a TTL count (up to 3600, 200 default).  If ttl=0, no caching.
+
+# Compliance Frameworks (Added 10/23/2020)
+- Main Three - PCI DSS, ISO 27001, HIPAA. Should read the 'compliance' page. ACG things PCI is the most important (Bah!)
+- 27001:2005/10/13. Explains how to implement the ISMS.
+- FedRAMP: Standardized approach for cloud services. 
+- HIPAA: Easier for people to get health insurance, standardize claim codes, data exchange, and protect ePHI data.
+- NIST: Numerous standard at NIST.gov.
+- PCI DSS: Global standard, they don't care where you are ... protect debit, cash card, and credit card transactions.  (ACG class hit the Digital Dozen...)
+- Others include SAS70, SOC-I, SOC-II.
+- FIPS 140-2 and 3. KMS gets to L2, Cloud HSM gets to L3. 
+
+# AWS Athena (Added 10/23/2020)
+- Interactive Query service for data in S3, using standard SQL query syntax. You pay per query, per TB scanned. You don't need an ETL process. Can read a variety of data formats (CSV, etc.)
+- Common use case: query log files stored in S3. Analyze AWS cost / usage reports which are usually in CSV. 
+
+# AWS Macie (Added 10/23/2020)
+- PII - Personally Identifiable Information. For exmaple, there is a (designated record set)[https://www.hhs.gov/hipaa/for-professionals/privacy/guidance/access/index.html] in the HIPAA domain that describes PHI and (PII)[https://www.osec.doc.gov/opog/privacy/pii_bii.html].  Simply: Name, home, DL number, tas-id, bank details, other sensitive informaiton that can tie back to an individual person.
+- Macie uses natural language processing to discover, classify, protect sensitive information stored in S3. Can also use it to search for credit card data (specific digit patterns w/ an internal code check) to see if PCI mandaated data leaks. 
+- Macie classifies by content type, file extension, theme, and regular expression. Theme's are interesting - AmEx, Visa, MC, banking, web exploitation tools, hacker tools, ...
+- Macie protects data: instrument the system, analyze/classify data, report out to a dashboard or alert, provides visibility beyond a simple file name list, and it can analyze Cloud Trail to identify suspicious API activity. 
+- Macie is in limited deployment, and not available in all regions. 
+- Macie needs a service role defined in IAM. It needs permissions for S3 (create, read, delete) and CloudTrail (read, create). IAM role is built and applied when you push the "Enable Macie" button. 
+- Best to use a faux file, drop it into an S3 folder, enable Macie, enable Macie for the account (you need to select the account) and your test bucket(s). There is also a Cloud Trail bucket created for Macie. 
+- Extensive diagnostic dashoard is provided: classification, theme, source IP, etc. For 'findings;, you get the individual item and a summarization of the PII type. One super duper nice thing is you get Cloud Trail access for the data type. 
+
+# GuardDuty (Added 10/23/2020)
+- Machine Learning based service that looks for malicious behavior. Unusual API, malicious IP, attempts to disable logging, unauth deployments, EC2 compromised incidents. 
+- Monitors Cloud Trail logs, VPC flow logs, DNS logs. 
+- Gets threat intelligence data from well known third parties like ProofPoint, CrowdStrike.
+- Response can be automated by triggering a Cloud Watch event, which can in turn trigger a Lambda function. 
+- Takes 7-14 days to establish baseline. First 30d are free. Charge after that is based on event volume.
+- Stored in Security, Compliance. Needs service permissions to analyze logs and a service role so it can retrieve instance metadata for EC2 instances. Effect is 'allow' to EC2 dsecribe instances / images. 
+- Note - will need to use code to to cause behaviors (examcple script[https://github.com/awslabs/amazon-guardduty-tester]) The console has a way to generate sample findings though. 
+- GD can have a white list for IP's and threat list of IP's you are OK with. 
+- GD service will provide notification as the threat-scape changes. 
