@@ -23,7 +23,10 @@
   - [ElastiCache](#elasticache)
   - [Route53](#route53)
   - [Elastic Load Balancers (ELB)](#elastic-load-balancers-elb)
-  - [Auto Scaling](#auto-scaling)
+  - [External/Internet ELB (Added 11/06/2020):](#externalinternet-elb-added-11062020)
+  - [Internal ELB (Added 11/06/2020):](#internal-elb-added-11062020)
+  - [Main Configuration Steps (Added 11/06/2020):](#main-configuration-steps-added-11062020)
+- [Auto Scaling](#auto-scaling)
   - [Auto Scaling Cooldown Period:](#auto-scaling-cooldown-period)
   - [Virtual Private Cloud (VPC)](#virtual-private-cloud-vpc)
   - [Simple Queuing Service (SQS) (Updated 9/28/2)](#simple-queuing-service-sqs-updated-9282)
@@ -1128,10 +1131,14 @@ Note: Health Chekcs are on a per DNS "A" record basis. A SNS notification can be
 ### ELB Simplified:
 Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, Docker containers, IP addresses, and Lambda functions. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones. Elastic Load Balancing offers three types of load balancers that all feature the high availability, automatic scaling, and robust security necessary to make your applications fault tolerant. 
 
+- Common services to all ELBs: 
+  - Protocols: HTTP/S, TCP, and TLS to EC2. CLB/ALB provides a single DNS name and NLB provides stable set of IP's over ELB lifetime. 
+  - Health Checks: detect unhealthy conditions to ping a port/protocol/destination. If the response isn't what we want, the target is unhealthy and the ELB responds. 
+
 ### ELB Key Details:
 - Load balancers can be internet facing or application internal.
 - To route domain traffic to an ELB load balancer, use Amazon Route 53 to create an Alias record that points to your load balancer. An Alias record is preferable over a CName, but both can work.
-- ELBs do not have predefined IPv4 addresses; you must resolve them with DNS instead. Your load balancer will never have its own IP by default, but you can create a static IP for a network load balancer because network LBs are for high performance purposes.
+- ELBs (ALB/CLB) do not have predefined IPv4 addresses; you must resolve them with DNS instead. Your load balancer will never have its own IP by default, but you can create a static IP for a network load balancer because network LBs are for high performance purposes.
 - Instances behind the ELB are reported as `InService` or `OutofService`.
 When an EC2 instance behind an ELB fails a health check, the ELB stops sending traffic to that instance.
 - A dual stack configuration for a load balancer means load balancing over IPv4 and IPv6
@@ -1139,17 +1146,47 @@ When an EC2 instance behind an ELB fails a health check, the ELB stops sending t
   - Application LBs
   - Network LBs
   - Classic LBs.
-- **Application LBs** are best suited for HTTP(S) traffic and they balance load on layer 7. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your brower which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
-- **Network LBs** are best suited for TCP traffic where performance is required and they balance load on layer 4. They are capable of managing millions of requests per second while maintaining extremely low latency.
-- **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers.
+- **Application LBs** are best suited for HTTP/HTTP(S) traffic and they apply to layer 7. Uses a round robin routing process for EC2 instances in a target group based on content o/t request type/content. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your brower which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
+- **Network LBs** are best suited for *TCP* traffic where performance is required and they balance load on layer 4. Operates at L4/Session layer. Can use TCP, UDP, TCP w/ SSL, or TCP/UDP (according to the dialog) Can use a target group. They are capable of handling volatile workloads, managing millions of requests per second while maintaining extremely low latency. Also if you need to usen an IP, not a DNS name, use NLB.
+- **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. CLB's support HTTP/HTTPS, TCP, or SSL (chose one), and then the port number. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers. Today, ALB/NLB likely better to use. Operates on L4/L7 (Session/Application) layers. No sense of "target groups". 
 - If you need flexible application management and TLS termination then you should use the Application Load Balancer. If extreme performance and a static IP is needed for your application then you should use the Network Load Balancer. If your application is built within the EC2 Classic network then you should use the Classic Load Balancer. 
 - Health Checks: Ping protocol (HTTP), port, ping path (filename), response timeout, interval. Then unhealthy threshold vs. healthy threshold.
-### ELB General:
+
+## External/Internet ELB (Added 11/06/2020):
+- ELB's front the group of EC2s in different AZ's. Two ore more subnets must be configured. 
+- An "A" record is created that is added to Route53. `name.region.elb.amazonaws.com` (single point of entry)
+- Strictly speaking, there are LB's in each AZ "under the hood".
+- Subnet rqmts: must be "public". Appropriate routing to the IGW. Must be /27 or larger. Must have 8 available IP's. 
+- Round robin used to select node. 
+
+## Internal ELB (Added 11/06/2020):
+- A LB in private subnets. No Internet connectivity. 
+
+## Main Configuration Steps (Added 11/06/2020):
+- Configure load balancer (name, listener with port/protocol). 
+- Configure security settings (Sec Groups).
+- Configure routing (target groups, register targets, back end port/protocol where traffic is routed). ALB/NLB support target groups, CLB doesn't.  
+  - Targets are EC2, IP's by prviate CIDR ranges, or Lambda funtions with the contents in JSON format. Note for Lambda, the response is base64 encoded.
+  - A target group can be sent to an Auto Scaling group, which will spin up EC2 as needed (params control this).
+
+### ELB Type Decision Matrix (Added 11/06/2020):
+- for Path based routing in the query string: ALB.
+- Require "sticky sessions" with a time box (think 60 seconds) - CLB configured for HTTP/HTTPS, or ALB. 
+- Millions of concurrent, huge throughput: NLB
+- Preserve Source IP: 
+  - NLB provides automatically.
+  - CLB/ALB: Must enable and support X-forwarded-for header option.
+- Host/Content/source-device-type based routing: ALB
+- WebSockets (long lived connections): 
+  - NLB the majority of the time.
+  - ALB if "stickiness" is enabled. 
+
+### ELB General Lifecycle for requests:
 - The lifecycle of a request to view a website behind an ELB:
   1. The browser requests the IP address for the load balancer from DNS.
   2. DNS provides the IP.
   3. With the IP at hand, your browser then makes an HTTP request for an HTML page from the Load Balancer.
-  4. AWS perimiter devices checks and verifies your request before passing it onto the LB.
+  4. AWS perimiter devices checks and verifies your request before passing it onto the LB. the LB "listens" on a port/protocol pair. 
   5. The LB finds an active webserver to pass on the HTTP request.
   6. The webserver returns the requested HTML file.
   7. The browser receives the HTML file it requested and renders the graphical representation of it on the screen.
@@ -1171,12 +1208,13 @@ For example, with Path Patterns you can route general requests to one target gro
 - However, it is still recommend that you maintain approximately equivalent numbers of instances in each enabled Availability Zone for higher fault tolerance. 
 - For environments where clients cache DNS lookups, incoming requests might favor one of the Availability Zones. Using Cross Zone load balancing, this imbalance in the request load is spread across all available instances in the region instead.
 
-### ELB Security:
+### ELB Security (Updated 11/6/2020):
 - ELB supports SSL/TLS & HTTPS termination. Termination at load balancer is desired because decryption is resource and CPU intensive. Putting the decryption burden on the load balancer enables the EC2 instances to spend their processing power on application tasks, which helps improve overall performance.
 -  Elastic Load Balancers (along with CloudFront) support Perfect Forward Secrecy. This is a feature that provides additional safeguards against the eavesdropping of encrypted data in transit through the use of a uniquely random session key. This is done by ensuring that the in-use part of an encryption system automatically and frequently changes the keys it uses to encrypt and decrypt information. So if this latest key is compromised at all, it will only expose a small portion of the user's recent data.
-- Classic Load Balancers do not support Server Name Indication (SNI). SNI allows the server (the LB in this case) to safely host multiple TLS Certificates for multiple sites all under a single IP address (the Alias record or CName record in this case). To allow SNI, you have to use an Application Load Balancer instead or use it with a CloudFront web distribution. 
+- Classic Load Balancers do not support Server Name Indication (SNI). SNI allows the server (the ALB/NLB in this case) to safely host multiple TLS Certificates for multiple sites all under a single IP address (the Alias record or CName record in this case). To allow SNI, you have to use an Application Load Balancer instead or use it with a CloudFront web distribution. 
+- SSL/TLS termination: Done at the ELB level, not the EC2 instance level (takes heavy lift off of EC2). Back end *can* be either encrypted or not.  If you need end to end, ALB can support - but this requires you manually manage the certificate on the EC2 instance(s). You can only use ACM at the ELB level. 
 
-## Auto Scaling
+# Auto Scaling
 
 ### Auto Scaling Simplified:
 AWS Auto Scaling lets you build scaling plans that automate how groups of different resources respond to changes in demand. You can optimize availability, costs, or a balance of both. AWS Auto Scaling automatically creates all of the scaling policies and sets targets for you based on your preference. 
