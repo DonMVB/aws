@@ -239,43 +239,28 @@ Go through the course you purchased as part of Step 1. twice. The first time sho
 *Domain 1: Design Resilient Architectures*
 
   1.1 - Design a multi-tier architecture solution
-
   1.2 - Design highly available and/or fault-tolerant architectures
-
   1.3 - Design decoupling mechanisms using AWS services
-
   1.4 - Choose appropriate resilient storage
-
 
 *Domain 2: Design High-Performing Architectures*
 
   2.1 - Identify elastic and scalable computesolutions for a workload
-
   2.2 - Select high-performingand scalable storage solutions for a workload
-
   2.3 - Select high-performingnetworking solutions for a workload
-
   2.4 - Choose high-performingdatabase solutions for a workload
-
 
 *Domain 3: Design Secure Applications and Architectures*
 
   3.1 - Design secure access to AWS resources
-
   3.2 - Design secure application tiers
-
   3.3 - Select appropriate data security options
-
 
 *Domain 4: Design Cost-Optimized Architectures*
 
   4.1 - Identify cost-effective storage solutions
-
   4.2 - Identify cost-effective compute and database services
-
   4.3 - Design cost-optimized network architectures
-
-
 
 ### 1.0.2. Recommended Reading:
 
@@ -462,7 +447,7 @@ Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 buc
 
 The Expedited duration listed above could possibly be longer during rare situations of unusually high demand across all of AWS. If it is absolutely critical to have quick access to your Glacier data under all circumstances, you must purchase *Provisioned Capacity*. Provisioned Capacity guarentees that Expedited retrievals always work within the time constraints of 1 to 5 minutes.
 
-**S3 Deep Glacier** - The lowest cost S3 storage where retrieval can take 12 hours.
+**S3 Deep Glacier Deep Archive** - The lowest cost S3 storage where retrieval can take 12 hours. Has longest retrieval time of any option.
 
 <img width="1246" alt="storage_types" src="https://user-images.githubusercontent.com/13093517/83919060-e1247180-a747-11ea-9336-e92ee163ac7a.png">
 
@@ -784,6 +769,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 ### 1.7.3. SSD vs. HDD:
 - SSD-backed volumes are built for transactional workloads involving frequent read/write operations, where the dominant performance attribute is IOPS. **Rule of thumb**: Will your workload be IOPS heavy? Plan for SSD.
 - HDD-backed volumes are built for large streaming workloads where throughput (measured in MiB/s) is a better performance measure than IOPS. **Rule of thumb**: Will your workload be throughput heavy? Plan for HDD.
+- The "Annualized Failure Rate" of EBS is better than traditional data center storage (Pearson Practice Test - note that Trad DC Storage isn;;t defined....)
 
 ![hdd_vs_ssd](https://user-images.githubusercontent.com/13093517/84944872-76165b80-b0b4-11ea-819c-a93deb999ea2.png)
 
@@ -989,7 +975,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 ### 1.13.1. EFS Simplified:
 EFS provides a simple and fully managed elastic NFS file system for use within AWS. EFS automatically and instantly scales your file system storage capacity up or down as you add or remove files without disrupting your application.
 
-### 1.13.2. EFS Key Details:
+### 1.13.2. EFS Key Details (Updated 11/11/2020)
 - In EFS, storage capacity is elastic (grows and shrinks automatically) and its size changes based on adding or removing files.
 - While EBS mounts one EBS volume to one instance, you can attach one EFS volume across multiple EC2 instances.
 - The EC2 instances communicate to the remote file system using the NFSv4 protocol. This makes it required to open up the NFS port for our security group (EC2 firewall rules) to allow inbound traffic on that port.
@@ -997,7 +983,8 @@ EFS provides a simple and fully managed elastic NFS file system for use within A
 - With EFS, you only pay for the storage that you use so you pay as you go. No pre-provisioning required.
 - EFS can scale up to the petabytes and can support thousands of concurrent NFS connections.
 - Data is stored across multiple AZs in a region and EFS ensures read after write consistency.
-- It is best for file storage that is accessed by a fleet of servers rather than just one server
+- It is best for file storage that is accessed by a fleet of servers rather than just one server.
+- In April 2020, Amazon increated the EFS SLA to 99.99%. (used to be 99.9%). This is a general measure, not "mount point specific" (Term is on a Pearson Practice Test).
 
 ## 1.14. Amazon FSx for Windows
 
@@ -1121,10 +1108,10 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 - A common tactic for migrating RDS DBs into Aurora RDs is to create a read replica of a RDS MariaDB/MySQL DB as an Aurora DB. Then simply promote the Aurora DB into a production instance and delete the old MariaDB/MySQL DB.
 - Aurora starts w/ 10GB and scales per 10GB all the way to 64 TB via storage autoscaling. Aurora's computing power scales up to 32vCPUs and 244GB memory
 
-### 1.17.3. Aurora Serverless:
-- Aurora Serverless is a simple, on-demand, autoscaling configuration for the MySQL/PostgreSQl-compatible editions of Aurora. With Aurora Serveress, your instance automatically scales up or down and starts on or off based on your application usage. The use cases for this service are infrequent, intermittent, and unpredictable workloads.
-- This also makes it possible cheaper because you only pay per invocation
-- With Aurora Serverless, you simply create a database endpoint, optionally specify the desired database capacity range, and connect your applications. 
+### 1.17.3. Aurora Serverless (Updated 11/11/2020)
+- Aurora Serverless is a simple, on-demand, autoscaling configuration which is also fault tollerant for the MySQL/PostgreSQl-compatible editions of Aurora. With Aurora Serveress, your instance automatically scales up or down and starts on or off based on your application usage. The use cases for this service are infrequent, intermittent, and unpredictable workloads. Doesn't function w/ traditional resources - you use the endpoint.
+- This also makes it possible cheaper because you only pay per invocation.
+- With Aurora Serverless, you simply create a database endpoint, optionally specify the desired database capacity range, and connect your applications. Or put another way, you create a "proxy endpoint" which directs queries to the active endpoint. (Added 11/11/2020, Pearson Practice Test).
 - It removes the complexity of managing database instances and capacity. The database will automatically start up, shut down, and scale to match your application's needs. It will seamlessly scale compute and memory capacity as needed, with no disruption to client connections.
 
 ### 1.17.4. Aurora Cluster Endpoints:
@@ -2141,3 +2128,11 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Get a snapshot of the current configurations of the Skip to content
 Search or jump to…
   
+# 6.0 Misc (Added 11/11/2020)
+
+## 6.1 LightSail 
+- Easy way to get started. Focused on predefined servers to deploy and manage websites in the cloud. Sold as a "bundle".
+
+## 6.2 Terms
+- High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
+- Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
