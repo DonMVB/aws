@@ -462,6 +462,7 @@ You can encrypted on the AWS supported server-side in the following ways:
 - **S3 Managed Keys / SSE - S3 (server side encryption S3 )** - when Amazon manages the encryption and decryption keys for you automatically. In this scenario, you concede a little control to Amazon in exchange for ease of use.
 - **AWS Key Management Service / SSE - KMS** - when Amazon and you both manage the encryption and decryption keys together.
 - **Server Side Encryption w/ customer provided keys / SSE - C** - when I give Amazon my own keys that I manage. In this scenario, you concede ease of use in exchange for more control.
+- Data at rest stored in S3 Glacier is automatically server-side encrypted using 256-bit Advanced Encryption Standard (AES-256) with keys maintained by AWS. (AWS Docs).
 
 ### 1.2.5. S3 Versioning (Updated 9/2020):
 - When versioning is enabled, S3 stores all versions of an object including all writes and even deletes.
@@ -570,6 +571,14 @@ The Amazon S3 notification feature enables you to receive and send notifications
 ### 1.2.18. S3 REST API (Added 9/24/2020)
 - Review the article that discusses MFA delete https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
 - REST API calls use 'x-amz' as part of the header,and x-amz-mfa request header for MFA DELETE (AWS CSAPT)
+
+### 1.2.19 S3 Static Website
+- To host a static website on Amazon S3, you configure an Amazon S3 bucket for website hosting and then upload your website content to the bucket. When you configure a bucket as a static website, you must enable website hosting, set permissions, and create and add an index document. Depending on your website requirements, you can also configure redirects, web traffic logging, and a custom error document. (AWS Docs)
+- Depending on your Region, your Amazon S3 website endpoint follows one of these two formats.
+  - s3-website dash (-) Region ‐ http://bucket-name.s3-website-Region.amazonaws.com
+  - s3-website dot (.) Region ‐ http://bucket-name.s3-website.Region.amazonaws.com
+- S3 buckets only allow the default AWS certificate for serving objects via TLS. (Pearson Practice Test provided this interesting fact(.
+- https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html
 
 ## 1.3. CloudFront
 
@@ -986,6 +995,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 - Data is stored across multiple AZs in a region and EFS ensures read after write consistency. EFS stores the data at a region scope, replicating that data into at least three AZs within the region, which improves the durability over EBS. The SLA documentation states that the service is designed for 3 9s availability. Thus EFS has higher availability and durability than EBS. 
 - It is best for file storage that is accessed by a fleet of servers rather than just one server.
 - In April 2020, Amazon increated the EFS SLA to 99.99%. (used to be 99.9%). This is a general measure, not "mount point specific" (Term is on a Pearson Practice Test).
+- In CloudWatch, the BurstCreditBalance metric can be used to determine if you are saturating the available bandwidth for the file system.
 
 ## 1.14. Amazon FSx for Windows
 
@@ -1036,6 +1046,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - RDS runs on virtual machines, but you do not have access to those machines. You cannot SSH into an RDS instance so therefore you cannot patch the OS. This means that AWS  isresponsible for the security and maintenance of RDS. You can provision an EC2 instance as a database if you need or want to manage the underlying server yourself, but not with an RDS engine.
 - Just because you cannot access the VM directly, it does not mean that RDS is serverless. There is Aurora serverless however (explained below) which serves a niche purpose.
 - SQS queues can be used to store pending database writes if your application is struggling under a high write load. These writes can then be added to the database when the database is ready to process them. Adding more IOPS will also help, but this alone will not wholly eliminate the chance of writes being lost. A queue however ensures that writes to the DB do not become lost.
+- Two RDS database engines support Transparent Data Encryption (TDE): Oracle and MS SQL. TDE encrypts the data at a database level, on top of the storage layer and in the software itself. (Added 11/11/2020)
 
 
 ### 1.16.3. RDS Multi-AZ:
@@ -1755,7 +1766,7 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
   - Request comes into a load balancer, then a web server, which talks to the DB, does some action, and returns data.
   - Instead. API GW to Lambda which can write Dynamo DB and other activities.
 - Triggers:
-  - YOu can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
+  - You can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
   - 
 
 ### 2.7.3. Lambda Key Details:
@@ -1769,6 +1780,7 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 - Lambda functions can trigger other Lambda functions.
 - You can use Lambda as an event-driven service that executes based on changes in your AWS ecosystem.
 - You can also use Lambda as a handler in response to HTTP events via API calls over the AWS SDK or API Gateway.
+- Variety of permissions can be applied in IAM policy: InvokeFunction, Version, Function, Alias, and others.
 
 ![Screen Shot 2020-06-30 at 9 19 33 AM](https://user-images.githubusercontent.com/13093517/86130894-df35a000-bab2-11ea-9908-acbe3e8d4824.png)
 
@@ -1885,7 +1897,7 @@ AWS Organizations is an account management service that enables you to consolida
 - You can use organizational units (OUs) to group similar accounts together to administer as a single unit. This greatly simplifies the management of your accounts. 
 - You can attach a policy-based control to an OU, and all accounts within the OU automatically inherit the policy. So if your company's developers all have their own sandbox AWS account, they can be treated as a single unit and be restricted by the same policies.
 - With AWS Organizations, we can enable or disable services using Service Control Policies (SCPs) broadly on organizational units or more specifically on individual accounts
-- Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.
+- Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.  SCPs do not affect the root credentials, either console or API.  An AWS Organizations SCP can be used for setting permission boundaries (Max Permissions) for the member accounts.
 
 # 3. Web Identity Federation (Added 9/28/2020)
 - Provide access based on a third party web based auth provider. An auth code comes to AWS, and it is traded for a temp access code.
@@ -2076,6 +2088,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - Amazon ECS eliminates the need for you to install, operate, and scale your own cluster management infrastructure. With simple API calls, you can launch and stop container-enabled applications, query the complete state of your cluster, and access many familiar features like security groups, Elastic Load Balancing, EBS volumes and IAM roles. 
 - You can use Amazon ECS to schedule the placement of containers across your cluster based on your resource needs and availability requirements. You can also integrate your own scheduler or third-party schedulers to meet business or application specific requirements.
 - You can choose to run your ECS clusters using AWS Fargate, which is serverless compute for containers. Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
+- For long-running container jobs, it can be more expensive than ECS on EC2.
 
 ### 5.1.17. What is Amazon Elastic Kubernetes Service?
 - Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed Kubernetes service. EKS runs upstream Kubernetes and is certified Kubernetes conformant so you can leverage all benefits of open source tooling from the community. You can also easily migrate any standard Kubernetes application to EKS without needing to refactor your code.
@@ -2131,6 +2144,9 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Evaluate your AWS resource configurations for desired settings. ·         
   - Get a snapshot of the current configurations of the Skip to content
 Search or jump to…
+
+### Unified Scaling Service (Added 11/11/2020)
+- The services covered by Unified Auto Scaling are EC2, Spot Fleets, DynamoDB, Aurora Read Replicas, and ECS on Fargate
   
 # 6.0 Misc (Added 11/11/2020)
 
@@ -2142,6 +2158,6 @@ Search or jump to…
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
 - Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
-- Scalable: Resources that can grow up. Not down. 
+- Scalable: Resources that can grow up. Not down. Scalable systems are able to increase but not decrease resources. An example of this is RDS storage.
 - Elastic: Sale up or down, scale in and out horizontally. 
 
