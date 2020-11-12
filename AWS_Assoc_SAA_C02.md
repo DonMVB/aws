@@ -769,7 +769,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 ### 1.7.3. SSD vs. HDD:
 - SSD-backed volumes are built for transactional workloads involving frequent read/write operations, where the dominant performance attribute is IOPS. **Rule of thumb**: Will your workload be IOPS heavy? Plan for SSD.
 - HDD-backed volumes are built for large streaming workloads where throughput (measured in MiB/s) is a better performance measure than IOPS. **Rule of thumb**: Will your workload be throughput heavy? Plan for HDD.
-- The "Annualized Failure Rate" of EBS is better than traditional data center storage (Pearson Practice Test - note that Trad DC Storage isn;;t defined....)
+- The "Annualized Failure Rate" of EBS is better than traditional data center storage (Pearson Practice Test - note that Trad DC Storage isn't defined....)
 
 ![hdd_vs_ssd](https://user-images.githubusercontent.com/13093517/84944872-76165b80-b0b4-11ea-819c-a93deb999ea2.png)
 
@@ -796,9 +796,9 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - To preserve the EBS Root Store volume when an EC2 Instance is terminated, set the `DeleteOnTermination` attribute to "False" using the AWS CLI. <a href="https://aws.amazon.com/premiumsupport/knowledge-center/deleteontermination-ebs/"> Article </a>
 
 ### 1.7.6. Instance Store Notes (Updated 11/11/2020)
-- Instance Store-backed Volumes are launched from an AWS S3 stored template. They are ephemeral and the least resiliant,  so be careful when shutting down an instance!
+- Instance Store-backed Volumes are launched from an AWS S3 stored template. They are ephemeral and the least resiliant, so be careful when shutting down an instance!
 - Secondary instance stores for an instance-store backed root device must be installed during the original provisioning of the server. You cannot add more after the fact. However, you can add EBS volumes to the same instance after the server's creation.
-- With these drawbacks of Instance Store volumes, why pick one? Because they have a very high IOPS rate. So while an Instance Store can't provide data persistence, it can provide much higher IOPS compared to network attached storage like EBS. 
+- With these drawbacks of Instance Store volumes, why pick one? Because they have a very high IOPS rate. So while an Instance Store can't provide data persistence, it can provide much higher IOPS compared to network attached storage like EBS. Instance store volumes do not traverse the network to reach storage and therefore do not incur any network latency.
 - Further, Instance stores are ideal for temporary storage of information that changes frequently such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers.
 - When to use one over the other?
   - Use EBS for DB data, critical logs, and application configs.
@@ -973,16 +973,17 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 ## 1.13. Elastic File System (EFS)
 
 ### 1.13.1. EFS Simplified:
-EFS provides a simple and fully managed elastic NFS file system for use within AWS. EFS automatically and instantly scales your file system storage capacity up or down as you add or remove files without disrupting your application.
+- EFS provides a simple and fully managed elastic NFS file system for use within AWS. EFS automatically and instantly scales your file system storage capacity up or down as you add or remove files without disrupting your application.
 
 ### 1.13.2. EFS Key Details (Updated 11/11/2020)
 - In EFS, storage capacity is elastic (grows and shrinks automatically) and its size changes based on adding or removing files.
+- On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate.
 - While EBS mounts one EBS volume to one instance, you can attach one EFS volume across multiple EC2 instances.
 - The EC2 instances communicate to the remote file system using the NFSv4 protocol. This makes it required to open up the NFS port for our security group (EC2 firewall rules) to allow inbound traffic on that port.
 - Within an EFS volume, the mount target state will let you know what instances are available for mounting
 - With EFS, you only pay for the storage that you use so you pay as you go. No pre-provisioning required.
 - EFS can scale up to the petabytes and can support thousands of concurrent NFS connections.
-- Data is stored across multiple AZs in a region and EFS ensures read after write consistency.
+- Data is stored across multiple AZs in a region and EFS ensures read after write consistency. EFS stores the data at a region scope, replicating that data into at least three AZs within the region, which improves the durability over EBS. The SLA documentation states that the service is designed for 3 9s availability. Thus EFS has higher availability and durability than EBS. 
 - It is best for file storage that is accessed by a fleet of servers rather than just one server.
 - In April 2020, Amazon increated the EFS SLA to 99.99%. (used to be 99.9%). This is a general measure, not "mount point specific" (Term is on a Pearson Practice Test).
 
@@ -1149,6 +1150,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
   - It uses expensive joins to reassemble required views of query results.
 - High cardinality is good for DynamoDB I/O performance. The more distinct your partition key values are, the better.  It makes it so that the requests sent will be spread across the partitioned space. 
 - DynamoDB makes use of parallel processing to achieve predictable performance. You can visualise each partition or node as an independent DB server of fixed size with each partition or node responsible for a defined block of data. In SQL terminology, this concept is known as sharding but of course DynamoDB is not a SQL-based DB. With DynamoDB, data is stored on Solid State Drives (SSD).
+- DynamoDB partition keys should exhibit a high degree of cardinality—that is, a large range and values spread evenly across that range. The partition key portion of a table's primary key determines the logical partitions in which a table's data is stored. This in turn affects the underlying physical partitions. A partition key design that doesn't distribute I/O requests evenly can create "hot" partitions that result in throttling and use your provisioned I/O capacity inefficiently. (Pearson Practice Test)
 
 ### 1.18.3. DynamoDB Accelerator (DAX):
 - Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache that can reduce Amazon DynamoDB response times from milliseconds to microseconds, even at millions of requests per second.
@@ -1534,7 +1536,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - You can only have one IGW per VPC.
 - **Summary**: IGW connects *your VPC with the internet*.
 
-### 2.2.9. Virtual Private Networks (VPNs): (Updated 9/27/20)
+### 2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)
 - VPCs can also serve as a bridge between your corporate data center and the AWS cloud. With a VPC Virtual Private Network (VPN), your VPC becomes an extension of your on-prem environment.
 - Naturally, your instances that you launch in your VPC can't communicate with your own on-premise servers. You can allow the access by first:
   - attaching a virtual private gateway which has a Public IP address (the AWS Anchor) to the VPC
@@ -1542,7 +1544,8 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   - updating your security group rules to allow traffic from the connection
   - creating the managed VPN connection itself.
 - To bring up VPN connection, you must also define a customer gateway with a Public IP address resource in AWS, which provides AWS information about your customer gateway device. And you have to set up an Internet-routable IP address of the customer gateway's external interface.
-- A customer gateway is a physical device or software application on the on-premise side of the VPN connection.
+- A customer gateway is a physical device or software application on the on-premise side of the VPN connection. (AWS Console) The VPG (virtual private gateway) resource is hardware backed in two data centers within the region to which the VPC is deployed. It uses active/passive tunnels in a highly available mode but is not fault tolerant. (Pearson Practice Test)
+- A virtual private gateway is the router on the Amazon side of the VPN tunnel.
 - Although the term "VPN connection" is a general concept, a VPN connection for AWS always refers to the connection between your VPC and your own network. AWS supports Internet Protocol security (IPsec) VPN connections.
 - Create two IPSec Tunnels for redundancy.
 - The following diagram illustrates a single VPN connection.
@@ -2139,3 +2142,6 @@ Search or jump to…
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
 - Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
+- Scalable: Resources that can grow up. Not down. 
+- Elastic: Sale up or down, scale in and out horizontally. 
+
