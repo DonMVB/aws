@@ -737,7 +737,7 @@ The following table highlights the many instance states that a VM can be in at a
 An Amazon EBS volume is a durable, block-level storage device that you can attach to a single EC2 instance. You can think of EBS as a cloud-based virtual hard disk. You can use EBS volumes as primary storage for data that requires frequent updates, such as the system drive for an instance or storage for a database application. You can also use them for throughput-intensive applications that perform continuous disk scans.
 
 ### 1.7.2. EBS Key Details (Updated 9/29/20)
-- EBS volumes persist independently from the running life of an EC2 instance.
+- EBS volumes persist independently from the running life of an EC2 instance. They are AZ specific. 
 - Each EBS volume is automatically replicated within its Availability Zone to protect from both component failure and disaster recovery (similar to Standard S3).
 - There are five different types of EBS Storage:
   - General Purpose (SSD)
@@ -795,8 +795,8 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - EBS-backed Volumes are launched from an AWS EBS snapshot, as the name implies.
 - To preserve the EBS Root Store volume when an EC2 Instance is terminated, set the `DeleteOnTermination` attribute to "False" using the AWS CLI. <a href="https://aws.amazon.com/premiumsupport/knowledge-center/deleteontermination-ebs/"> Article </a>
 
-### 1.7.6. Instance Store Notes
-- Instance Store-backed Volumes are launched from an AWS S3 stored template. They are ephemeral, so be careful when shutting down an instance!
+### 1.7.6. Instance Store Notes (Updated 11/11/2020)
+- Instance Store-backed Volumes are launched from an AWS S3 stored template. They are ephemeral and the least resiliant,  so be careful when shutting down an instance!
 - Secondary instance stores for an instance-store backed root device must be installed during the original provisioning of the server. You cannot add more after the fact. However, you can add EBS volumes to the same instance after the server's creation.
 - With these drawbacks of Instance Store volumes, why pick one? Because they have a very high IOPS rate. So while an Instance Store can't provide data persistence, it can provide much higher IOPS compared to network attached storage like EBS. 
 - Further, Instance stores are ideal for temporary storage of information that changes frequently such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers.
@@ -1683,7 +1683,7 @@ SWF is a web service that makes it easy to coordinate work across distributed ap
 
 ## 2.5. Simple Notification Service (SNS)
 
-### 2.5.1. SNS Simplified:
+### 2.5.1. SNS Simplified
 Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible, and cost-effective (inexpensive) method to publish a custom messages to subscribers who wish to be informed about a certain topic. First steps for new customers is to setup a billing alert. Publish messages and imediately deliver to subscribers or applications. 
 
 ### 2.5.2. SNS Key Details (Updated 9/28/20)
@@ -1696,6 +1696,7 @@ Simple Notification Service is a pushed-based messaging service that provides a 
 - To prevent messages being lost, messages are stored redundantly across multiple AZs.
 - There is no long or short polling involved with SNS due to the instantaneous pushing of messages
 - SNS has flexible message delivery over multiple transport protocols and has a simple API.
+- To build a decopled architecture, pass messages downstream in a resilant manner. For that, best bet is to use SQS and HTTP. (Pearson Practice Test).
 
 ### 2.5.3. SNS vs. SQS
 - Both support messaging capabilities. 
@@ -2136,3 +2137,5 @@ Search or jump to…
 ## 6.2 Terms
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
+- Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
+- Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
