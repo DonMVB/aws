@@ -50,7 +50,7 @@
     - [1.6.8. EC2 Placement Groups:](#168-ec2-placement-groups)
   - [1.7. Elastic Block Store (EBS)](#17-elastic-block-store-ebs)
     - [1.7.1. EBS Simplified:](#171-ebs-simplified)
-    - [1.7.2. EBS Key Details (Updated 9/29/20)](#172-ebs-key-details-updated-92920)
+    - [1.7.2. EBS Key Details (Updated 11/16/20)](#172-ebs-key-details-updated-111620)
     - [1.7.3. SSD vs. HDD:](#173-ssd-vs-hdd)
     - [1.7.4. EBS Snapshots:](#174-ebs-snapshots)
     - [1.7.5. EBS Root Device Storage:](#175-ebs-root-device-storage)
@@ -58,7 +58,7 @@
     - [1.7.7. EBS Encryption:](#177-ebs-encryption)
   - [1.8. Elastic Network Interfaces (ENI) (Updated 0/29/2020)](#18-elastic-network-interfaces-eni-updated-0292020)
     - [1.8.1. ENI Simplified:](#181-eni-simplified)
-    - [1.8.2. ENI Key Details (Updated 0/29/2020)](#182-eni-key-details-updated-0292020)
+    - [1.8.2. ENI Key Details (Updated 8/29/2020)](#182-eni-key-details-updated-8292020)
   - [1.9. Security Groups](#19-security-groups)
     - [1.9.1. Security Groups Simplified:](#191-security-groups-simplified)
     - [1.9.2. Security Groups Key Details (Updated 9/29/2020)](#192-security-groups-key-details-updated-9292020)
@@ -89,7 +89,7 @@
   - [1.16. Relational Database Service (RDS)](#116-relational-database-service-rds)
     - [1.16.1. RDS Simplified:](#1161-rds-simplified)
     - [1.16.2. RDS Key Details:](#1162-rds-key-details)
-    - [1.16.3. RDS Multi-AZ:](#1163-rds-multi-az)
+    - [1.16.3. RDS Multi-AZ (Updated 11/13/2020)](#1163-rds-multi-az-updated-11132020)
     - [1.16.4. RDS Read Replicas:](#1164-rds-read-replicas)
     - [1.16.5. RDS Backups:](#1165-rds-backups)
     - [1.16.6. RDS Security:](#1166-rds-security)
@@ -130,30 +130,30 @@
     - [1.27.4. ELB Cross Zone Load Balancing:](#1274-elb-cross-zone-load-balancing)
     - [1.27.5. ELB Security (Updated 11/6/2020):](#1275-elb-security-updated-1162020)
 - [2. Auto Scaling](#2-auto-scaling)
-    - [2.0.1. Auto Scaling Simplified:](#201-auto-scaling-simplified)
-    - [2.0.2. Auto Scaling Key Details:](#202-auto-scaling-key-details)
-    - [2.0.3. Auto Scaling Default Termination Policy:](#203-auto-scaling-default-termination-policy)
+  - [2.0.1. Auto Scaling Simplified:](#201-auto-scaling-simplified)
+  - [2.0.2. Auto Scaling Key Details:](#202-auto-scaling-key-details)
+  - [2.0.3. Auto Scaling Default Termination Policy:](#203-auto-scaling-default-termination-policy)
   - [2.1. Auto Scaling Cooldown Period:](#21-auto-scaling-cooldown-period)
-  - [2.2. Virtual Private Cloud (VPC)](#22-virtual-private-cloud-vpc)
-    - [2.2.1. VPC Simplified:](#221-vpc-simplified)
-    - [2.2.2. VPC Key Details (Updated 9/4/2020):](#222-vpc-key-details-updated-942020)
-    - [2.2.3. VPC Subnets (Updated 9/4/2020):](#223-vpc-subnets-updated-942020)
-    - [2.2.4. Network Access Control Lists:](#224-network-access-control-lists)
-    - [2.2.5. NAT Instances vs. NAT Gateways:](#225-nat-instances-vs-nat-gateways)
-    - [2.2.6. Bastion Hosts:](#226-bastion-hosts)
-    - [2.2.7. Route Tables:](#227-route-tables)
-    - [2.2.8. Internet Gateway:](#228-internet-gateway)
-    - [2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)](#229-virtual-private-networks-vpns-updated-11112020)
-    - [2.2.10. AWS DirectConnect:](#2210-aws-directconnect)
-    - [2.2.11. VPC Endpoints:](#2211-vpc-endpoints)
-    - [2.2.12. AWS PrivateLink:](#2212-aws-privatelink)
-    - [2.2.13. VPC Peering:](#2213-vpc-peering)
-    - [2.2.14. VPC Flow Logs:](#2214-vpc-flow-logs)
-    - [2.2.15. AWS Global Accelerator:](#2215-aws-global-accelerator)
-  - [2.3. Simple Queuing Service (SQS) (Updated 9/28/2)](#23-simple-queuing-service-sqs-updated-9282)
-    - [2.3.1. SQS Simplified (Updated 9/24/2020)](#231-sqs-simplified-updated-9242020)
-    - [2.3.2. SQS Key Details:](#232-sqs-key-details)
-    - [2.3.3. SQS Polling:](#233-sqs-polling)
+- [2.2. Virtual Private Cloud (VPC)](#22-virtual-private-cloud-vpc)
+  - [2.2.1. VPC Simplified:](#221-vpc-simplified)
+  - [2.2.2. VPC Key Details (Updated 9/4/2020):](#222-vpc-key-details-updated-942020)
+  - [2.2.3. VPC Subnets (Updated 9/4/2020):](#223-vpc-subnets-updated-942020)
+  - [2.2.4. Network Access Control Lists:](#224-network-access-control-lists)
+  - [2.2.5. NAT Instances vs. NAT Gateways:](#225-nat-instances-vs-nat-gateways)
+  - [2.2.6. Bastion Hosts:](#226-bastion-hosts)
+  - [2.2.7. Route Tables:](#227-route-tables)
+  - [2.2.8. Internet Gateway:](#228-internet-gateway)
+  - [2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)](#229-virtual-private-networks-vpns-updated-11112020)
+  - [2.2.10. AWS DirectConnect:](#2210-aws-directconnect)
+  - [2.2.11. VPC Endpoints:](#2211-vpc-endpoints)
+  - [2.2.12. AWS PrivateLink:](#2212-aws-privatelink)
+  - [2.2.13. VPC Peering:](#2213-vpc-peering)
+  - [2.2.14. VPC Flow Logs:](#2214-vpc-flow-logs)
+- [2.2.15. AWS Global Accelerator:](#2215-aws-global-accelerator)
+- [2.3. Simple Queuing Service (SQS) (Updated 9/28/2)](#23-simple-queuing-service-sqs-updated-9282)
+  - [2.3.1. SQS Simplified (Updated 9/24/2020)](#231-sqs-simplified-updated-9242020)
+  - [2.3.2. SQS Key Details:](#232-sqs-key-details)
+  - [2.3.3. SQS Polling:](#233-sqs-polling)
   - [2.4. Simple Workflow Service (SWF) (Updated 9/28/2020)](#24-simple-workflow-service-swf-updated-9282020)
     - [2.4.1. SWF Simplified:](#241-swf-simplified)
     - [2.4.2. SWF Key Details (Updated 9/28/2020)](#242-swf-key-details-updated-9282020)
@@ -219,15 +219,17 @@
     - [5.1.26 LightSail](#5126-lightsail)
     - [5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)](#5127-key-amazon-aws-terms-added-11112020)
 
-This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
+This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
-  1. Stephane Maarek's <a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c02/">Ultimate AWS Certified Solutions Architect Associate 2020 course</a> or A Cloud Guru's <a href="https://acloud.guru/learn/aws-certified-solutions-architect-associate">AWS Certified Solutions Architect Associate 2020 course</a>
-  2. The FAQs for the most critical services, included in the recommended reading list below
+In order to pass, reference this guide while working through the material in the following steps:
+
+  1. A Cloud Guru's <a href="https://acloud.guru/learn/aws-certified-solutions-architect-associate">AWS Certified Solutions Architect Associate 2020 course</a>
+  2. The FAQs for the most critical services, included in the recommended reading list below.
   3. Tutorials Dojo's <a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-amazon-practice-exams-saa-c02/">AWS Certified Solutions Architect Associate Practice Exams </a>
   4. Andrew Brown's <a href="https://www.youtube.com/watch?v=Ia-UEYYR44s">AWS Certified Solutions Architect - Associate 2020 (PASS THE EXAM!) | Ad-Free Course
 </a> 
 
-Go through the course you purchased as part of Step 1. twice. The first time should be a runthrough to introduce yourself to new AWS concepts and exam details. Jot down the services that confuse you and start with their FAQs as part of Step 2. You should then go through Step 1. once more, but this time as a deep dive. Be sure to pause frequently so that you research concepts that aren't perfectly clear, take notes, and experiment on the AWS console. Once you've completed Step 1. and Step 2., begin testing yourself with the Tutorial Dojo exams. Take the time to read the explanations for the questions that you get wrong. During the days leading up to your exam, go through Andrew Brown's YouTube video as the final step just as a refresher. If at any point you find yourself feeling uncertain of your progress and in need of more time, you can postpone your AWS exam date. This can be done twice. Finally, be sure to keep up on the ongoing discussions in <a href="https://old.reddit.com/r/AWSCertifications/">r/AWSCertifications</a>. There you will find more general information regarding exam tips, study material, and advice from other exam takers.
+Go through the course you purchased as part of Step 1. Twice. The first time should be a runthrough to introduce yourself to new AWS concepts and exam details. Jot down the services that confuse you and start with their FAQs as part of Step 2. You should then go through Step 1. once more, but this time as a deep dive. Be sure to pause frequently so that you research concepts that aren't perfectly clear, take notes, and experiment on the AWS console. Once you've completed Step 1. and Step 2., begin testing yourself with the Tutorial Dojo exams. Take the time to read the explanations for the questions that you get wrong. During the days leading up to your exam, go through Andrew Brown's YouTube video as the final step just as a refresher. If at any point you find yourself feeling uncertain of your progress and in need of more time, you can postpone your AWS exam date. This can be done twice. Finally, be sure to keep up on the ongoing discussions in <a href="https://old.reddit.com/r/AWSCertifications/">r/AWSCertifications</a>. There you will find more general information regarding exam tips, study material, and advice from other exam takers.
 
 *Note*: When experimenting on your AWS account, be sure to understand what is <a href="https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc">free</a> and what isn't. Relevant Free Tier FAQs can be found <a href="https://aws.amazon.com/free/free-tier-faqs/">here</a>.
 
@@ -389,32 +391,21 @@ AWS users can create up to 100 buckets by default.
 - The data consistency model for S3 ensures `eventual read consistency` for PUTS and DELETES of already existing objects. This is because the change takes a little time to propagate across the entire Amazon network.
 - Because of the eventual consistency model when updating existing objects in S3, those updates might not be immediately reflected. As object updates are made to the same key, an older version of the object might be provided back to the user when the next read request is made. 
 - Amazon guarantees 99.999999999% (or 11 9s) durability for all S3 storage classes except its Reduced Redundancy Storage class.
+  
 - S3 comes with the following main features:
-
   1.) tiered storage and pricing variability
-
   2.) lifecycle management to expire older content
-
   3.) versioning for version control
-
   4.) encryption for privacy
-
   5.) MFA deletes to prevent accidental or malicious removal of content, and it works with verioning as well.
-
   6.) access control lists & bucket policies to secure the data
 
 - S3 charges by:
-
   1.) storage size
-
   2.) number of requests
-
   3.) storage management pricing (known as tiers)
-
   4.) data transfer pricing (objects leaving/entering AWS via the internet)
-
   5.) transfer acceleration (an optional speed increase for moving objects via Cloudfront)
-
   6.) cross region replication (more HA than offered by default
 
 - Bucket policies secure data at the bucket level while access control lists secure data at the more granular object level.
@@ -423,9 +414,7 @@ AWS users can create up to 100 buckets by default.
 - There are 3 different ways to share S3 buckets across AWS accounts:
 
   1.) For programmatic access only, use IAM & Bucket Policies to share entire buckets
-
   2.) For programmatic access only, use ACLs & Bucket Policies to share objects
-
   3.) For access via the console & the terminal, use cross-account IAM roles
 
 - S3 is a great candidate for static website hosting. When you enable static website hosting for S3 you need both an index.html file and an error.html file. Static website hosting creates a website endpoint that can be accessed via the internet.
@@ -434,12 +423,13 @@ AWS users can create up to 100 buckets by default.
 
 ### 1.2.3. S3 Storage Classes:
 Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket.
+(AWS doc link)[https://aws.amazon.com/s3/storage-classes/]
 
 **S3 Standard** - 99.99% availability (highest) and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
 
-**S3 Infrequently Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval.
+**S3 Infrequent Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval. 4 9s availability and 11 9s durability.
 
-**S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA.
+**S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA. Z-IA (One Zone-Infrequent Access) has an availability SLA of 2.5 9s, the lowest of all S3 storage classes (PPT).
 
 **S3 Intelligent Tiering** - Uses built-in ML/AI to determine the most cost-effective storage class and then automatically moves your data to the appropriate tier. It does this without operational overhead or performance impact.
 
@@ -484,7 +474,7 @@ You can encrypted on the AWS supported server-side in the following ways:
 
 ### 1.2.7. S3 Cross Region Replication:
 - Cross region replication only work if versioning is enabled.
-- When cross region replication is enabled, no pre-existing data is transferred. Only new uploads into the original bucket are replicated. All subsequent updates are replicated.
+- When cross region replication is enabled, *no pre-existing data is transferred*. Only new uploads into the original bucket are replicated. All subsequent updates are replicated. To replicate, existing data must be manually copied (PPT).
 - When you replicate the contents of one bucket to another, you can actually change the ownership of the content if you want. You can also change the storage tier of the new bucket with the replicated content.
 - When files are deleted in the original bucket (via a delete marker as versioning prevents true deletions), those deletes are not replicated.
 - <a href="https://aws.amazon.com/solutions/cross-region-replication-monitor/">Cross Region Replication Overview</a>
@@ -749,7 +739,7 @@ The following table highlights the many instance states that a VM can be in at a
 ### 1.7.1. EBS Simplified:
 An Amazon EBS volume is a durable, block-level storage device that you can attach to a single EC2 instance. You can think of EBS as a cloud-based virtual hard disk. You can use EBS volumes as primary storage for data that requires frequent updates, such as the system drive for an instance or storage for a database application. You can also use them for throughput-intensive applications that perform continuous disk scans.
 
-### 1.7.2. EBS Key Details (Updated 9/29/20)
+### 1.7.2. EBS Key Details (Updated 11/16/20)
 - EBS volumes persist independently from the running life of an EC2 instance. They are AZ specific. 
 - Each EBS volume is automatically replicated within its Availability Zone to protect from both component failure and disaster recovery (similar to Standard S3).
 - There are five different types of EBS Storage:
@@ -777,6 +767,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - You can copy AMIs into entirely new regions.
 - When copying AMIs to new regions, Amazon won’t copy launch permissions, user-defined tags, or Amazon S3 bucket permissions from the source AMI to the new AMI. You must ensure those details are properly set for the instances in the new region.
 - You can change EBS volumes on the fly, including the size and storage type.
+- EBS volumes are an AZ-scoped resource. Any writes are synchronously written to two different storage units in different data centers. (PPT)
 - EBS Multi Attach allows you to attach a volume to up to 16 instances, but would have issues across multiple availability zones, and could not use NTFS natively. Limited to 4 Regions (Sept 2020). Article: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html
 
 ### 1.7.3. SSD vs. HDD:
@@ -786,6 +777,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 
 ![hdd_vs_ssd](https://user-images.githubusercontent.com/13093517/84944872-76165b80-b0b4-11ea-819c-a93deb999ea2.png)
 
+- KNOW THE [SUMMARY CHART HERE](https://aws.amazon.com/ebs/features/)
 
 ### 1.7.4. EBS Snapshots:
 - EBS Snapshots are point in time copies of volumes. 
@@ -835,10 +827,10 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 ### 1.8.1. ENI Simplified:
 An elastic network interface is a networking component that represents a virtual network card. When you provision a new instance, there will be an ENI attached automatically and you can create and configure additional network interfaces if desired. When you move a network interface from one instance to another, network traffic is redirected to the new instance. 
 
-### 1.8.2. ENI Key Details (Updated 0/29/2020)
+### 1.8.2. ENI Key Details (Updated 8/29/2020)
 - ENI is used mainly for low-budget, high-availability network solutions
 - However, if you suspect you need high network throughput then you can use Enhanced Networking ENI.
-- Enhanced Networking ENI uses single root I/O virtualization to provide high-performance networking capabilities on supported instance types. SR-IOV provides higher I/O and lower throughput and it ensures higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies. SR-IOV does this by dedicating the interface to a single instance and effectively bypassing parts of the Hypervisor which allows for better performance. SR-IOV = Single Root I/O Virtualization.
+- Enhanced Networking ENI uses single root I/O virtualization to provide high-performance networking capabilities on supported instance types. SR-IOV provides higher I/O and lower throughput and it ensures higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies. SR-IOV does this by dedicating the interface to a single instance and effectively bypassing parts of the Hypervisor which allows for better performance. SR-IOV = Single Root I/O Virtualization. 25Gbps is the theoretical maximum for an ENI (in theory...) (PPT.)
 - Adding more ENIs won’t necessarily speed up your network throughput, but Enhanced Networking ENI will.
 - There is no extra charge for using Enhanced Networking ENI and the better network performance it provides. The only downside is that Enhanced Networking ENI is not available on all EC2 instance families and types.
 - You can attach a network interface to an EC2 instance in the following ways:
@@ -990,7 +982,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 
 ### 1.13.2. EFS Key Details (Updated 11/11/2020)
 - In EFS, storage capacity is elastic (grows and shrinks automatically) and its size changes based on adding or removing files.
-- On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate.
+- On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate. While it is only achievable in some regions, the maximum throughput for EFS is 3Gbps (PPT.)
 - While EBS mounts one EBS volume to one instance, you can attach one EFS volume across multiple EC2 instances.
 - The EC2 instances communicate to the remote file system using the NFSv4 protocol. This makes it required to open up the NFS port for our security group (EC2 firewall rules) to allow inbound traffic on that port.
 - Within an EFS volume, the mount target state will let you know what instances are available for mounting
@@ -1053,7 +1045,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Two RDS database engines support Transparent Data Encryption (TDE): Oracle and MS SQL. TDE encrypts the data at a database level, on top of the storage layer and in the software itself. (Added 11/11/2020)
 
 
-### 1.16.3. RDS Multi-AZ:
+### 1.16.3. RDS Multi-AZ (Updated 11/13/2020)
 - Disaster recovery in AWS always looks to ensure standby copies of resources are maintained in a separate geographical area. This way, if a disaster (natural disaster, political conflict, etc.) ever struck where your original resources are, the copies would be unaffected.
 - When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ). Each AZ runs on its own physically distinct, independent infrastructure, and is engineered to be highly reliable.
 - With a Multi-AZ configuration, EC2 connects to its RDS data store using a DNS address masked as a connection string. If the primary DB fails, Multi-AZ is smart enough to detect that failure and automatically update the DNS address to point at the secondary. No manual intervention is required and AWS takes care of swapping the IP address in DNS.
@@ -1062,6 +1054,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - During a failover, the recovered former primary becomes the new secondary and the promoted secondary becomes primary. Once the original DB is recovered, there will be a sync process kicked off where the two DBs mirror each other once to sync up on the new data that the failed former primary might have missed out on.
 - You can force a failover for a Multi-AZ setup by rebooting the primary instance
 - With a Multi-AZ RDS configuration, backups are taken from the standby.
+- The SLA for RDS Multi-AZ is 99.95% (see https://aws.amazon.com/rds/sla/) (PPT).
 
 
 ### 1.16.4. RDS Read Replicas:
@@ -1154,7 +1147,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
   - key-value pairs which are the fields within the document or row
 - The convenience of non-relational DBs is that each row can look entirely different based on your use case. There doesn't need to be uniformity. For example, if you need a new column for a particular entry you don't also need to ensure that that column exists for the other entries.
 - DyanmoDB supports both document and key-value based models. It is a great fit for mobile, web, gaming, ad-tech, IoT, etc.
-- DynamoDB is stored via SSD which is why it is so fast.
+- DynamoDB is stored via SSD which is why it is fast.
 - It is spread across 3 geographically distinct data centers.
 - The default consistency model is Eventually Consistent Reads, but there are also Strongly Consistent Reads.
 - The difference between the two consistency models is the one second rule. With Eventual Consistent Reads, all copies of data are usually reached within one second. A repeated read after a short period of time should return the updated data. However, if you need to read updated data within or less than a second and this needs to be a guarantee, then strongly consistent reads are your best bet.
@@ -1166,6 +1159,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - High cardinality is good for DynamoDB I/O performance. The more distinct your partition key values are, the better.  It makes it so that the requests sent will be spread across the partitioned space. 
 - DynamoDB makes use of parallel processing to achieve predictable performance. You can visualise each partition or node as an independent DB server of fixed size with each partition or node responsible for a defined block of data. In SQL terminology, this concept is known as sharding but of course DynamoDB is not a SQL-based DB. With DynamoDB, data is stored on Solid State Drives (SSD).
 - DynamoDB partition keys should exhibit a high degree of cardinality—that is, a large range and values spread evenly across that range. The partition key portion of a table's primary key determines the logical partitions in which a table's data is stored. This in turn affects the underlying physical partitions. A partition key design that doesn't distribute I/O requests evenly can create "hot" partitions that result in throttling and use your provisioned I/O capacity inefficiently. (Pearson Practice Test)
+- When configuring Read/Write operations, there are two modes: On-Demand or Provisioned mode (PPT.)
 
 ### 1.18.3. DynamoDB Accelerator (DAX):
 - Amazon DynamoDB Accelerator (DAX) is a fully managed, highly available, in-memory cache that can reduce Amazon DynamoDB response times from milliseconds to microseconds, even at millions of requests per second.
@@ -1188,7 +1182,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - Global Tables is a multi-region, multi-master replication solution for fast local performance of globally distributed apps.
 - Global Tables replicates your Amazon DynamoDB tables automatically across your choice of AWS regions.
 - It is based on DynamoDB streams and is multi-region redundant for data recovery or high availability purposes. Application failover is as simple as redirecting your application’s DynamoDB calls to another AWS region.
-- Global Tables eliminates the difficult work of replicating data between regions and resolving update conflicts, enabling you to focus on your application’s business logic. You do not need to rewrite your applications to make use of Global Tables. 
+- Global Tables eliminates the difficult work of replicating data between regions and resolving update conflicts, enabling you to focus on your application’s business logic. You do not need to rewrite your applications to make use of Global Tables. When data is replicated into each region, the access latency decreases, assuming that the application is configured to use the nearest table replica (PPT.)
 - Replication latency with Global Tables is typically under one second.
 
 
@@ -1218,6 +1212,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - When you provision an Amazon Redshift cluster, it is locked down by default so nobody has access to it. To grant other users inbound access to an Amazon Redshift cluster, you associate the cluster with a security group.
 - Amazon Redshift provides free storage for snapshots that is equal to the storage capacity of your cluster until you delete the cluster. After you reach the free snapshot storage limit, you are charged for any additional storage at the normal rate. Because of this, you should evaluate how many days you need to keep automated snapshots and configure their retention period accordingly, and delete any manual snapshots that you no longer need. 
 - Regardless of whether you enable automated snapshots, you can take a manual snapshot whenever you want. Amazon Redshift will never automatically delete a manual snapshot. Manual snapshots are retained even after you delete your Redshift cluster. Because manual snapshots accrue storage charges, it’s important that you manually delete them if you no longer need them
+- RedShift is considered highly available but not fault-tolerant (PPT.) A RedShift cluster is designed for performance and low latency, not for resilience, and while it has multiple components, the loss of any one will generate a short outage while it is replaced (PPT.)
 
 ## 1.20. Redshift Spectrum:
 - Amazon Redshift Spectrum is used to run queries against exabytes of unstructured data in Amazon S3, with no loading or ETL required.
@@ -1252,7 +1247,7 @@ The ElastiCache service makes it easy to deploy, operate, and scale an in-memory
 ## 1.23. Route53
 
 ### 1.23.1. Route53 Simplified:
-Amazon Route 53 is a highly available and scalable Domain Name System (DNS) service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking.
+Amazon Route 53 is a highly available and scalable Domain Name System (DNS) service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking. Route 53 has a 100% SLA uptime (PPT)
 
 ### 1.23.2. Route53 Key Details:
 - DNS is used to map human-readable domain names into an internet protocol address similarly to how phonebooks map company names with phone numbers.
@@ -1388,16 +1383,17 @@ For example, with Path Patterns you can route general requests to one target gro
 
 # 2. Auto Scaling
 
-### 2.0.1. Auto Scaling Simplified:
+## 2.0.1. Auto Scaling Simplified:
 AWS Auto Scaling lets you build scaling plans that automate how groups of different resources respond to changes in demand. You can optimize availability, costs, or a balance of both. AWS Auto Scaling automatically creates all of the scaling policies and sets targets for you based on your preference. 
 
-### 2.0.2. Auto Scaling Key Details:
+## 2.0.2. Auto Scaling Key Details:
 - Auto Scaling is a major benefit from the cloud's economies of scale so if you ever have a requirement for scaling, automatically think of using the Auto Scaling service. 
 - Auto Scaling has three components:
   - **Groups**: These are logical components. A webserver group of EC2 instances, a database group of RDS instances, etc.
   - **Configuration Templates**: Groups use a template to configure and launch new instances to better match the scaling needs. You can specify information for the new instances like the AMI to use, the instance type, security groups, IAM Role, block devices to associate with the instances, and more.
   - **Scaling Options**: Scaling Options provides several ways for you to scale your Auto Scaling groups. You can base the scaling trigger on the occurence of a specified condition or on a schedule.
 - The following image highlights the state of an Auto scaling group. The orange squares represent active instances. The dotted squares represent potential instances that can and will be spun up whenever necessary. The minimum number, the maximum number, and the desired capacity of instances are all entirely configurable.
+- Predictive Auto Scaling: AWS recommends leaving Predictive Auto Scaling in forecast-only mode for at least 48 hours, but each application is unique, and some applications might require longer.
 
 ![Screen Shot 2020-06-19 at 4 44 18 PM](https://user-images.githubusercontent.com/13093517/85178368-50bc5580-b24c-11ea-9acc-45ca5742e889.png)
 
@@ -1415,8 +1411,10 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - Auto Scaling allows you to suspend and then resume one or more of the Auto Scaling processes in your Auto Scaling Group. This can be very useful when you want to investigate a problem in your application without triggering the Auto Scaling process when making changes.
 - You can specify your launch configuration with multiple Auto Scaling groups. However, you can only specify one launch configuration for an Auto Scaling group at a time.
 - You cannot modify a launch configuration after you've created it. If you want to change the launch configuration for an Auto Scaling group, you must create a new launch configuration and update your Auto Scaling group to inherit this new launch configuration.
+- If there is a requirement to combine both on-demand and spot instances in the same Auto Scaling group, use a launch template because only launch templates support a mixture of on-demand and spot instances at the same time (PPT.)
+- Launch templates allow for versioning so that it is simple to utilize a previous version if a rollback is required (PPT.)
 
-### 2.0.3. Auto Scaling Default Termination Policy:
+## 2.0.3. Auto Scaling Default Termination Policy:
 - The default termination policy for an Auto Scaling Group is to automatically terminate a stopped instance, so unless you've configured it to do otherwise, stopping an instance will result in termination regardless if you wanted that to happen or not. A new instance will be spun up in its place. 
 - The default termination policy will spare instances that you tell it in case some servers are running critical systems or applications. These critical servers are protected from "scale in", which is just the deletion process of instances deemed superfluous to requirements.
 - The default termination policy is designed to help ensure that your network architecture spans Availability Zones evenly. With the default termination policy, the behavior of the Auto Scaling group is as follows:
@@ -1432,12 +1430,12 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - After the Auto Scaling Group scales using a policy, it waits for the cooldown period to complete before resuming further scaling activities if needed.
 - The default waiting period is 300 seconds, but this can be modified.
 
-## 2.2. Virtual Private Cloud (VPC)
+# 2.2. Virtual Private Cloud (VPC)
 
-### 2.2.1. VPC Simplified:
+## 2.2.1. VPC Simplified:
 VPC lets you provision a logically isolated section of the AWS cloud where you can launch services and systems within a virtual network that you define. By having the option of selecting which AWS resources are public facing and which are not, VPC provides much more granular control over security.
 
-### 2.2.2. VPC Key Details (Updated 9/4/2020):
+## 2.2.2. VPC Key Details (Updated 9/4/2020):
 - You can think of VPC as your own virtual datacenter in the cloud. You have complete control of your own network; including the IP range, the creation of sub-networks (subnets), the configuration of route tables and the network gateways used.
 - You can then launch EC2 instances into a subnet of your choosing, select the IPs to be available for the instances, assign security groups for them, and create Network Access Control Lists (NACLs) for the subnets themselves as additional protection.
 - This customization gives you much more control to specify and personalize your infrastructure setup. For example, you can have one public-facing subnet for your web servers to receive HTTP traffic and then a different private-facing subnet for your database server where internet access is forbidden.
@@ -1447,6 +1445,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - There is one default VPC per region. However, you can have as many custom VPCs as you want and all are private by default.
 - When you create a custom VPC, four resources are created: VPC definition itself w/ an IPv4 range (like 10.0.0.0/16), Network ACL, Route table, and a Security Group (for the test - just 3). New subnets are not created by default. You must create them separately. The same is true for an internet gateway. If you want your VPC to have internet access, you need to also create the gateway so that the network can be reached publicly by the world. (Updated 9/4/2020)
 - Because of this, when you create an IGW it will initially be in an detached state. You will need to manually assign it to the custom VPC.
+- The VPC "Network" itself is region scoped. Subnets can be in specific AZ's, but the network for the VPC cannot span regions (PPT.)
 - Once you create a custom VPC however, the following are created by default:
   - a route table
   - a NACL
@@ -1477,7 +1476,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 
 - Security groups can span subnets, but do not span VPCs. ICMP ensures that instances from one security group can ping others in a different security group. It is IPv4 and IPv6 compatible.
 
-### 2.2.3. VPC Subnets (Updated 9/4/2020):
+## 2.2.3. VPC Subnets (Updated 9/4/2020):
 - If a network has a large number of hosts without logically grouped subdivisions, managing the many hosts can be a tedious job. Therefore you use subnets to divide a network so that management becomes easier.
 - When you create a subnet, be sure to specify which VPC you want to place it in. You can assign both IPv4 and IPv6 ranges to your subnets.
 - The main benefits of subnets:
@@ -1485,7 +1484,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   - Subnets function as logical groups to put your entities inside of. It makes it much easier to configure similar resources as a group instead of for every individual instance.
 - Amazon always reserves five IP addresses within a subnet. The first four IP addresses and the last IP address of each subnet CIDR block will always be unavailable for use. Uae .1 = VPC router, .2 = DNS, .3 = future use, .0 = network address, .25 = broadcast. Note that broadcasts are not supported in a VPC submet (9/4/2020)
 
-### 2.2.4. Network Access Control Lists:
+## 2.2.4. Network Access Control Lists:
 - Network Access Control Lists (or NACLs) are like security groups but for subnets rather than instances. The main difference between security groups and NACLs is that security groups are *stateless*, meaning you can perform both allow and deny rules that may be divergent, depending if traffic is inbound or outbound, for that rule. 
 - The following table highlights the differences between NACLs and Subnets. 
 
@@ -1508,13 +1507,12 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - If you are using NAT Gateway along with your NACL, you must ensure the availability of the NAT Gateway ephemeral port range within the rules of your NACL. Because NAT Gateway traffic can appear on any of range's ports for the duration of its connection, you must ensure that all possible ports are accounted for and open.
 - NACL can have a small impact on how EC2 instances in a private subnet will communicate with any service, including VPC Endpoints.
 
-
-### 2.2.5. NAT Instances vs. NAT Gateways:
+## 2.2.5. NAT Instances vs. NAT Gateways:
 - Attaching an Internet Gateway to a VPC allows instances with public IPs to directly access the internet. NAT does a similar thing, however it is for instances that do not have a public IP. It serves as an intermediate step which allow private instances to first masked their own private IP as the NAT's public IP before accessing the internet.
 - You would want your private instances to access the internet so that they can have normal software updates. NAT prevents any initiating of a connection from the internet.
 - **NAT instances** are individual EC2 instances that perform the function of providing private subnets a means to securely access the internet. 
 - Because they are individual instances, High Availability is not a built-in feature and they can become a choke point in your VPC. They are not fault-tolerant and serve as a single point of failure. While it is possible to use auto-scaling groups, scripts to automate failover, etc. to prevent bottlenecking, it is far better to use the NAT Gateway as an alternative for a scalable solution.
-- **NAT Gateway** is a managed service that is composed of multiple instances linked together within an availability zone in order to achieve HA by default.
+- **NAT Gateway** is a managed service that is composed of multiple instances linked together within an availability zone in order to achieve HA by default.  The NAT gateway is replaced by AWS if it fails, but there is a short disruption of service during the replacement (PPT). NAT Gateways are a charge item - not free. 
 - To achieve further HA and a zone-independent architecture, create a NAT gateway for each Availability Zone and configure your routing to ensure that resources use the NAT gateway in their corresponding Availability Zone. 
 - NAT instances are deprecated, but still useable. NAT Gateways are the prefered means to achieve Network Address Translation. 
 - There is no need to patch NAT Gateways as the service is managed by AWS. You do need to patch NAT Instances though because they’re just individual EC2 instances.
@@ -1523,7 +1521,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - When creating NAT instances, it is important to remember that EC2 instances have source/destination checks on them by default. What these checks do is ensure that any traffic it comes across must be either generated by the instance or be the intended recipient of that traffic. Otherwise, the traffic is dropped because the EC2 instance is neither the source nor the destination.
 - So because NAT instances act as a sort of proxy, you *must* disable source/destination checks when musing a NAT instance.
 
-### 2.2.6. Bastion Hosts:
+## 2.2.6. Bastion Hosts:
 - Bastion Hosts are special purpose computers designed and configured to withstand attacks. This server generally runs a single program and is stripped beyond this purpose in order to reduce attack vectors. [From wikipedia, added 9/4/2020]
 - The purpose of Bastion Hosts in AWS is to remotely access the instances behind the private subnet for system administration purposes without exposing the host via an internet gateway. 
 - The best way to implement a Bastion Host is to create a small EC2 instance that only has a security group rule for a single IP address. This ensures maximum security.
@@ -1532,7 +1530,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Similar to NAT Gateways and NAT Instances, Bastion Hosts live within a public-facing subnet.
 - There are pre-baked Bastion Host AMIs.
 
-### 2.2.7. Route Tables:
+## 2.2.7. Route Tables:
 - Route tables are used to make sure that subnets can communicate with each other and that traffic knows where to go.
 - Every subnet that you create is automatically associated with the main route table for the VPC.
 - You can have multiple route tables. If you do not want your new subnet to be associated with the default (or main) route table, you must specify that you want it associated with a different route table.
@@ -1541,17 +1539,18 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - This means you ensure that there is no route out to the internet for the default (main) route table. Then, you can create a custom route table that is public. New subnets will automatically have no route out to the internet. If you want a new subnet to be publically accessible, you can simply associate it with the custom route table.
 - Route tables can be configured to access endpoints (public services accessed privately) and not just the internet.
 
-### 2.2.8. Internet Gateway:
+## 2.2.8. Internet Gateway:
 - If the Internet Gateway is not attached to the VPC, which is the prerequisite for instances to be accessed from the internet, then natually instances in your VPC will not be reachable. 
 - If you want all of your VPC to remain private (and not just some subnets), then do not attach an IGW.
-- The CLI command is: aws ec2 attach-internet-gateway --vpc-id "vpc-0214123ba5d2af412" --internet-gateway-id "igw-0f5bbff6d479e7cf4" --region us-east-1
+- The CLI command is: `aws ec2 attach-internet-gateway --vpc-id "vpc-0214123ba5d2af412" --internet-gateway-id "igw-0f5bbff6d479e7cf4" --region us-east-1`
 - When a Public IP address is assigned to an EC2 instance, it is effectively registered by the Internet Gateway as a valid public endpoint. However, each instance is only aware of its private IP and not its public IP. Only the IGW knows of the public IPs that belong to instances. 
 - When an EC2 instance initiates a connection to the public internet, the request is sent using the public IP as its source even though the instance doesn't know a thing about it. This works because the IGW performs its own NAT translation where private IPs are mapped to public IPs and vice versa for traffic flowing into and out of the VPC. 
 - So when traffic from the internet is destined for an instance's public IP endpoint, the IGW receives it and forwards the traffic onto the EC2 instance using its internal private IP.
 - You can only have one IGW per VPC.
-- **Summary**: IGW connects *your VPC with the internet*.
+- An Internet gateway is a *fault-tolerant* virtualized resource with no visibility from the customer perspective. (PPT)
+- **Summary**: IGW connects *your VPC with the internet*. It is the most optimized path to the Internet (PPT.)
 
-### 2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)
+## 2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)
 - VPCs can also serve as a bridge between your corporate data center and the AWS cloud. With a VPC Virtual Private Network (VPN), your VPC becomes an extension of your on-prem environment.
 - Naturally, your instances that you launch in your VPC can't communicate with your own on-premise servers. You can allow the access by first:
   - attaching a virtual private gateway which has a Public IP address (the AWS Anchor) to the VPC
@@ -1570,8 +1569,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - The above VPC has an attached virtual private gateway (note: not an internet gateway) and there is a remote network that includes a customer gateway which you must configure to enable the VPN connection. You set up the routing so that any traffic from the VPC bound for your network is routed to the virtual private gateway.
 - **Summary**: VPNs connect your *on-prem with your VPC* over the internet.
 
-
-### 2.2.10. AWS DirectConnect:
+## 2.2.10. AWS DirectConnect:
 - Direct Connect is an AWS service that establishes a dedicated network connection between your premises and AWS. You can create this private connectivity to reduce network costs, increase bandwidth, and provide more consistent network experience compared to regular internet-based connections.
 - The use case for Direct Connect is high throughput workloads or if you need a stable or reliable connection.
 - VPN connects to your on-prem over the internet and DirectConnect connects to your on-prem off through a private tunnel. There are multiple DC locations around the world. There is a AWS dedicated cage at each location. Your router is also caged. There is a cross connect cable at the cage location (a cable).
@@ -1585,8 +1583,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Data flow into AWS via DirectConnect looks like the following: On-prem router -> dedicated line -> your own cage / DMZ -> cross connect line -> AWS Direct Connect Router -> AWS backbone -> AWS Cloud
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
-
-### 2.2.11. VPC Endpoints:
+## 2.2.11. VPC Endpoints:
 - VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem and these Endpoints are virtual devices that are HA and without bandwidth constraints. 
 - These work basically by attaching an ENI to an EC2 instance that can easily communicate to a wide range of AWS services.
 - **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB. Gateway Endpoints are mainly just a target that you set. 
@@ -1595,7 +1592,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - To secure your Interface Endpoint, use Security Groups. But to secure Gateway Endpoint, use VPC Endpoint Policies.
 - **Summary**: VPC Endpoints connect your *VPC with AWS services* through a non-public tunnel.
 
-### 2.2.12. AWS PrivateLink:
+## 2.2.12. AWS PrivateLink:
 - AWS PrivateLink simplifies the security of data shared with cloud-based applications by eliminating the exposure of data to the public Internet. AWS PrivateLink provides private connectivity between different VPCs, AWS services, and on-premises applications, securely on the Amazon network.
 - It's similar to the AWS Direct Connect service in that it establishes private connections to the AWS cloud, except Direct Connect links on-premises environments to AWS. PrivateLink, on the other hand, secures traffic from VPC environments which are already in AWS.
 - This is useful because different AWS services often talk to each other over the internet. If you do not want that behavior and instead want AWS services to only communicate within the AWS network, use AWS PrivateLink. By not traversing the Internet, PrivateLink reduces the exposure to threat vectors such as brute force and distributed denial-of-service attacks. 
@@ -1604,10 +1601,11 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Remember that AWS PrivateLink applies to Applicatiosn/Services communicating with each other within the AWS network. For VPCs to communicate with each other within the AWS network, use VPC Peering.
 - **Summary:** AWS PrivateLink connects your *AWS services with other AWS services* through a non-public tunnel.
 
-### 2.2.13. VPC Peering:
+## 2.2.13. VPC Peering:
 - VPC peering allows you to connect one VPC with another via a direct network route using the Private IPs belonging to both. With VPC peering, instances in different VPCs behave as if they were on the same network.
 - You can create a VPC peering connection between your own VPCs, regardless if they are in the same region or not, and with a VPC in an enirely different AWS account.
 - VPC Peering is usually done in such a way that there is one central VPC that peers with others. Only the central VPC can talk to the other VPCs.
+- VPC Peering connection is documented as exhibiting no single point of failure and is a redundant resource, which means it is fault tolerant (PPT). (11/13/2020)
 - You cannot do transitive peering for non-central VPCs. Non-central VPCs cannot go through the central VPC to get to another non-central VPC. You must set up a new portal between non-central nodes if you need them to talk to each other.
 - The following diagram highlights the above idea. VPC B is free to communicate with VPC A with VPC Peering enabled between both. However, VPC B cannot continue the conversation with VPC C. Only VPC A can communicate with VPC C.
 
@@ -1620,7 +1618,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - You can peer across regions, but you cannot have one subnet stretched over multiple availability zones. However, you can have multiple subnets in the same availability zone.  
 - **Summary**: VPC Peering connects your *VPC to another VPC* through a non-public tunnel.
 
-### 2.2.14. VPC Flow Logs:
+## 2.2.14. VPC Flow Logs:
 - VPC Flow Logs is a feature that captures the IP information for all traffic flowing into and out of your VPC. Flow log data is sent to an S3 bucket or CloudWatch where you can view, retrieve, and manipulate this data. 
 - You can capture the traffic flow at various stages through its travel:
   - Traffic flowing into and out of the VPC (like at the IGW)
@@ -1641,8 +1639,8 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   - Query requests to the AWS DNS server
   - Windows licensing activitation isn't monitored (9/4/2020)
   - Traffic to reserved IP o/t default VPC router (9/4/2020)
-  
-  ### 2.2.15. AWS Global Accelerator:
+
+# 2.2.15. AWS Global Accelerator:
 - AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static IP addresses that you can make use of.
 - Global Accelerator helps reduce the number of hops to get to your AWS resources. Your users just need to make it to an edge location and once there, everything will remain internal to the AWS global network. Normally, it takes many networks to reach the application in full and paths to and from the application may vary. With each hop, there is risk involved either in security or in failure.
 
@@ -1655,16 +1653,16 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Route53's latency based routing might also appear similar to Global Accelerator, but Route 53 is for simply helping choose which region for the user to use. Route53 has nothing to do with actually providing a fast network path.
 - Global Accelerator also provides fast regional failover.
 
-## 2.3. Simple Queuing Service (SQS) (Updated 9/28/2)
+# 2.3. Simple Queuing Service (SQS) (Updated 9/28/2)
 
-### 2.3.1. SQS Simplified (Updated 9/24/2020)
+## 2.3.1. SQS Simplified (Updated 9/24/2020)
  SQS is a web-based service that gives you access to a message queue that can be used to store messages while waiting for a system (EC2) to process them using *polling* (not push). It helps in the *decoupling* of systems and the horizontal scaling of AWS resources. Queues are temp repository for messages, which can be up to 256 KB in any format. Can also have a reference to a up to 2GB structure in an S3 bucket, w/ ref into in the SQS message queue.
  
  Example: User visits a image generator site, a Lamba function montiors the request. A group of EC2 instances poll for alerts, process the request, and drop the output on an S3 bucket. If you lose an EC2 instance, the message can become available again so another EC2 can pick up and run (like an app fault).
  
  Example: Travel site. User wants deal of flight, hotel, car. Various EC2 servers can process the user request queue, get thier part of the answer, pass the answers back to web server. 
 
-### 2.3.2. SQS Key Details:
+## 2.3.2. SQS Key Details:
 - The point behind SQS is to decouple work across systems. This way, downstream services in a system can perform work when they are ready to rather than when upstream services feed them data.
 - In a hypothetical AWS environment running without SQS, *Application A* would pass *Application B* data regardless if Application B was ready to receive the info. With SQS however, there is an intermediary step where the data is stored temporarily in a buffer. It waits there until Application B pulls the temporarily stored data. SQS is not a push-based service so it is necessary for SQS to work in tandem with another service that queries it for information.
 - There are two types of SQS queues; **standard** and **FIFO**. Standard queues may be received out of order based on message size or however else the SQS queues decide to optimize. FIFO queues guarantees that the order of messages that went into the queue is the same as the order of messages that leave it.
@@ -1676,8 +1674,9 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Always remember that the messages in the SQS queue will continue to exist even after the EC2 instance has processed it, until you delete that message. You have to ensure that you delete the message after processing to prevent the message from being received and processed again once the visibility timeout expires.
 - An SQS queue can contain an unlimited number of messages. 
 - You cannot set a priority to the individual items in the SQS queue. If priority of messaging matters, create two separate SQS queues. The SQS queues for the priority message can be polled first by the EC2 Instances and once completed, the messages from the second queue can be processed next.
+- When you configure a single SNS topic and multipe SQS queues subscribe, it is called a Fan Out architecture (PPT.)
 
-### 2.3.3. SQS Polling:
+## 2.3.3. SQS Polling:
 - Polling is the means in which you query SQS for messages or work. Amazon SQS provides short-polling and long-polling to receive messages from a queue. By default, queues use short polling. 
 - **SQS long-polling**: This polling technique will only return from the queue once a message is there, regardless if the queue is currently full or empty. This way, the reader needs to wait either for the timeout set or for a message to finally arrive. SQS long polling doesn't return a response until a message arrives in the queue, reducing your overall cost over time. 
 - **SQS short-polling**: This polling technique will return immediately with either a message that’s already stored in the queue or empty-handed. 
@@ -2092,7 +2091,8 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - Amazon ECS eliminates the need for you to install, operate, and scale your own cluster management infrastructure. With simple API calls, you can launch and stop container-enabled applications, query the complete state of your cluster, and access many familiar features like security groups, Elastic Load Balancing, EBS volumes and IAM roles. 
 - You can use Amazon ECS to schedule the placement of containers across your cluster based on your resource needs and availability requirements. You can also integrate your own scheduler or third-party schedulers to meet business or application specific requirements.
 - You can choose to run your ECS clusters using AWS Fargate, which is serverless compute for containers. Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
-- For long-running container jobs, it can be more expensive than ECS on EC2.
+- For long-running container jobs, it can be more expensive than ECS on EC2 (PPT).
+- ECS is not "instant scaling" because ECS requires a short delay to deploy new containers during scaling (PPT.)
 
 ### 5.1.17. What is Amazon Elastic Kubernetes Service?
 - Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed Kubernetes service. EKS runs upstream Kubernetes and is certified Kubernetes conformant so you can leverage all benefits of open source tooling from the community. You can also easily migrate any standard Kubernetes application to EKS without needing to refactor your code.
@@ -2160,5 +2160,6 @@ Search or jump to…
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
 - Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
-- Scalable: Resources that can grow up. Not down. Scalable systems are able to increase but not decrease resources. An example of this is RDS storage.
-- Elastic: Sale up or down, scale in and out horizontally. 
+- Scalable: Resources that can grow up. Not down. Scalable systems are able to increase but not decrease resources. An example of this is RDS storage or an EBS volume, both of which can grow but not shrink w/o intervention.
+- Elasticity: Sale up or down, scale in and out horizontally. 
+- Synchronous: In synchronous communication, multiple parties are participating at the same time and wait for replies from each other (PPT).
