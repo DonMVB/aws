@@ -26,6 +26,7 @@
     - [1.2.16. S3 Pre-signed URLs:](#1216-s3-pre-signed-urls)
     - [1.2.17. S3 Select:](#1217-s3-select)
     - [1.2.18. S3 REST API (Added 9/24/2020)](#1218-s3-rest-api-added-9242020)
+    - [1.2.19 S3 Static Website](#1219-s3-static-website)
   - [1.3. CloudFront](#13-cloudfront)
     - [1.3.1. CloudFront Simplified:](#131-cloudfront-simplified)
     - [1.3.2. CloudFront Key Details:](#132-cloudfront-key-details)
@@ -53,7 +54,7 @@
     - [1.7.3. SSD vs. HDD:](#173-ssd-vs-hdd)
     - [1.7.4. EBS Snapshots:](#174-ebs-snapshots)
     - [1.7.5. EBS Root Device Storage:](#175-ebs-root-device-storage)
-    - [1.7.6. Instance Store Notes](#176-instance-store-notes)
+    - [1.7.6. Instance Store Notes (Updated 11/11/2020)](#176-instance-store-notes-updated-11112020)
     - [1.7.7. EBS Encryption:](#177-ebs-encryption)
   - [1.8. Elastic Network Interfaces (ENI) (Updated 0/29/2020)](#18-elastic-network-interfaces-eni-updated-0292020)
     - [1.8.1. ENI Simplified:](#181-eni-simplified)
@@ -78,7 +79,7 @@
     - [1.12.2. CloudTrail Key Details:](#1122-cloudtrail-key-details)
   - [1.13. Elastic File System (EFS)](#113-elastic-file-system-efs)
     - [1.13.1. EFS Simplified:](#1131-efs-simplified)
-    - [1.13.2. EFS Key Details:](#1132-efs-key-details)
+    - [1.13.2. EFS Key Details (Updated 11/11/2020)](#1132-efs-key-details-updated-11112020)
   - [1.14. Amazon FSx for Windows](#114-amazon-fsx-for-windows)
     - [1.14.1. Amazon FSx for Windows Simplified:](#1141-amazon-fsx-for-windows-simplified)
     - [1.14.2. Amazon FSx for Windows Key Details:](#1142-amazon-fsx-for-windows-key-details)
@@ -96,7 +97,7 @@
   - [1.17. Aurora](#117-aurora)
     - [1.17.1. Aurora Simplified:](#1171-aurora-simplified)
     - [1.17.2. Aurora Key Details:](#1172-aurora-key-details)
-    - [1.17.3. Aurora Serverless:](#1173-aurora-serverless)
+    - [1.17.3. Aurora Serverless (Updated 11/11/2020)](#1173-aurora-serverless-updated-11112020)
     - [1.17.4. Aurora Cluster Endpoints:](#1174-aurora-cluster-endpoints)
     - [1.17.5. Aurora Reader Endpoints:](#1175-aurora-reader-endpoints)
   - [1.18. DynamoDB](#118-dynamodb)
@@ -142,7 +143,7 @@
     - [2.2.6. Bastion Hosts:](#226-bastion-hosts)
     - [2.2.7. Route Tables:](#227-route-tables)
     - [2.2.8. Internet Gateway:](#228-internet-gateway)
-    - [2.2.9. Virtual Private Networks (VPNs): (Updated 9/27/20)](#229-virtual-private-networks-vpns-updated-92720)
+    - [2.2.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)](#229-virtual-private-networks-vpns-updated-11112020)
     - [2.2.10. AWS DirectConnect:](#2210-aws-directconnect)
     - [2.2.11. VPC Endpoints:](#2211-vpc-endpoints)
     - [2.2.12. AWS PrivateLink:](#2212-aws-privatelink)
@@ -157,7 +158,7 @@
     - [2.4.1. SWF Simplified:](#241-swf-simplified)
     - [2.4.2. SWF Key Details (Updated 9/28/2020)](#242-swf-key-details-updated-9282020)
   - [2.5. Simple Notification Service (SNS)](#25-simple-notification-service-sns)
-    - [2.5.1. SNS Simplified:](#251-sns-simplified)
+    - [2.5.1. SNS Simplified](#251-sns-simplified)
     - [2.5.2. SNS Key Details (Updated 9/28/20)](#252-sns-key-details-updated-92820)
     - [2.5.3. SNS vs. SQS](#253-sns-vs-sqs)
   - [2.6. Kinesis (Updated 9/27/2020)](#26-kinesis-updated-9272020)
@@ -214,6 +215,9 @@
     - [5.1.22. What is AWS Shield (Added 10/12/2020)](#5122-what-is-aws-shield-added-10122020)
     - [5.1.23. What is Amazon MQ?](#5123-what-is-amazon-mq)
     - [5.1.24. What is AWS Config? (Updated 10/1/2020)](#5124-what-is-aws-config-updated-1012020)
+    - [5.1.25.  Unified Scaling Service (Added 11/11/2020)](#5125-unified-scaling-service-added-11112020)
+    - [5.1.26 LightSail](#5126-lightsail)
+    - [5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)](#5127-key-amazon-aws-terms-added-11112020)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam. In order to pass, reference this guide while working through the material in the following steps:
 
@@ -2145,19 +2149,16 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Get a snapshot of the current configurations of the Skip to content
 Search or jump to…
 
-### Unified Scaling Service (Added 11/11/2020)
+### 5.1.25.  Unified Scaling Service (Added 11/11/2020)
 - The services covered by Unified Auto Scaling are EC2, Spot Fleets, DynamoDB, Aurora Read Replicas, and ECS on Fargate
-  
-# 6.0 Misc (Added 11/11/2020)
 
-## 6.1 LightSail 
+### 5.1.26 LightSail 
 - Easy way to get started. Focused on predefined servers to deploy and manage websites in the cloud. Sold as a "bundle".
 
-## 6.2 Terms
+### 5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
 - Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
 - Scalable: Resources that can grow up. Not down. Scalable systems are able to increase but not decrease resources. An example of this is RDS storage.
 - Elastic: Sale up or down, scale in and out horizontally. 
-
