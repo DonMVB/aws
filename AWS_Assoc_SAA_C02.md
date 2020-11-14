@@ -219,6 +219,8 @@
     - [5.1.26 LightSail](#5126-lightsail)
     - [5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)](#5127-key-amazon-aws-terms-added-11112020)
 
+Last Updated: 11/13/2020 11 PM EST USA
+
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
 In order to pass, reference this guide while working through the material in the following steps:
@@ -1115,7 +1117,8 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 
 - Automated backups are always enabled on Aurora instances and backups don’t impact DB performance. You can also take snapshots which also don’t impact performance. Your snapshots can be shared across AWS accounts.
 - A common tactic for migrating RDS DBs into Aurora RDs is to create a read replica of a RDS MariaDB/MySQL DB as an Aurora DB. Then simply promote the Aurora DB into a production instance and delete the old MariaDB/MySQL DB.
-- Aurora starts w/ 10GB and scales per 10GB all the way to 64 TB via storage autoscaling. Aurora's computing power scales up to 32vCPUs and 244GB memory
+- Aurora starts w/ 10GB and scales per 10GB all the way to 64 TB via storage autoscaling. Aurora's computing power scales up to 32vCPUs and 244GB memory.
+- A benefit of deploying an Aurora database using Multi-Master: when deploying multiple masters for a relational database, it is possible to direct a higher number of write queries to the underlying database because the compute and storage tiers are separate infrastructures (PPT.)
 
 ### 1.17.3. Aurora Serverless (Updated 11/11/2020)
 - Aurora Serverless is a simple, on-demand, autoscaling configuration which is also fault tollerant for the MySQL/PostgreSQl-compatible editions of Aurora. With Aurora Serveress, your instance automatically scales up or down and starts on or off based on your application usage. The use cases for this service are infrequent, intermittent, and unpredictable workloads. Doesn't function w/ traditional resources - you use the endpoint.
@@ -1393,7 +1396,7 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
   - **Configuration Templates**: Groups use a template to configure and launch new instances to better match the scaling needs. You can specify information for the new instances like the AMI to use, the instance type, security groups, IAM Role, block devices to associate with the instances, and more.
   - **Scaling Options**: Scaling Options provides several ways for you to scale your Auto Scaling groups. You can base the scaling trigger on the occurence of a specified condition or on a schedule.
 - The following image highlights the state of an Auto scaling group. The orange squares represent active instances. The dotted squares represent potential instances that can and will be spun up whenever necessary. The minimum number, the maximum number, and the desired capacity of instances are all entirely configurable.
-- Predictive Auto Scaling: AWS recommends leaving Predictive Auto Scaling in forecast-only mode for at least 48 hours, but each application is unique, and some applications might require longer.
+- Predictive Auto Scaling: AWS recommends leaving Predictive Auto Scaling in forecast-only mode for at least 48 hours, but each application is unique, and some applications might require longer (PPT - could not find this anywhere else though).
 
 ![Screen Shot 2020-06-19 at 4 44 18 PM](https://user-images.githubusercontent.com/13093517/85178368-50bc5580-b24c-11ea-9acc-45ca5742e889.png)
 
@@ -1412,7 +1415,7 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - You can specify your launch configuration with multiple Auto Scaling groups. However, you can only specify one launch configuration for an Auto Scaling group at a time.
 - You cannot modify a launch configuration after you've created it. If you want to change the launch configuration for an Auto Scaling group, you must create a new launch configuration and update your Auto Scaling group to inherit this new launch configuration.
 - If there is a requirement to combine both on-demand and spot instances in the same Auto Scaling group, use a launch template because only launch templates support a mixture of on-demand and spot instances at the same time (PPT.)
-- Launch templates allow for versioning so that it is simple to utilize a previous version if a rollback is required (PPT.)
+- Launch templates allow for versioning so that it is simple to utilize a previous version if a rollback is required (PPT.) Launch templates over lanuch configurations have these benefits: multiple instance types, can use t2, can use on- demand and spot (PPT).
 
 ## 2.0.3. Auto Scaling Default Termination Policy:
 - The default termination policy for an Auto Scaling Group is to automatically terminate a stopped instance, so unless you've configured it to do otherwise, stopping an instance will result in termination regardless if you wanted that to happen or not. A new instance will be spun up in its place. 
@@ -1584,7 +1587,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
 ## 2.2.11. VPC Endpoints:
-- VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem and these Endpoints are virtual devices that are HA and without bandwidth constraints. 
+- VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem. These Endpoints are virtual devices or proxies (PPT) that are HA and without bandwidth constraints. 
 - These work basically by attaching an ENI to an EC2 instance that can easily communicate to a wide range of AWS services.
 - **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB. Gateway Endpoints are mainly just a target that you set. 
 - **Interface Endpoints** use AWS PrivateLink and have a private IP address so they are their own entity and not just a target in a route table.  Because of this, they cost $.01/hour. Gateway Endpoints are free as they’re just a new route in to set.
@@ -1900,7 +1903,8 @@ AWS Organizations is an account management service that enables you to consolida
 - You can use organizational units (OUs) to group similar accounts together to administer as a single unit. This greatly simplifies the management of your accounts. 
 - You can attach a policy-based control to an OU, and all accounts within the OU automatically inherit the policy. So if your company's developers all have their own sandbox AWS account, they can be treated as a single unit and be restricted by the same policies.
 - With AWS Organizations, we can enable or disable services using Service Control Policies (SCPs) broadly on organizational units or more specifically on individual accounts
-- Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.  SCPs do not affect the root credentials, either console or API.  An AWS Organizations SCP can be used for setting permission boundaries (Max Permissions) for the member accounts.
+- Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.  SCPs do not affect the root credentials, either console or API.  
+- An AWS Organizations SCP can be used for setting permission boundaries (Max Permissions) for the member accounts.) (Permission Boundaries)[https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html] A permissions boundary is an advanced feature for using a managed policy to set the maximum permissions that an identity-based policy can grant to an IAM entity. An entity's permissions boundary allows it to perform only the actions that are allowed by both its identity-based policies and its permissions boundaries. (Added 11/13/2020)
 
 # 3. Web Identity Federation (Added 9/28/2020)
 - Provide access based on a third party web based auth provider. An auth code comes to AWS, and it is traded for a temp access code.
@@ -2163,3 +2167,11 @@ Search or jump to…
 - Scalable: Resources that can grow up. Not down. Scalable systems are able to increase but not decrease resources. An example of this is RDS storage or an EBS volume, both of which can grow but not shrink w/o intervention.
 - Elasticity: Sale up or down, scale in and out horizontally. 
 - Synchronous: In synchronous communication, multiple parties are participating at the same time and wait for replies from each other (PPT).
+- Asynchronous: Asynchronous communication can be described as “fire and forget,” where the workflow can complete without the original requestor requiring a response (PPT.)
+
+# Well Architected Frame Work (Added 11/13/2020)
+- Cost optimization: Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs. As AWS releases new services and features, it is a best practice to review your existing architectural decisions to ensure they continue to be the most cost-effective.
+
+- Security
+- Reliability
+- Performance efficiency
