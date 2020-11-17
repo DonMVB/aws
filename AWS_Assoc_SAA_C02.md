@@ -578,16 +578,18 @@ The Amazon S3 notification feature enables you to receive and send notifications
 
 ## 1.3. CloudFront
 
-### 1.3.1. CloudFront Simplified:
-The AWS CDN service is called CloudFront. It serves up cached content and assets for the increased global performance of your application. The main components of CloudFront are the edge locations (cache endpoints), the origin (original source of truth to be cached such as an EC2 instance, an S3 bucket, an Elastic Load Balancer or a Route 53 config), and the distribution (the arrangement of edge locations from the origin or basically the network itself). <a href="https://aws.amazon.com/cloudfront/features/">More info on CloudFront's features</a>
+### 1.3.1. CloudFront Simplified (Updated 11/16/2020)
+The AWS CDN service is called CloudFront. It serves up cached content and assets (data, videos, applications, and APIs) for the increased global performance of your application. The main components of CloudFront are the edge locations (cache endpoints), the origin (original source of truth to be cached such as an EC2 instance, an S3 bucket, an Elastic Load Balancer or a Route 53 config), and the distribution (the arrangement of edge locations from the origin or basically the network itself). <a href="https://aws.amazon.com/cloudfront/features/">More info on CloudFront's features</a>
 
-### 1.3.2. CloudFront Key Details:
+### 1.3.2. CloudFront Key Details (Updated 11/16/2020)
 - When content is cached, it is done for a certain time limit called the Time To Live, or TTL, which is always in seconds
 - If needed, CloudFront can serve up entire websites including dynamic, static, streaming and interactive content. 
 - Requests are always routed and cached in the nearest edge location for the user, thus propagating the CDN nodes and guaranteeing best performance for future requests.
 - There are two different types of distributions: 
   - **Web Distribution**: web sites, normal cached items, etc
   - **RTMP**: streaming content, adobe, etc
+- Cloud Front has Origin Domain Settings: S3, an ELB, MediaPackage Origin, and Media Store packages. 
+- Cloud Front has these Origins: S3, EC2, and ELB.
 - Edge locations are not just read only. They can be written to which will then return the write value back to the origin.
 - Cached content can be manually invalidated or cleared beyond the TTL, but this does incur a cost.
 - You can invalidate the distribution of certain objects or entire directories so that content is loaded directly from the origin everytime. Invalidating content is also helpful when debugging if content pulled from the origin seems correct, but pulling that same content from an edge location seems incorrect.
@@ -1543,7 +1545,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - Route tables can be configured to access endpoints (public services accessed privately) and not just the internet.
 
 ## 2.2.8. Internet Gateway:
-- If the Internet Gateway is not attached to the VPC, which is the prerequisite for instances to be accessed from the internet, then natually instances in your VPC will not be reachable. 
+- If the Internet Gateway is not attached to the VPC, which is the prerequisite for instances to be accessed from the internet, then natually instances in your VPC will not be reachable. Note that this means an IGW is a VPC resource. Entries in route tables connect the IGW to public subnets. 
 - If you want all of your VPC to remain private (and not just some subnets), then do not attach an IGW.
 - The CLI command is: `aws ec2 attach-internet-gateway --vpc-id "vpc-0214123ba5d2af412" --internet-gateway-id "igw-0f5bbff6d479e7cf4" --region us-east-1`
 - When a Public IP address is assigned to an EC2 instance, it is effectively registered by the Internet Gateway as a valid public endpoint. However, each instance is only aware of its private IP and not its public IP. Only the IGW knows of the public IPs that belong to instances. 
