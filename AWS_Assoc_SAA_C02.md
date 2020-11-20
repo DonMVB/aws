@@ -716,6 +716,9 @@ The following table highlights the many instance states that a VM can be in at a
 - Amazon EC2 uses public–key cryptography to encrypt and decrypt login information. Public–key cryptography uses a public key to encrypt a piece of data, such as a password, and the recipient uses their private key to decrypt the data. The public and private keys are known as a key pair.
 - You can encrypt your root device volume which is where you install the underlying OS. You can do this during creation time of the instance or with third-party tools like bit locker. Of course, additional or secondary EBS volumes are also encryptable as well.
 - By default, an EC2 instance with an attached AWS Elastic Block Store (EBS) root volume will be deleted together when the instance is terminated. However, any additional or secondary EBS volume that is also attached to the same instance will be preserved. This is because the root EBS volume is for OS installations and other low-level settings. This rule can be modified, but it is usually easier to boot a new instance with a fresh root device volume than make use of an old one.
+- At the command line, use these commands to create a KEY-NAME-HERE and drop it in your .ssh directory. Then review EC2 keys:
+ - aws ec2 create-key-pair  --key-name KEY-NAME-HERE --query 'KeyMaterial' --output text > ~/.ssh/KEY-NAME-HERE .pem
+ - aws ec2 describe-key-pairs --key-name KEY-NAME-HERE 
 
 ### 1.6.8. EC2 Placement Groups:
 -  Placement groups balance the tradeoff between risk tolerance and network performance when it comes to your fleet of EC2 instances. The more you care about risk, the more isolated you want your instances to be from each other. The more you care about performance, the more conjoined you want your instances to be with each other. 
