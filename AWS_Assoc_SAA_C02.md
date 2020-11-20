@@ -327,6 +327,9 @@ IAM Policies are separated from the other entities above because they are not an
 Note: Make sure that you examine the JSON text of IAM policies within the AWS console. 
 - Version, Statement, Effect, Action, Resource. 
 
+To see your region in the CLI:
+- `aws configure get region`
+
 ### 1.1.3. IAM Key Details:
 
 - IAM is a global AWS services that is not limited by regions. Any user, group, role or policy is accessible globally.
