@@ -722,6 +722,7 @@ The following table highlights the many instance states that a VM can be in at a
 - At the command line, use these commands to create a KEY-NAME-HERE and drop it in your .ssh directory. Then review EC2 keys:
     - `aws ec2 create-key-pair  --key-name KEY-NAME-HERE --query 'KeyMaterial' --output text > ~/.ssh/KEY-NAME-HERE .pem`
     - `aws ec2 describe-key-pairs --key-name KEY-NAME-HERE` 
+    - `aws iam upload-ssh-public-key --user-name KEY-NAME-HERE --ssh-public-key-body "$(< ~/.ssh/KEY-NAME-HERE.pub)"
 
 ### 1.6.8. EC2 Placement Groups:
 -  Placement groups balance the tradeoff between risk tolerance and network performance when it comes to your fleet of EC2 instances. The more you care about risk, the more isolated you want your instances to be from each other. The more you care about performance, the more conjoined you want your instances to be with each other. 
