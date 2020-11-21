@@ -475,6 +475,10 @@ You can encrypted on the AWS supported server-side in the following ways:
 - Once versioning is enabled on a bucket, it cannot be disabled - only suspended.
 - Versioning integrates w/ lifecycle rules so you can set rules to expire or migrate data based on their version.
 - Versioning also has MFA delete capability to provide an additional layer of security.
+- To enable MFA delete, first enable Versioning on the bucket and then run an AWS CLI command like this: 
+  - `aws iam list-virtual-mfa-devices` to get the device MFA code.
+  - `aws s3api put-bucket-versioning --bucket <yourbucket> --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa "arn:aws:iam::<account number>:mfa/root-account-mfa-device <mfa code>"`
+
 
 ### 1.2.6. S3 Lifecycle Management:
 - Automates the moving of objects between the different storage tiers.
