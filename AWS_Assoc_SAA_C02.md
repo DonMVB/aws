@@ -419,12 +419,16 @@ AWS users can create up to 100 buckets by default.
 - There are 3 different ways to share S3 buckets across AWS accounts:
 
   1.) For programmatic access only, use IAM & Bucket Policies to share entire buckets
+  
   2.) For programmatic access only, use ACLs & Bucket Policies to share objects
+  
   3.) For access via the console & the terminal, use cross-account IAM roles
 
 - S3 is a great candidate for static website hosting. When you enable static website hosting for S3 you need both an index.html file and an error.html file. Static website hosting creates a website endpoint that can be accessed via the internet.
 - When you upload new files and have versioning enabled, they will not inherit the properties of the previous version. Uploads are a "single operation". 
 - AWS CSAPT advises to use Multi part over stable uploads, and can help with lower reliability networks because only failed parts need to be uploaded again.
+- You can create a folder structure within S3 (Folder | Objects tab). 
+- from a client, you can use HTTP and post to an HTTPS S3 (or SSL/TLS) endpoint, as well as use HTTPS.
 
 ### 1.2.3. S3 Storage Classes:
 Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket.
@@ -2013,14 +2017,14 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - AWS Managed CMK - Free, created automatically when an encrypted resource is created. Can track use, wif life cycle managed by KMS. 
   - AWS Owned CMK  an AWS owns and manages, used by an AWS serbice. we can't view, use, audit.
 - Acronyms for Server Side Encryption
-  - SSE-KMS
+  - SSE-KMS: If you do not specify a customer managed CMK, S3 automatically creates a managed CMK the first time an object is added, encrypted with SSE-KMS, to a bucket. 
   - SSE-C: requires that you manage the encryption key.
   - SSE-S3: For S3 encryption at rest; requires that Amazon S3 manage the data and the encryption keys.
   - SSE-KMS requires that AWS manage the data key but you manage the customer master key (CMK) in AWS KMS.
   - CMK: Customer Master Key; logical representation of a customer key.
   - DK / DEK: Data Key, Data Encryption Key. The keys used to encrypt data (RDS, S3, EBS, etc.)
   - HBK: HSA Backing Key. As keys are rotated in the CMK, new HBK's will be created. Old keys remain to support decrypting old data (retired keys).
-  - 
+  - SSE-E: This is a made up term! (likely to see this on tests).
  
 - AWS KMS is integrated with most other AWS services that encrypt your data with encryption keys that you manage. AWS KMS is also integrated with AWS CloudTrail to provide encryption key usage logs to help meet your auditing, regulatory and compliance needs.
 - You can configure your application to use the KMS API to encrypt all data before saving it to disk.
