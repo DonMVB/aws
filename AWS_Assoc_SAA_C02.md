@@ -1498,6 +1498,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 
 ## 2.2.4. Network Access Control Lists:
 - Network Access Control Lists (or NACLs) are like security groups but for subnets rather than instances. The main difference between security groups and NACLs is that security groups are *stateless*, meaning you can perform both allow and deny rules that may be divergent, depending if traffic is inbound or outbound, for that rule. 
+- When labbing up AWS resources, you often want to restrict access to your ISP assigned addres: Use `curl -s ipinfo.io/ip` to get your IP at the command line. 
 - The following table highlights the differences between NACLs and Subnets. 
 
 | NACL | Security Group |
@@ -2011,6 +2012,16 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Cusomter Managed - Customers can create and are in charge of life cycle
   - AWS Managed CMK - Free, created automatically when an encrypted resource is created. Can track use, wif life cycle managed by KMS. 
   - AWS Owned CMK  an AWS owns and manages, used by an AWS serbice. we can't view, use, audit.
+- Acronyms for Server Side Encryption
+  - SSE-KMS
+  - SSE-C: requires that you manage the encryption key.
+  - SSE-S3: For S3 encryption at rest; requires that Amazon S3 manage the data and the encryption keys.
+  - SSE-KMS requires that AWS manage the data key but you manage the customer master key (CMK) in AWS KMS.
+  - CMK: Customer Master Key; logical representation of a customer key.
+  - DK / DEK: Data Key, Data Encryption Key. The keys used to encrypt data (RDS, S3, EBS, etc.)
+  - HBK: HSA Backing Key. As keys are rotated in the CMK, new HBK's will be created. Old keys remain to support decrypting old data (retired keys).
+  - 
+ 
 - AWS KMS is integrated with most other AWS services that encrypt your data with encryption keys that you manage. AWS KMS is also integrated with AWS CloudTrail to provide encryption key usage logs to help meet your auditing, regulatory and compliance needs.
 - You can configure your application to use the KMS API to encrypt all data before saving it to disk.
 - Audit Trail is delivered via Cloud Trail to S3. 
