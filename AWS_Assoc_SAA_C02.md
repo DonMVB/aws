@@ -28,8 +28,8 @@
     - [1.2.18. S3 REST API (Added 9/24/2020)](#1218-s3-rest-api-added-9242020)
     - [1.2.19 S3 Static Website](#1219-s3-static-website)
   - [1.3. CloudFront](#13-cloudfront)
-    - [1.3.1. CloudFront Simplified:](#131-cloudfront-simplified)
-    - [1.3.2. CloudFront Key Details:](#132-cloudfront-key-details)
+    - [1.3.1. CloudFront Simplified (Updated 11/16/2020)](#131-cloudfront-simplified-updated-11162020)
+    - [1.3.2. CloudFront Key Details (Updated 11/16/2020)](#132-cloudfront-key-details-updated-11162020)
     - [1.3.3. CloudFront Signed URLs and Signed Cookies:](#133-cloudfront-signed-urls-and-signed-cookies)
   - [1.4. Snowball](#14-snowball)
     - [1.4.1. Snowball Simplified:](#141-snowball-simplified)
@@ -218,8 +218,8 @@
     - [5.1.25.  Unified Scaling Service (Added 11/11/2020)](#5125-unified-scaling-service-added-11112020)
     - [5.1.26 LightSail](#5126-lightsail)
     - [5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)](#5127-key-amazon-aws-terms-added-11112020)
-
-Last Updated: 11/13/2020 11 PM EST USA
+- [Well Architected Frame Work (Added 11/13/2020)](#well-architected-frame-work-added-11132020)
+Last Updated: 11/26/2020 11 PM EST USA (Gobble x3)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
