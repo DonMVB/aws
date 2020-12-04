@@ -230,6 +230,7 @@ In order to pass, reference this guide while working through the material in the
   3. Tutorials Dojo's <a href="https://www.udemy.com/course/aws-certified-solutions-architect-associate-amazon-practice-exams-saa-c02/">AWS Certified Solutions Architect Associate Practice Exams </a>
   4. Andrew Brown's <a href="https://www.youtube.com/watch?v=Ia-UEYYR44s">AWS Certified Solutions Architect - Associate 2020 (PASS THE EXAM!) | Ad-Free Course
 </a> 
+  5. Notes labeld as AWSCSAAPT are derived from this book: AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02] by Neal Davis. (good stuff).
 
 Go through the course you purchased as part of Step 1. Twice. The first time should be a runthrough to introduce yourself to new AWS concepts and exam details. Jot down the services that confuse you and start with their FAQs as part of Step 2. You should then go through Step 1. once more, but this time as a deep dive. Be sure to pause frequently so that you research concepts that aren't perfectly clear, take notes, and experiment on the AWS console. Once you've completed Step 1. and Step 2., begin testing yourself with the Tutorial Dojo exams. Take the time to read the explanations for the questions that you get wrong. During the days leading up to your exam, go through Andrew Brown's YouTube video as the final step just as a refresher. If at any point you find yourself feeling uncertain of your progress and in need of more time, you can postpone your AWS exam date. This can be done twice. Finally, be sure to keep up on the ongoing discussions in <a href="https://old.reddit.com/r/AWSCertifications/">r/AWSCertifications</a>. There you will find more general information regarding exam tips, study material, and advice from other exam takers.
 
@@ -704,7 +705,7 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 ### 1.6.5. Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:
 - **Standard Reserved Instances** have inflexible reservations that are discounted at 75% off of On-Demand instances. Standard Reserved Instances cannot be moved between regions. You can choose if a Reserved Instance applies to either a specific Availability Zone, or an Entire Region, but you cannot change the region.
 - **Convertible Reserved Instances** are instances that are discounted at 54% off of On-Demand instances, but you can also modify the instance type at any point. For example, you suspect that after a few months your VM might need to change from general purpose to memory optimized, but you aren't sure just yet. So if you think that in the future you might need to change your VM type or upgrade your VMs capacity, choose Convertible Reserved Instances. There is no downgrading instance type with this option though.
-- **Scheduled Reserved Instances** are reserved according to a specified timeline that you set. For example, you might use Scheduled Reserved Instances if you run education software that only needs to be available during school hours. This option allows you to better match your needed capacity with a recurring schedule so that you can save money.
+- **Scheduled Reserved Instances** are reserved according to a specified timeline that you set. For example, you might use Scheduled Reserved Instances if you run education software that only needs to be available during school hours. This option allows you to better match your needed capacity with a recurring schedule so that you can save money. You pay if you don't use them during that time though. 
 
 
 ### 1.6.6. EC2 Instance Lifecycle:
@@ -955,6 +956,7 @@ Within the storage and content delivery domains, CloudWatch can inform you about
 ### 1.11.4. CloudWatch Events:
 - Amazon CloudWatch Events delivers a near real-time stream of system events that describe changes in AWS resources. 
 - You can use events to trigger lambdas for example while using alarms to inform you that something went wrong.
+- Example Use Case: Guard Duty writes to CloudWatch, have a CW event rule that triggers an SNS topic for email messaging to a site admin.
 
 ### 1.11.5. CloudWatch Alarms:
 - CloudWatch alarms send notifications or automatically make changes to the resources you are monitoring based on rules that you define. 
@@ -1260,9 +1262,9 @@ The ElastiCache service makes it easy to deploy, operate, and scale an in-memory
 - MemcacheD is for simple caching purposes with horizontal scaling and multi-threaded performance, but if you require more complexity for your caching environment then choose Redis.
 - A further comparison between MemcacheD and Redis for ElastiCache:
 ![Screen Shot 2020-06-18 at 8 18 34 PM](https://user-images.githubusercontent.com/13093517/85083820-edc1b480-b1a0-11ea-88b0-15f90bd60282.png)
-
 - Another advatnage of using ElastiCache is that by caching query results, you pay the price of the DB query only once without having to re-execute the query unless the data changes.
 - Amazon ElastiCache can scale-out, scale-in, and scale-up to meet fluctuating application demands. Write and memory scaling is supported with sharding. Replicas provide read scaling.
+- Security for an ElastiCache Redis cluster can be ehanced through Redis authentication tokens (passwords). To do this, include the parameter --auth-token (API: AuthToken) with the correct token when you create your replication group or cluster. AWSCSAAPT. 
 
 ## 1.23. Route53
 
@@ -1590,7 +1592,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - The above VPC has an attached virtual private gateway (note: not an internet gateway) and there is a remote network that includes a customer gateway which you must configure to enable the VPN connection. You set up the routing so that any traffic from the VPC bound for your network is routed to the virtual private gateway.
 - **Summary**: VPNs connect your *on-prem with your VPC* over the internet.
 
-## 2.2.10. AWS DirectConnect:
+## 2.2.10. AWS DirectConnect (Updated 12/3/2020)
 - Direct Connect is an AWS service that establishes a dedicated network connection between your premises and AWS. You can create this private connectivity to reduce network costs, increase bandwidth, and provide more consistent network experience compared to regular internet-based connections.
 - The use case for Direct Connect is high throughput workloads or if you need a stable or reliable connection.
 - VPN connects to your on-prem over the internet and DirectConnect connects to your on-prem off through a private tunnel. There are multiple DC locations around the world. There is a AWS dedicated cage at each location. Your router is also caged. There is a cross connect cable at the cage location (a cable).
@@ -1602,6 +1604,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   4. Select VPN connections and create a new VPN connection. Select both the customer gateway and the virtual private gateway.
   5. Once the VPN connection is available, set up the VPN either on the customer gateway or the on-prem firewall itself
 - Data flow into AWS via DirectConnect looks like the following: On-prem router -> dedicated line -> your own cage / DMZ -> cross connect line -> AWS Direct Connect Router -> AWS backbone -> AWS Cloud
+- To connect to muliple VPC's, you can also configure a transit gateway. TGW's are a routing construct, and require that IP address ranges not overlap. Solution requires: Direct Connect GW, Transit GW w/ VPC connections, Associations between DC and TGW, Transit Virtual interface. (12/3/2020)
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
 ## 2.2.11. VPC Endpoints:
@@ -1662,17 +1665,16 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   - Traffic to reserved IP o/t default VPC router (9/4/2020)
 
 # 2.2.15. AWS Global Accelerator:
-- AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static IP addresses that you can make use of.
-- Global Accelerator helps reduce the number of hops to get to your AWS resources. Your users just need to make it to an edge location and once there, everything will remain internal to the AWS global network. Normally, it takes many networks to reach the application in full and paths to and from the application may vary. With each hop, there is risk involved either in security or in failure.
+- AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static IP addresses that you can make use of. Or two existing AWS IP from their pool's can be migrated into Global Accelerator. There is also a BYO-IP capability. These IPs must be "AnyCast IP's". 
+- Global Accelerator helps reduce the number of hops to get to your AWS resources. Your users just need to make it to an edge location and once there, everything will remain internal to the AWS global network. Normally, it takes many networks to reach the application in full and paths to and from the application may vary. With each hop, there is risk involved either in security or in failure. There must be a AWB GA endpoint in each region (but not all regions appear to support AWS-GA...)
 
 ![Screen Shot 2020-06-21 at 5 50 02 PM](https://user-images.githubusercontent.com/13093517/85235996-aa0cbc00-b3e7-11ea-9e85-039f0ba6e770.png)
 
-- In summary, Global Accelerator is a fast/reliable pipeline between user and application. 
-- It's like going on a trip (web traffic) and stopping to ask for directions in possibly unsafe parts of town (multiple networks are visited which can increase security risks) as opposed to having a GPS (global accelerator) that leads you directly where you want to go (endpoint) without having to make unnecessary stops.
+- In summary, Global Accelerator is a fast/reliable pipeline between user and application which supports two "world wide" anycast IP addresses.
 - It can be confused with Cloudfront, but CloudFront is a cache for content stemming from a distant origin server.
 - While CloudFront simply caches static content to the closest AWS Point Of Presence (POP) location, Global accelerator will use the same Amazon POP to accept initial requests and routes them directly to the services. 
 - Route53's latency based routing might also appear similar to Global Accelerator, but Route 53 is for simply helping choose which region for the user to use. Route53 has nothing to do with actually providing a fast network path.
-- Global Accelerator also provides fast regional failover.
+- Global Accelerator also provides fast regional failover. It implements a health check feature, default is 30 seconds 3x for endpoints in the EndPoint Group. (AWS Console).
 
 # 2.3. Simple Queuing Service (SQS) (Updated 9/28/2)
 
