@@ -399,12 +399,13 @@ AWS users can create up to 100 buckets by default.
 - Amazon guarantees 99.999999999% (or 11 9s) durability for all S3 storage classes except its Reduced Redundancy Storage class.
   
 - S3 comes with the following main features:
+
   1.) tiered storage and pricing variability
   2.) lifecycle management to expire older content
   3.) versioning for version control
   4.) encryption for privacy
   5.) MFA deletes to prevent accidental or malicious removal of content, and it works with verioning as well.
-  6.) access control lists & bucket policies to secure the data
+  6.) access control lists & bucket policies to secure the data. For example, to restrict access for a website, you can add a bucket policy that allows `s3:GetObject` permission with a condition, using the `aws:referer` key, that the get request must originate from specific webpages. AWSCSAAPT. 
 
 - S3 charges by:
   1.) storage size
@@ -759,7 +760,7 @@ The following table highlights the many instance states that a VM can be in at a
 ### 1.7.1. EBS Simplified:
 An Amazon EBS volume is a durable, block-level storage device that you can attach to a single EC2 instance. You can think of EBS as a cloud-based virtual hard disk. You can use EBS volumes as primary storage for data that requires frequent updates, such as the system drive for an instance or storage for a database application. You can also use them for throughput-intensive applications that perform continuous disk scans.
 
-### 1.7.2. EBS Key Details (Updated 11/16/20)
+### 1.7.2. EBS Key Details (Updated 12/03/2020)
 - EBS volumes persist independently from the running life of an EC2 instance. They are AZ specific. 
 - Each EBS volume is automatically replicated within its Availability Zone to protect from both component failure and disaster recovery (similar to Standard S3).
 - There are five different types of EBS Storage:
@@ -788,6 +789,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - When copying AMIs to new regions, Amazon won’t copy launch permissions, user-defined tags, or Amazon S3 bucket permissions from the source AMI to the new AMI. You must ensure those details are properly set for the instances in the new region.
 - You can change EBS volumes on the fly, including the size and storage type.
 - EBS volumes are an AZ-scoped resource. Any writes are synchronously written to two different storage units in different data centers. (PPT)
+- Accounts have a limit to thier total EBS volume size. Depending on the AMI, you could be limited from 3 to 28 - max number of volumes is 28. An instance will go from Pend to Term if the attachment limit is exceeded, or if the volume is corrupted. (Added 12/03/2020)
 - EBS Multi Attach allows you to attach a volume to up to 16 instances, but would have issues across multiple availability zones, and could not use NTFS natively. Limited to 4 Regions (Sept 2020). Article: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html
 
 ### 1.7.3. SSD vs. HDD:
@@ -1138,6 +1140,7 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 - A common tactic for migrating RDS DBs into Aurora RDs is to create a read replica of a RDS MariaDB/MySQL DB as an Aurora DB. Then simply promote the Aurora DB into a production instance and delete the old MariaDB/MySQL DB.
 - Aurora starts w/ 10GB and scales per 10GB all the way to 64 TB via storage autoscaling. Aurora's computing power scales up to 32vCPUs and 244GB memory.
 - A benefit of deploying an Aurora database using Multi-Master: when deploying multiple masters for a relational database, it is possible to direct a higher number of write queries to the underlying database because the compute and storage tiers are separate infrastructures (PPT.)
+- Physical replication, called *Aurora Global Database*, uses dedicated infrastructure that leaves your databases entirely available to serve your application, and can replicate to up to five secondary regions with typical latency of under a second. 
 
 ### 1.17.3. Aurora Serverless (Updated 11/11/2020)
 - Aurora Serverless is a simple, on-demand, autoscaling configuration which is also fault tollerant for the MySQL/PostgreSQl-compatible editions of Aurora. With Aurora Serveress, your instance automatically scales up or down and starts on or off based on your application usage. The use cases for this service are infrequent, intermittent, and unpredictable workloads. Doesn't function w/ traditional resources - you use the endpoint.
@@ -1277,19 +1280,20 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
 - When you buy a domain name there is a Start of Authority (SOA) record created in the registration service. Every DNS ~~address domain ~~starts has with an SOA record. The SOA record stores information about the name of the server that kicked off the transfer of ownership, the administrator who will now use the domain, the serial number of the SOA Rec the current metadata available, and the default number of seconds or TTL.  (Revised 9/3/2020)
 - NS records, or Name Server records, are used to identify the name server that is authoratative for the domain. The Top Level Domain hosts (.org, .com, .uk, etc.) to direct traffic to the Content servers. The Content DNS servers contain the authoritative DNS records.
 - By default, an account can manage up to 50 domains. Support can increase that number. (Added 9/3/2020)
-- ~~Browsers Resolvers talk to the Top Level Domain Servers (called Root DNS servers) whenever they are queried and encounter domain name that they do not recognize.
-  1. ~~Browsers Resolvers will ask for the authoritative DNS records associated with the domain, by querrying their configured DNS server.
+- ~~Browsers~~ Resolvers talk to the Top Level Domain Servers (called Root DNS servers) whenever they are queried and encounter domain name that they do not recognize.
+  1. ~~Browsers~~ Resolvers will ask for the authoritative DNS records associated with the domain, by querrying their configured DNS server.
   2. Because the Top Level Domain contains NS records, the TLD can in turn query a Name Servers for their own SOA.
   3. Within the SOA, there will be the requested information.
-  4. Once this information is collected, it will then be returned all the way back to the original ~~browser Resolver  asking for it.
-- In summary: Browser -> TLD -> NS -> SOA -> DNS record. The pipeline reverses when the correct DNS record is found.
+  4. Once this information is collected, it will then be returned all the way back to the original ~~browser~~ Resolver  asking for it.
+- In summary: Browser -> Local Resolver -> TLD -> NS -> SOA -> DNS record. The pipeline reverses when the correct DNS record is found.
 - Authoritative name servers store DNS record information, usually a DNS hosting provider or domain registrar like GoDaddy that offers both DNS registration and hosting.
 - There are a multitude of DNS records for Route53. Here are some of the more common ones:
   - **A records**: These are the fundamental type of DNS record. The “A” in A records stands for “address”. These records are used by a computer to directly pair a domain name to an IP address. IPv4 and IPv6 are both supported with "AAAA" refering to the IPv6 version. **A: URL -> IPv4** and **AAAA: URL -> IPv6**.
-  - **CName records**: Also refered to as the Canonical Name. These records are used to map an alias to a true name, like "web" to "www". ~~to resolve one domain name to another domain name. For example, the domain of the mobile version of a website may be a CName from the domain of the browser version of that same website rather than a separate IP address. This would allow mobile users who visit the site and to receive the mobile version. **CNAME: URL -> URL**.
-  - ~~**Alias records**: These records are used to map your domains to AWS resources such as load balancers, CDN endpoints, and S3 buckets. They are a Route 53 DNS extension.  Alias records function similarly to CNames in the sense that you map one domain to another. The key difference though is that by pointing your Alias record at a service rather than a domain name, you have the ability to freely change your domain names if needed and not have to worry about what records might be mapped to it. Alias records give you dynamic functionality. You can also create an alias record at the top (apex). **Alias: URL -> AWS Resource**.~~
+  - **CName records**: Also refered to as the Canonical Name. These records are used to map an alias to a true name, like "web" to "www". To resolve one domain name to another domain name. For example, the domain of the mobile version of a website may be a CName from the domain of the browser version of that same website rather than a separate IP address. This would allow mobile users who visit the site and to receive the mobile version. **CNAME: URL -> URL**.
+  - **Alias records**: These records are used to map your domains to AWS resources such as load balancers, CDN endpoints, and S3 buckets. They are a Route 53 DNS extension.  Alias records function similarly to CNames in the sense that you map one domain to another. The key difference though is that by pointing your Alias record at a service rather than a domain name, you have the ability to freely change your domain names if needed and not have to worry about what records might be mapped to it. Alias records give you dynamic functionality. You can also create an alias record at the top (apex). **Alias: URL -> AWS Resource**.
   - **PTR records**: These records are the opposite of an A record. PTR records map an IP to a domain and they are used in reverse DNS lookups as a way to obtain the domain name of an IP address. PTR records are written "right to left" for IPv4. **PTR: IPv4 -> URL**. 
 - One other major difference between CNames and Alias records is that a CName cannot be used for the naked domain name (the apex record in your entire DNS configuration / the primary record to be used). CNames must always be secondary records that can map to another secondary record or the apex record. The primary must always be of type Alias or A Record in order to work.
+- For Websites behind a ELB, what record type points to the domain zone apex record, you create an A record that is an Alias, and select the ELB DNS as a target. AWSCSAAPT.
 - Due to the dynamic nature of Alias records, they are often reccomended for most usecases and should be used when it is possible to.
 - TTL is the length that a DNS record is cached on either the resolving servers or the users own cache so that a fresher mapping of IP to domain can be retrieved. Time To Live is measured in seconds and the lower the TTL the faster DNS changes propagate across the internet. Most providers, for example, have a TTL that lasts 48 hours.
 - You can create health checks to send you a Simple Notification if any issues arise with your DNS setup.
@@ -1305,7 +1309,7 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
   - Geolocation Routing
   - Geo-proximity Routing
   - Multivalue Answer Routing
-- **Simple Routing** is "standard or legacy DNS" behavior. ~~You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
+- **Simple Routing** is "standard or legacy DNS" behavior. You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
 - **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing.
 - **Latency-based Routing**, as the name implies, is based on setting up routing based on what would be the lowest latency for a given user. To use latency-based routing, you must create a latency resource record set in the same region as the corresponding EC2 or ELB resource receiving the traffic. When Route53 receives a query for your site, it selects the record set that gives the user the quickest speed. When creating Latency-based Routing, you need to specify a new record for each IP. 
 - **Failover Routing** is used when you want to configure active-passive failover. Route53 will monitor the health of your primary so that it can failover when needed. You can also manually set up health checks to monitor all endpoints if you want more detailed rules. Systems that fail health checks based on the failure threshold are omitted from replies.
@@ -1447,7 +1451,11 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 
 ![Screen Shot 2020-06-19 at 5 19 02 PM](https://user-images.githubusercontent.com/13093517/85180270-0093c200-b251-11ea-97e3-ed9a80ee5d65.png)
 
-## 2.1. Auto Scaling Cooldown Period:
+### Auto Scaling and Rebalancing (Added 12/03/2020)
+- Happens if auto scaling finds the number of instances in AZ's isn't balanced. It launches instances in lower count AZ until equal, then it will start terminating instances based on performance. 
+- Auto Scaling can be configured to send email via a SNS notification (start, stop, fail to launch, fail to term). 
+
+### Auto Scaling Cooldown Period:
 - The cooldown period is a configurable setting for your Auto Scaling Group that helps to ensure that it doesn't launch or terminate additional instances before the previous scaling activity takes effect. 
 - After the Auto Scaling Group scales using a policy, it waits for the cooldown period to complete before resuming further scaling activities if needed.
 - The default waiting period is 300 seconds, but this can be modified.
@@ -1605,6 +1613,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   5. Once the VPN connection is available, set up the VPN either on the customer gateway or the on-prem firewall itself
 - Data flow into AWS via DirectConnect looks like the following: On-prem router -> dedicated line -> your own cage / DMZ -> cross connect line -> AWS Direct Connect Router -> AWS backbone -> AWS Cloud
 - To connect to muliple VPC's, you can also configure a transit gateway. TGW's are a routing construct, and require that IP address ranges not overlap. Solution requires: Direct Connect GW, Transit GW w/ VPC connections, Associations between DC and TGW, Transit Virtual interface. (12/3/2020)
+- If you need a cost effective alternate: you could use an IPSec VPN conection with the same BGP prefix. Both will be advertised (same BGP number). Direct Conn will alwasy be preferred, unless down.
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
 ## 2.2.11. VPC Endpoints:
@@ -1691,6 +1700,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - There are two types of SQS queues; **standard** and **FIFO**. Standard queues may be received out of order based on message size or however else the SQS queues decide to optimize. FIFO queues guarantees that the order of messages that went into the queue is the same as the order of messages that leave it.
 - Standard SQS queues (the default) guarantee that a message is delivered at least once and because of this, it is possible on occasion that a message might be delivered more than once due to the asynchronous and highly distributed architecture. With standard queues, you have a nearly unlimited number of transactions per second.  They provide best effort ordering. App needs to cope with out of order possibility, duplicate possibility.
 - FIFO SQS queues guarantee *exactly-once processing* and is limited to 300 transactions per second. Messages remain until processed. FIFO queues support multiple ordered message groups.
+- FIFO queues when batching can support up to 3,000 transactions per second, per API method (SendMessageBatch, ReceiveMessage, or DeleteMessageBatch). The 3000 transactions represent 300 API calls, each with a batch of 10 messages. 
 - Messages in the queue can be kept there from one minute to 14 days and the default retention period is 4 days.
 - Visibility timeouts in SQS are the mechanism in which messages marked for delivery from the queue are given a timeframe to be fully received by a reader. This is done by temporarily making them invisible to other readers. If the message is not fully processed within the time limit, the message becomes visible again. This is another way in which messages can be duplicated. If you want to reduce the chance of duplication, increase the visibility timeout. 
 - The visibility timeout maximum is 12 hours.
@@ -1784,16 +1794,12 @@ Kinesys Analyitics (Updated 9/27/2020)
 ### 2.7.1. Lambda Simplified (Updated 10/12/2020)
 AWS Lambda lets you run code without provisioning or managing servers. It is an event driven service. You pay only for the compute time you consume. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. You upload your code and Lambda takes care of everything required to run and scale your code with high availability. You can set up your code to be automatically triggered from other AWS services or be called directly from any web or mobile app.  Scales out, not up. 
 
-### 2.7.2. Example Pattern (Added 10/12/2020)
-- An HTTP request comes into API GW, which proxies to Lambda, which runs code, and returns information back to GW, and then the user.
-- Each execution is separate from one anohter.  
-- Not the same as auto scaling (It just scales...)
-- Compare to Traditional architecture.
-  - Request comes into a load balancer, then a web server, which talks to the DB, does some action, and returns data.
-  - Instead. API GW to Lambda which can write Dynamo DB and other activities.
-- Triggers:
-  - You can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
-  - 
+### 2.7.2. Example Patterns (Added 10/12/2020)
+- An HTTP request comes into API GW, which proxies to Lambda, which runs code, and returns information back to GW, and then the user. Each execution is separate from one anohter. Not the same as auto scaling (It just scales...) Compare to Traditional architecture.
+  - Request comes into a load balancer, then a web server,which talks to the DB, does some action, and returns data.
+  - Instead, API GW to Lambda which can write Dynamo DB and other activities.
+  - Triggers: You can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
+ - An application is running from an EC2 instance and it must invoke Lambda functions asynchronously in a decoupled manner. To achieve push based architecture this, use a SNS message and configure the target of the message to be a Lambda function (SQS can't trigger a Lambda function.)
 
 ### 2.7.3. Lambda Key Details:
 - Lambda is a compute service where you upload your code as a function and AWS provisions the necessary details underneath the function so that the function executes successfully. 
@@ -1898,6 +1904,7 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 ![Screen Shot 2020-07-01 at 8 44 52 AM](https://user-images.githubusercontent.com/13093517/86245210-27b69180-bb77-11ea-8dff-3d663957a8e2.png)
 
 - For any Logical Resources in the stack, CloudFormation will make a corresponding Physical Resources in your AWS account. It is CloudFormation’s job to keep the logical and physical resources in sync.
+- If you create a new EC2 instance and a new EBS volume in a CloudFormatin template, you will need to specify the EC2 logical ID and the EBS volume ID to link them. 
 - A template can be updated and then used to update the same stack.
 
 
@@ -1965,7 +1972,10 @@ AWS Organizations is an account management service that enables you to consolida
 ## 4.3. FanOut Pattern
 - A system/solution that need to send the same message to two sides, say the fullfillment warehouse and the data warehouse directly. A better way is to dend a message to a SNS topic, and then have fullfillment/data-warehouse subscribe. 
 - 
-# 5. Miscellaneous
+# Authentication
+- You can enable single singn on (SSO) so your on prem users can directly authenticate into AWS. To do this, use the AWS Secure Token Service (STS) and SAML to achieve federation. Normally, use AD and SAML 2.0. 
+
+# Miscellaneous
 
 
 The following section includes services, features, and techniques that may appear on the exam. They are also extremely useful to know as an engineer using AWS. If the following items do appear on the exam, they will not be tested in detail. You'll just have to know what the meaning is behind the name. It is a great idea to learn each item in depth for your career's benefit, but it is not necessary for the exam.
@@ -2136,8 +2146,8 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - You can run EKS using AWS Fargate, which is serverless compute for containers. Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design. 
 - Amazon EKS is integrated with many AWS services to provide scalability and security for your applications. These services include Elastic Load Balancing for load distribution, IAM for authentication, Amazon VPC for isolation, and AWS CloudTrail for logging.
 
-### 5.1.18. What does pilot light mean?
-- The term pilot light is often used to describe a disaster recovery scenario in which a minimal version of an environment is always running in the cloud. 
+### 5.1.18. What does pilot light mean? (Updated 12/03/2020)
+- The term pilot light is often used to describe a disaster recovery scenario in which a minimal version of an environment is always running in the cloud. In AWS Land, of course. 
 - The idea of the pilot light is an analogy that comes from the gas heater. In a gas heater, a small flame that’s always on and can quickly ignite the entire furnace to heat up a house. This scenario is similar to a backup-and-restore scenario.
 - For example, with AWS you can maintain a pilot light by configuring and running the most critical core elements of your system in AWS. When the time comes for recovery, you can rapidly provision a full-scale production environment around the critical core that has always been running.
 
@@ -2189,7 +2199,15 @@ Search or jump to…
 ### 5.1.26 LightSail 
 - Easy way to get started. Focused on predefined servers to deploy and manage websites in the cloud. Sold as a "bundle".
 
-### 5.1.27 KEY AMAZON AWS TERMS (Added 11/11/2020)
+### AWS EMR
+- Amazon EMR is a web service that enables businesses, researchers, data analysts, and developers to easily and cost-effectively process vast amounts of data. EMR utilizes a hosted Hadoop framework running on Amazon EC2 and Amazon S3. AWSCSAAPT.
+
+### Amazon MQ (Added 12/03/2020)
+- A message queue services. Managed message broker service for Apache ActiveMQ. It uses industry-standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket.
+
+Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02]: 390 AWS Practice Exam Questions with Answers & detailed Explanations (p. 351). Kindle Edition. 
+
+# KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
@@ -2205,3 +2223,27 @@ Search or jump to…
 - Security
 - Reliability
 - Performance efficiency
+
+# Scenarios
+
+## Data Storage
+- Q. You need to store records with a 7 year retention period based on regulatory. Infrequently asked after created during the first 3 months, then must be available within 10 minutes. What do you use to absolutely minimize cost?
+- A. Use S3 Standard Infrequently Accessed, then move to S3 Glacier. In Glacair, Expedided Access will get the data in 1-5 minutes. 
+
+## VPC NACL Security
+- Q. You have a three tier app. App runs in an auto scale group, constantly launching/terminating instances, which writes to MySQL DB. How do you restrict access so the app tier can talk to the db tier?
+- A: Config the DB EC2 Security Group to accept traffic only from the App-Sec EC2 Security Group.
+
+## HPC and MPI
+- Q. Application is running tightly coupled HPC architecture using the MPI protocol. Which deployment option minimizes overhead?
+- A. Use AWS Batch for a multi node parallel job. This supports jobs that span EC2 instances. An AWS Batch multi-node parallel job supports IP-based, internode communication, such as Apache MXNet, TensorFlow, Caffe2, or Message Passing Interface (MPI).
+
+Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02]: 390 AWS Practice Exam Questions with Answers & detailed Explanations (p. 357). Kindle Edition. 
+
+## Database Migration
+- Q. You have a DB that is huge, and cannot be migrated bacause of limited bandwidth in the time aloted (say a few weeks). How can you do this?
+- A. Use the Schema Conv Tool, load data onto Snowball Edge, then the Data Migration Svc to migrate to DynamoDB (or other).
+
+## Collectng EC2 Stats
+- Q. An app will gather info about a hosted site on an EC2 instance, write it to S3 bucket. Intention is to use API calls. What is the most operationally efficent setup?
+- A. Grant programatic access (key, secret id) and create a supporting IAM policy which will grant access to the S3 resource.
