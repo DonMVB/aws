@@ -4,15 +4,16 @@
 - [IAM (Recap from SAA C02 to Security) (Added 9/24/2020)](#iam-recap-from-saa-c02-to-security-added-9242020)
   - [IAM UI Review Notes](#iam-ui-review-notes)
   - [Root User leaves - Actions? (added 10/1/2020)](#root-user-leaves---actions-added-1012020)
-  - [IAM Policy Review (Updated 10/1/2020)](#iam-policy-review-updated-1012020)
+  - [IAM Policy Review (Updated 12/29/2020)](#iam-policy-review-updated-12292020)
+    - [Example S3 Read Only (Added 12/29/2020)](#example-s3-read-only-added-12292020)
   - [IAM Credential Report (Added 10/1/2020)](#iam-credential-report-added-1012020)
   - [Polcy Doc Notes](#polcy-doc-notes)
-- [S3 Bucket Policies (Added 9/29/2020)](#s3-bucket-policies-added-9292020)
+- [S3 Bucket Policies (Updated 12/30/2020)](#s3-bucket-policies-updated-12302020)
   - [Lab (Added 9/29/2020)](#lab-added-9292020)
   - [S3 Access Control Lists (Added 9/29/2020)](#s3-access-control-lists-added-9292020)
   - [S3 ACL Lab](#s3-acl-lab)
-  - [IAM and S3 Policy Conflict Resolution (Therapy?) (Added 9/29/2020)](#iam-and-s3-policy-conflict-resolution-therapy-added-9292020)
-  - [Encryption on S3 (Added 9/29/2020)](#encryption-on-s3-added-9292020)
+  - [IAM and S3 Policy Conflict Resolution (AWS Therapy?) (Added 9/29/2020)](#iam-and-s3-policy-conflict-resolution-aws-therapy-added-9292020)
+  - [Forcing HTTPS Encryption on S3 (Added 9/29/2020)](#forcing-https-encryption-on-s3-added-9292020)
   - [Cross Region Replication and Encryption (Added 9/29/2020)](#cross-region-replication-and-encryption-added-9292020)
   - [Securing S3 using CloudFront (Added 9/29/2020)](#securing-s3-using-cloudfront-added-9292020)
   - [Secure S3 using Pre Signed URL's (9/29/2020)](#secure-s3-using-pre-signed-urls-9292020)
@@ -143,15 +144,45 @@ These are core InfoSec topics you must know
 ## Root User leaves - Actions? (added 10/1/2020)
 - These actions need to be performed by the new admin: Deactivate/reactive MFA on the root account, review IAM users and remove any accounts the former admin owned, changed the root password, delete any root owned access / secret keys.
 
-## IAM Policy Review (Updated 10/1/2020)
+## IAM Policy Review (Updated 12/29/2020)
 - Specify what you amy do with an AWS resource. Applied to user, group, role. Or what can a priciple do in AWS. To apply a policy to an EC2 instance, you need to create the policy, apply it to a role, and attach the role to the EC2 instance.  IAM policies can't be attached to S3 buckets. 
-- Three types: AWS managed, customer, inline.  Policy names are links to JSON objects. 
+- Three types: AWS managed, customer, inline.  Policy names are links to JSON objects. Policies are attached to principal entities - this is how you assign rights/permissions to users (build policy, assign policy).  JSON docs - can be copied / pasted. 
 - AWS Managed: Shared across AWS, who defined them. Can change occassionally (usul. minor). Read Only, Admin, etc. Indicated with yellow box icon.
 - Admin user: everything but billing.
 - PowerUser: everything but IAM and changes in there.
 - Customer Managed: Standalone, in an AWS account, then can be applied. Can cut/paste across accounts, can't "send over". 
-- Inline: Strict 1:1 relationship between policy and its entity. Very directed. 
+- Can create policies from AWS managed policy set and setup specific access to specific services, or combination of services. 
+- Inline: Strict 1:1 relationship between policy and its entity. Very directed. Used when you don't want a policy to be reused. Separate.
 - Path: Console: Security and Compliance -> IAM. User | Group - attach policy during creation. 
+
+### Example S3 Read Only (Added 12/29/2020)
+- The AmazonS3ReadOnlyAccess policy looks like the JSON, and you can attach the policy to IAM users so they can look at S3 content anywhere in the account.  With this policy, non S3 dahsboards will show up with errors, and the user can see all buckets and thier contents. 
+`{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}`
+- To allow writes: Create an additional policy, add the PutObject right, and attach the policy to the group where the user is defined.
+`{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "s3:PutObject",
+            "Resource": "*"
+        }
+    ]
+}`
+Tips: Global, all areas. Policies - Managed, Customer Managed, inline (1:1). 
 
 ## IAM Credential Report (Added 10/1/2020)
 - A CSV with user, ARN, creation time, PW enabled, pw-last-used, MFA Active.
@@ -168,32 +199,37 @@ These are core InfoSec topics you must know
 - Action
 - Resource
 
-# S3 Bucket Policies (Added 9/29/2020)
-- Specify what can / cannot be done on a bucket by user. Ann can PUT, Joe can PUT & DELETE.
-- Can grant cross account access for other acconts to read/write bucket.
-- Can solve for size limits. IAM policies = 2 KB for users, 5KB for groups, S3 bucket policies = 20 KB.
-- Practically, it is often easiter to manage Access Control at the bucket level than to work w/ IAM policies and apply them.
+# S3 Bucket Policies (Updated 12/30/2020)
+- Attached to the bucket itself. At the bucket level only. Specify what can / cannot be done on a bucket by user. Ann can PUT, Joe can PUT & DELETE.
+- Use Cases:
+  - Can grant cross account access for other acconts to read/write bucket.
+  - Can solve for size limits. IAM policies = 2 KB for users, 5KB for groups, 10KB for roles. S3 bucket policies = 20 KB.
+  - Practically, it is often easiter to manage Access Control at the bucket level than to work w/ IAM policies and apply them.
   - Easier to grant a "Allow 3, deny all else" policy.
-  - Set at the Bucket Level.
+  - Set at the Bucket Level.  Often easier to create a "deny" policy. 
 - All S3 access is blocked to 'public' by default (AWS answer to bad user mgmt.)
 - An "Explicit Deny" will alwas trump an "Allow". You can "Deny All", then "Allow One", and One will still be denied.
 - To grant EC2 access to S3, you can create an IAM role with read access to the bucket and associate the role w/ the EC2 instance.
+- When you create bucket policies, you will have to edit the bucket ARN and add "/*" to the end of the ARN value so that the policy can apply to folder/directory contents. 
 
 ## Lab (Added 9/29/2020)
 - Create two buckets and two IAM users. By S3 policy, deny a user from read/write but allow them via IAM policy.
 - Console | S3, Create buckets. S3 | Permissions | Access Control List.   S3 | Permissions | Bucket Policy. Copy ARN. 
 - IAM | User - grab users ARN. 
 - Use the Policy Generator. Principle = ARN o/t User. Actions - allow user to "delete".  Get the S3 ARN. Add Stmt if you want more. Review the JSON. 
-- Can paste in the JSON - will get an arror. Need to give a direction, which would be /* for the entire bucket.
+- Can paste in the JSON - will get an error. Need to give a direction, which would be /* for the entire bucket.
 - Create a second S3 bucket. Test user A and B "PUT" on the second bucket. Then test User A & B Put in the First bucket. An error should appear in ... ?
 - Create a new S3 bucket policy on bucket A. That should be set to Deny All, then "allow" User A. Objective is to generate conflicting policies and observe actions. Within console, should get errors on S3 page - not even region.
 - Using the direct link (URL) for a item marked as "Public" bucket works because you are not using any authentication mechanism. Different than an "open" in the console S3 panel because console is 'authenticated'. 
 - Working through the Policy Editor, use something like Create Policy. Can "Edit" a policy, change the Actions, adjust Access Level Groups. Then edit the JSON directly. Note that if you do this - the "name" of the policy should reflect the end state change. JSON is case sensitive. 
 
 ## S3 Access Control Lists (Added 9/29/2020)
-- Predates IAM policies. On the per file / per object basis. 
-- Use Cases: fine grained permissions.  
+- Predates IAM policies. On the per file / per object basis. AWS recommends sticking with S3 bucket and/or IAM policies, avoid ACL's. 
+- Use Cases: fine grained permissions to individual files or objects stored within S3. 
 - Can set very specific permissions.
+- Editing the ACL is done via the CLI. Need "Owner Canonical User ID", which is found in the upper right, sec-creds. Its under "account identifiers". or `aws s3 api list-buckets` to get the bucket ID.
+- Can add access for other accounts. Under Edit, add access for other account ID's and then check list, read, write. Specific to the bucket.
+- 
 
 ## S3 ACL Lab
 - Add a file to a bucket with no bucket polices (applying only IAM policies).
@@ -202,32 +238,35 @@ These are core InfoSec topics you must know
 - Can't edit permissions for IAM users. Must use CLI or the SDK API which require account number and the Owner Canonical User ID. Acct #'s are avail under "My Sec Creds" and the Canonical User ID is under "Account Identifiers" for root. Use `AWS S3 API list-buckets` to get the individual user Can-ID. 
 - These numbers can then be used in the object ACL definition. 
 
-## IAM and S3 Policy Conflict Resolution (Therapy?) (Added 9/29/2020)
-- When IAM conflicts w/ S3 Policy and S3 ACL, decision is based on union of all three.
+## IAM and S3 Policy Conflict Resolution (AWS Therapy?) (Added 9/29/2020)
+- When a principal requests access: When IAM conflicts w/ S3 Policy and S3 ACL, decision is based on union of all three.
 - Least Priv: Decision defaults to DENY. 
-- Explicit Deny trumps ALLOW (override property)
+- Explicit Deny always trumps ALLOW (override property).  This transcends the IAM - S3 relationship. Applied everywhere.
+- Example:
+  - IAM policy grants access, S3 bucket policies deny, no S3 ACL = access is denied.
+  - Only if no methods specify a deny and one more more spec allow = access is granted.
 - If one or more methods specify an allow and there is no deny, access is alloed.
-- Pathway (memorize this, and practice it on some JSON)
-  - Decision starts at DENY
-  - Eval applicable policies
-  - Is there explicit Deny? Thats it, deny.
+- Pathway (memorize this, and practice it on some JSON):
+  - Decision starts at DENY.
+  - Eval all applicable policies.
+  - Is there explicit Deny? Thats it, deny access. 
   - Is there an explicit Allow? Allow access.
   - If neither an allow or deny, then deny.
 
-## Encryption on S3 (Added 9/29/2020)
+## Forcing HTTPS Encryption on S3 (Added 9/29/2020)
 - Want to ensure we use HTTPS, not HTTP on a bucket you want to make 'Public'. Done via a bucket policy. Setup an allow, then an explict deny, add a Condition of type Bool named "aws:SecureTransport": false. Or setup an "allow" and then a "deny" with a specific condition.
 - In the Console, S3, Permissions | Bucket Policy, copy the JSON into the bucket policy (don't forget to add /* on both resource entries.)
 - To test this, can get the URL and use http://, not https://.
   
 ## Cross Region Replication and Encryption (Added 9/29/2020)
-- CRR: need to refresh on 'Associate' info (all assumed.)
-- By default, CRR is done via SSL/TLS. Data can only be replicated from one source bucket to one destination bucket. Objects can't be replicated again. 
-- Rqmts: Src/dest must have versionioning enabled. Must be in different regions. S3 must have replication permissions - a customer managed policy is setup for you by the console. 
-- When the bucket owner owns the object(s), the bucket owner can replicate. If not, then obj owners must grant READ and READ_ACP permissions to the ACL.
-- CRR does work across accounts. The owner of the DEST bucket must grant permissions to the owner of the SOURCE bucket to replicate with a bucket policy (Dest accepts incoming). IAM role must have permissions in the DEST bucket, which requires CRR and a role. Can also change the ownership to the dest bucket owner during replication. Can be applied to Cloud Trail audit logs for enhanced security - replicate the source CT Logs to a dest, so they can't be touched as the owner changes to dest on replication. (Powerful IR prep action.)
-- What is replicated? New items as they are added only. Will replicate unencrypted, and follow rules for encrypted. Metadata. ACL Updates. Tags. Objects w/ read + read ACL permissions. 
-- Deletes: the delete marker is replicated, but underlying versions are not there.
-- Not replicated: Objects encrypted w/ Server Side Encryption (customer supplied keys). Deletes to a particular version. 
+- CRR: need to refresh on 'Associate' info (all assumed.) Replicates from one region to another.
+- By default, CRR is done via SSL/TLS. Data can only be replicated from one source bucket to one destination bucket. Objects can't be replicated again. 1:1 relationship and is single hop.
+- Rqmts: Src/dest must have versionioning enabled. Must be in different regions. S3 must have replication permissions from source to dest. A customer managed policy is setup for you by the console. 
+- When the bucket owner owns the object(s), the bucket owner can replicate. If not, then obj owners must grant READ and READ_ACP permissions to the object ACL to support replication. 
+- CRR does work across accounts. The owner of the DEST bucket must grant permissions to the owner of the SOURCE bucket to replicate with a bucket policy (Dest accepts incoming). IAM role must have permissions in the DEST bucket, which requires CRR and a role. Can also change the ownership to the dest bucket owner during replication. Can be applied to Cloud Trail audit logs for enhanced security. Replicate the source CT Logs to a dest, so they can't be touched as the owner changes to dest on replication (sort of a black hole). (Powerful IR prep action.)
+- What is replicated? New items as they are added only - not existing objs. Will replicate unencrypted, and follow rules for encrypted. Metadata. ACL Updates. Tags. Objects w/ read + read ACL permissions where the bucket owner can read objects and the ACL.
+- Deletes: The delete marker is replicated, but underlying versions are still there.
+- Not replicated: Objects encrypted w/ Server Side Encryption (customer supplied keys). Deletes to a particular version. SSE-KMS must be enabled for objects encrypted with SSE-KMS keys. 
 - Encryption rules: SSE-S3, SSE-KMS. Need to explicitly enable KMS key encryption. 
 
 ## Securing S3 using CloudFront (Added 9/29/2020)
