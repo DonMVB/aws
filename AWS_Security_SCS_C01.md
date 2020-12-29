@@ -1,5 +1,6 @@
-\- [Basics - Terms and Foundations](#basics---terms-and-foundations)
+- [Basics - Terms and Foundations](#basics---terms-and-foundations)
   - [Security In AWS](#security-in-aws)
+    - [AWS Services for Security](#aws-services-for-security)
 - [IAM (Recap from SAA C02 to Security) (Added 9/24/2020)](#iam-recap-from-saa-c02-to-security-added-9242020)
   - [IAM UI Review Notes](#iam-ui-review-notes)
   - [Root User leaves - Actions? (added 10/1/2020)](#root-user-leaves---actions-added-1012020)
@@ -47,7 +48,7 @@
   - [EC2 and Key Pairs (Added 10/16/2020)](#ec2-and-key-pairs-added-10162020)
 - [MarketPlace Security Products](#marketplace-security-products)
 - [AWS WAF and AWS Shield (Added 10/16/2020)](#aws-waf-and-aws-shield-added-10162020)
-- [EC2 Dedicated Instancs vs Dedicated Hosts  (Added 10/16/2020)](#ec2-dedicated-instancs-vs-dedicated-hosts-added-10162020)
+- [EC2 Dedicated Instancs vs Dedicated Hosts  (Added 10/16/2020)](#ec2-dedicated-instancs-vs-dedicated-hosts--added-10162020)
 - [Hypervisor Security and resource isolation (Added 10/16/2020)](#hypervisor-security-and-resource-isolation-added-10162020)
 - [Microservices (Added 10/17/2020)](#microservices-added-10172020)
 - [Containers (Added 10/17/2020)](#containers-added-10172020)
@@ -84,7 +85,15 @@
 - [AWS Athena (Added 10/23/2020)](#aws-athena-added-10232020)
 - [AWS Macie (Added 10/23/2020)](#aws-macie-added-10232020)
 - [GuardDuty (Added 10/23/2020)](#guardduty-added-10232020)
-
+- [Secrets Manager (Added 10/28/2020)](#secrets-manager-added-10282020)
+- [SES Simple Email Service (Added 10/28/2020)](#ses-simple-email-service-added-10282020)
+- [Security Hub (Added 10/28/2020)](#security-hub-added-10282020)
+- [Network Packet Inspection Topics (added 11/2/2020)](#network-packet-inspection-topics-added-1122020)
+- [Active Directory Federation with AWS (added 11/2/2020)](#active-directory-federation-with-aws-added-1122020)
+- [AWS Artifact (added 11/2/2020)](#aws-artifact-added-1122020)
+- [Other resources useful for Exam Prep (Added 11/2/2020)](#other-resources-useful-for-exam-prep-added-1122020)
+- [Troubleshotting Security scenarios (Added 11/3/2020)](#troubleshotting-security-scenarios-added-1132020)
+  - [Cloud Watch](#cloud-watch)
 This study guide paralles the A Cloud Guru Q3 2020 AWS Security course.
 # Basics - Terms and Foundations
 These are core InfoSec topics you must know
@@ -837,3 +846,64 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
 - Note - will need to use code to to cause behaviors (examcple script[https://github.com/awslabs/amazon-guardduty-tester]) The console has a way to generate sample findings though. 
 - GD can have a white list for IP's and threat list of IP's you are OK with. 
 - GD service will provide notification as the threat-scape changes. 
+- Requirements
+  - Service Permissions: Access to Cloud Trail, DNS query, and VPC Flow logs. Also requires an IAM serice permission focused role so GD can get info about EC2 (DescribeInstance, DescribeImages) to present EC2 instance metadata. 
+  - Trust Relationship: allows 'guardduty.amazonaws.com' to AssumeRole via STS.
+  - Trusted IP lists: GD will not generate findings against any "trusted" finding - this is a white list. 
+  - Threat List: If you want to have your own Evil IP list, maintain entries under Threat Lists.
+- GD sends notifications by default every 6 hrs; can change to hourly or every 15 min.  
+- There is a "generate sample findings" option as well. Findings have a significant amount of security awareness data for thier findings, answering most of the 5W's.
+- GD can trigger a Lambda function and interact w/ the resources.
+- You can manage all GD findings centrally, on one console. You need to 'add accounts" to do this. 
+- Updates: GD uses ML, service publishes bulletins. 
+
+# Secrets Manager (Added 10/28/2020)
+- Service that stores and rotates DB and other sensitive secrets / credentials. Pricing after 30d trial is .4/secret/month, and 0.05/10K API calls. 
+- Most common use is for RDS databases. Any secret can be stored if you can use it as a key Value pair.
+- When enabled on the first time, SM will rotate DB credentials immediatly to test config. All apps must retrieve, not have creds hard coded! AWS recommends you start w/ cred rotation enabled disabled. 
+- Secrets Mgr vs. Parameter Store (Name is a clue!)
+  - SM: built in integration w/ RDS DB's, auto rotates, support for non RDS using Lambda functions. 
+  - PS: wider variety of stored values, integrated with AWS System Manager. 
+  - In the console, go into "Security, Identity, Compliance" | Securet Manager. Add a DB secret (user, pass). You can select a KMS key, then the RDS DB. Before you commit, select "disable" under config auto rotate - then you can make sure all apps are getting the cred from SM.  Note that you create a Lambda function in the UI, so you need to name the function. 
+  - You can 'delete secret', but there is a 7d waiting period by default. 
+
+# SES Simple Email Service (Added 10/28/2020)
+- Just that - email capability from your AWS applications (marketing, transaction, notifications, ...)
+- Uses standard SMTP. Requires TLS to the SMTP endpoint. 
+- SES for EC2: The applicable security group must permit port 25 access, but that is throttled. Instead, use port 587 or 2587.
+
+# Security Hub (Added 10/28/2020)
+- Single page for notifications / alerts from AWS services. Supports automated checks in the account for PCI DSS and CIS Benchmark for AWS. Guard Duty, Macie, Inspector, IAM Access mgr, FW manager. 
+- Integrates with third party tools as well. 
+- Integrated with Cloud Watch, which can further integrate with Lambda for action.
+
+# Network Packet Inspection Topics (added 11/2/2020)
+- Not provided by AWS - these technologies are related: Flow logs, WAF, host Firewall. 
+- Provides IDS/IPS functionality; deeper packet inspection, LAN protocol and app protocol validation.
+- There are a few vendors provding this functionality: Alert Logic, Trend Micro, McAfee are examples. 
+
+# Active Directory Federation with AWS (added 11/2/2020)
+- AWS allows federated signin to the console. Would setup when you have AD and want some or all of them to have some access to AWS. Promise is to minimize admin overhead by leveraging existing users, groups, authentication. 
+- ADFS: Active Directory Federation Services - SSO solution.  ID solution. Configured in the on prem data center. Requires a two way trust to be trusted in identity provider. ADFS needs a relying party trust w/ AWS as rely party. 
+- SAML 2.0: Open std for exchanging identity/security information  between identity providers.
+- Process: Users access a specific ADFS enabled login page, once authenticated ADFS returns a SAML token. users browswer sends SAML to AWS login page / sign in. The sign in AWS page issues an STS AssumeRoleWitnSAML on behalf of the user. Lastly, the user gets redirected to the console. 
+- ADFS returns group information as well. Users can assume roles in AWS based on AD group membership.
+
+# AWS Artifact (added 11/2/2020)
+- Download AWS security/compliance documents. Under "Security, Identity, Compliance". Documents are under an NDA. 
+
+# Other resources useful for Exam Prep (Added 11/2/2020)
+- aws.amazon.com/whitepapers
+  - KMS Best Practices, DDoS Best Practices, Logging in AWS. Well Architected Framework (intro, sumary, skim, read bits)
+- Re Invent Videos
+  - KMS best practices, encryption deep dive, DDoS best practices, IAM policy Manaster
+  - VPC Fundementals / Conectivity Options, Advanced Sec Best Prac Masterclass
+- FAQ's on all security services within scope for the exam - there is a security section (all should be read)
+
+# Troubleshotting Security scenarios (Added 11/3/2020)
+
+## Cloud Watch
+- IAM: Does the user have the correct permissions ( many times this is the root cause). Remember, everything is deny by default, so users don't get access until they are granted. 
+- User can't see Cloud Watch Dashboard.  Grant Read only access to CW 
+- System not sending to Cloud Watch: Is the agent installed? EC2 needs permissions (Instance role) to get to CW.
+- 
