@@ -15,13 +15,14 @@
   - [IAM and S3 Policy Conflict Resolution (AWS Therapy?) (Added 9/29/2020)](#iam-and-s3-policy-conflict-resolution-aws-therapy-added-9292020)
   - [Forcing HTTPS Encryption on S3 (Added 9/29/2020)](#forcing-https-encryption-on-s3-added-9292020)
   - [Cross Region Replication and Encryption (Added 9/29/2020)](#cross-region-replication-and-encryption-added-9292020)
-  - [Securing S3 using CloudFront (Added 9/29/2020)](#securing-s3-using-cloudfront-added-9292020)
-  - [Secure S3 using Pre Signed URL's (9/29/2020)](#secure-s3-using-pre-signed-urls-9292020)
+  - [Securing S3 using CloudFront (Updated 12/29/2020)](#securing-s3-using-cloudfront-updated-12292020)
+  - [Secure S3 using Pre Signed URL's (Updated 12/29/2020)](#secure-s3-using-pre-signed-urls-updated-12292020)
 - [Cloud Front (Added 9/29/2020)](#cloud-front-added-9292020)
+  - [SSL Certs and Cloud Front (added 12/29/2020)](#ssl-certs-and-cloud-front-added-12292020)
   - [Using your own Certificate](#using-your-own-certificate)
 - [Security Token Service (STS) (Added 9/29/2020)](#security-token-service-sts-added-9292020)
 - [Cognito, a Web Identity Federation (Added 9/29/2020)](#cognito-a-web-identity-federation-added-9292020)
-  - [Cognito User Pools](#cognito-user-pools)
+  - [Cognito User and Identity Pools](#cognito-user-and-identity-pools)
   - [Lab: Cognito User Pool (Added 9/29/2020)](#lab-cognito-user-pool-added-9292020)
 - [Logging in AWS General Notes (Added 10/1/2020)](#logging-in-aws-general-notes-added-1012020)
 - [Cloud Trail Logging (Added 9/30/2020)](#cloud-trail-logging-added-9302020)
@@ -55,18 +56,20 @@
 - [Containers (Added 10/17/2020)](#containers-added-10172020)
   - [Best Practices for Containers (Added 10/17/2020)](#best-practices-for-containers-added-10172020)
   - [ECS Sample Application in the Console](#ecs-sample-application-in-the-console)
-- [Creating a Custom VPC (Added 10/17/2020)](#creating-a-custom-vpc-added-10172020)
-- [NAT Instances and Gateways (Added 10/17/2020)](#nat-instances-and-gateways-added-10172020)
-- [NACL vs. Sec Groups (added 10/17/2020)](#nacl-vs-sec-groups-added-10172020)
-- [Load Balancers and Custom VPC's (Added 10/19/2020)](#load-balancers-and-custom-vpcs-added-10192020)
-- [Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)](#elastic-load-balancers-albs-and-tls--ssl-termination-added-10192020)
-- [VPC Flow Logs (Added 10/19/2020)](#vpc-flow-logs-added-10192020)
-- [NAT vs. Bastion Servers (Jump Boxes) (Added 10/19/2020)](#nat-vs-bastion-servers-jump-boxes-added-10192020)
+- [VPC (Added 12/29/2020)](#vpc-added-12292020)
+  - [General Info (Added 12/29/2020)](#general-info-added-12292020)
+  - [Creating a Custom VPC (Updated 12/29/2020)](#creating-a-custom-vpc-updated-12292020)
+  - [NAT Instances and Gateways (Updated 12/30/2020)](#nat-instances-and-gateways-updated-12302020)
+  - [NACL: Network Access Control List (Updated 12/30/2020)](#nacl-network-access-control-list-updated-12302020)
+  - [Load Balancers and Custom VPC's (Added 10/19/2020)](#load-balancers-and-custom-vpcs-added-10192020)
+  - [Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)](#elastic-load-balancers-albs-and-tls--ssl-termination-added-10192020)
+  - [VPC Flow Logs (Added 10/19/2020)](#vpc-flow-logs-added-10192020)
+  - [NAT vs. Bastion Servers (Jump Boxes) (Updated 12/29/2020)](#nat-vs-bastion-servers-jump-boxes-updated-12292020)
+  - [VPC Endpoints (Added 10/19/2020)](#vpc-endpoints-added-10192020)
+  - [VPC Clean Ups (Added 10/202020)](#vpc-clean-ups-added-10202020)
 - [Systems Manager Session Manager (Added 10/19/2020)](#systems-manager-session-manager-added-10192020)
 - [Systems Manager Parameter Store (Added 10/23/2020)](#systems-manager-parameter-store-added-10232020)
 - [System Manager Run Command (Added 10/23/2020)](#system-manager-run-command-added-10232020)
-- [VPC End Points (Added 10/19/2020)](#vpc-end-points-added-10192020)
-  - [VPC Clean Ups (Added 10/202020)](#vpc-clean-ups-added-10202020)
 - [AWS Cloud HSM (Added 10/19/2020)](#aws-cloud-hsm-added-10192020)
   - [Cloud HSM User Types (Added 10/19/2020)](#cloud-hsm-user-types-added-10192020)
   - [Cloud HSM Comamnds of Note (Added 10/19/2020)](#cloud-hsm-comamnds-of-note-added-10192020)
@@ -185,12 +188,12 @@ These are core InfoSec topics you must know
 Tips: Global, all areas. Policies - Managed, Customer Managed, inline (1:1). 
 
 ## IAM Credential Report (Added 10/1/2020)
-- A CSV with user, ARN, creation time, PW enabled, pw-last-used, MFA Active.
+- A CSV with user, ARN, creation time, PW enabled, PW-last-used / rotated, MFA Active.
 - Easy to generate: Console | Services | IAM | Credential report (left side).  Then "Download". 
-- Just as easy to generate via comd line
+- Just as easy to generate via comd line:
   - `aws iam generate-credential-report`
   - `aws iam get-credential-report`
-- Requires "GenerateCredentialReport" and "GetCredentialReport" permissions. 
+- Requires "GenerateCredentialReport" and "GetCredentialReport" permissions in a policy. Then add the policy to a user.  This user would need programatic access to be able to run these commands. 
 
 ## Polcy Doc Notes
 - Version
@@ -269,25 +272,36 @@ Tips: Global, all areas. Policies - Managed, Customer Managed, inline (1:1).
 - Not replicated: Objects encrypted w/ Server Side Encryption (customer supplied keys). Deletes to a particular version. SSE-KMS must be enabled for objects encrypted with SSE-KMS keys. 
 - Encryption rules: SSE-S3, SSE-KMS. Need to explicitly enable KMS key encryption. 
 
-## Securing S3 using CloudFront (Added 9/29/2020)
+## Securing S3 using CloudFront (Updated 12/29/2020)
 - You can force a user to use a CloudFront URL for an underlying S3 bucket. Remember, there is a cost to CloudFront.
 - Network | CloudFront: When you create a distribution, it can take up to 15 minutes for the dist to be global.
-- To use a custom TLS Certificate, you need to import a certificate via Amazon Certificate Manager (ACM). Not the same as a load balancer certificate (no borrowing).  Note that certificates are stored in ACM in us-east-1.
+- To use a custom TLS Certificate, you need to import a certificate via Amazon Certificate Manager (ACM). This is needed if you want to use your own domain name. Not the same as a load balancer certificate (no borrowing).  Note that certificates are stored in ACM in us-east-1.
+- For a S3 bucket that you want to secure so it is only accessable through Cloud Front URL's, you need to go to the origin, then edit and then check "restrict bucket access". Requies an OAI (origin access identity).
 - For S3 bucket based static websites where you want them hosted only through CloudFront, perform these actions.
   - Configure S3 bucket so only the Origin access identity has 'read'.
-  - Select 'Restrict bucket access' in the origin settings of the CloueFront Districution.
+  - Select 'Restrict bucket access' in the origin settings of the CloueFront Districution.  
+  - Check the "update bucket policy" checkbox.
   - Create an origin access policy for S3 origin.
+  - These changes can take up to 4 hrs to 48 hrs to take effect.
 
 Lab: 
 - Need the Origin domain name and then defaults. Pause - check back in 15 min.
 - Add an object to the S3 bucket you want to be replicated via CloudFront. Ex. s3.eu-west-2.amazonaws.com/yourbucketnamehere.
 - Inside Cloud Front, check the box and update the Origin to edit. Then 'restrict bucket access'. You need the Origin Access Identity, which is a specific CloudFront user (new or reuse existing).  Also check "Grant Read permissions on bucket". Main steps - Edit Origin, new/reuse identity, grant permissions. Note that this update can take a while to take effect (4 to 48 hrs).
 
-## Secure S3 using Pre Signed URL's (9/29/2020)
+## Secure S3 using Pre Signed URL's (Updated 12/29/2020)
 - Need an IAM role for EC2, grant AmazonS3FullAccess, and assign to applicable EC2 instances. Launch an Instance and add the role. (Don't forget about key pairs.) S3 buckets in this case start as 'private'. 
+- Usually done w/ scripting language - Python + boto3 for example.
+- Can do this via the comand line. You need a EC2 role, add S3FullAccess to the role. Launch a t2.micro instance, add the role. 
 - Command: `aws s3 presign s3://path/file`. By default, this command will presign for 60 seconds. To chage, use `--expires-in SECONDS`. You will get a long presigned URL, with the file, an ID, an expiratin, and a URL encoded token on the URL line. Can copy/paste, and get access. 
 
 # Cloud Front (Added 9/29/2020)
+
+## SSL Certs and Cloud Front (added 12/29/2020)
+- Creating a cloud front distro allows you to use the default certificate w/ the long CF name, thats OK. If you want identity, then you need to use your own certificate.
+- Cloud Front | Distribution Settings. You can add your own cert there. You can request, or upload to ACM.  
+- ACM's certificate must be created in us-east-1, N VA. (effectively region locked for creation.) 
+- The IAM CLI lets you store the cert in IAM (not sure where though)
 
 ## Using your own Certificate
 - To preserve domain identity and not have users accessing Cloud Front w/ its own certificate and domain (*.cloudfront.net), need to update the certificate. 
@@ -296,17 +310,23 @@ Lab:
 # Security Token Service (STS) (Added 9/29/2020)
 - Grantes limited and temporary access to AWS resources. 
 - Users can come from Federation, Mobile app (Facebook, Google, ... OpenID), Cross Account access.
+- A federated user can be granted console access when they are authenticated via a registered/configured federation. 
 - Specific to Active Directory, users don't need an IAM account but must visit the ADFS sign in page to gain access.
-- Federation: Combining or joining users from Domain A w/ Domain B.  Handled by an Identity Broker. Each side has an Identity Store. Identity = user. 
+- Federation: Combining or joining users from Domain A such as IAM w/ Domain B such as AD.  Handled by an Identity Broker. Each side has an Identity Store. Identity = user. The identity broker is the linkage tool / service (AWS STS).
   - Active Directory 
   - SAML Assertion
+  - Identity = a user. 
 - Example: An IPSEC VPN joins campus to AWS resources. A web app in AWS can auth against on-prem AD. Any app can ask an "Identity Broker" against an LDAP to validate identity. The identity Broker calls GetFederationToken using IAM creds w/ the IAM policy + duration, and grant policy. STS validates these. STS returns an access key, secret access key, token, and token lifetime duration.  Applications can further pass down the STS token on behalf of the user. 
+  - The duration value can be 1 hr to 36 hrs.
+  - Returns access key, securet access key, lifetime (token) duration, and a token. 
 
 # Cognito, a Web Identity Federation (Added 9/29/2020)
 - WIF allows us to give temp AWS creds after someone has authenticated with well known web-ID providers. Users get an auth code (JWT). Third parties must support / provide Amazon Cognito.  Can also (apparently) permit anonymous guest access. (ACG Sec Test Q.)
-- Amazon Cognito: Sign up / Sign In, server "guests", is an ID Broker, Synch up data on mobile, recommended for mobile apps and AWS services.
+- Amazon Cognito: Sign up / Sign In, server "guests", is an ID Broker between your app and identity provider, Synch up data on mobile, recommended for mobile apps and AWS services.
+- Shopping App: you want to accept user identity from Facebook, Google. Cognito sets up a broker between your app and WIF provider. 
+- There is a sample Login page that you can use as well. 
 
-## Cognito User Pools 
+## Cognito User and Identity Pools 
 - User Pools - Directories used to manage sign in / sign up.  Successful auth gen's up JWTs (the authentication piece.)
 - Identity Pools enable us to create unique IDs for users. More to do with assigning roles to users who have already authenticated (the authorization piece.)
 
@@ -314,10 +334,11 @@ Lab:
 - Console | Security Identity | Cognito.
 - Manage User Pools, Create w/ a usable name. Most of the defaults are OK. 
 - Add an App Client - again, need a usable name.  This is used to call API's on our behalf. Cofigure the app client, which will be Cognito user pools. The Callback user URL will be where users are redirected back to once successfully auth'd. There is also a sign up URL. ON OATH - Check both Auth Grant and Implicit Grant (provides the JWT). Normally will also check all OATH scopes.  
-- Create a domain name as a prefix for Cognito, added to `.auth.region.amazoncognito.com`.
+- Create a domain name as a prefix for Cognito, added to `.auth.region.amazoncognito.com`.  Must be unique.
 - The sign in and sign up pages can be customized (UI makes this fairly easy).
 - Under App Integration, get the name. Need to add some params - /login?response_type=token&client_id= and you need the App Client ID - and then some more params b/c you are generating a one-off URL. Will get a sign up / sign in page. (actually kinda nice!)
 - The site also can send (and you should send) an end user verification code. 
+- Identity Providers have specific setup criteria. For example, with Google, you need a Google App ID, App Secret, and Authorization Scope.
 
 # Logging in AWS General Notes (Added 10/1/2020)
 - Major serivces - there are four. 
@@ -446,11 +467,12 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
   - You now have 24 hrs to validate. Cannot change this after 24 hrs elapsed. So - make sure this is what you want.
   
   # AWS Organizations and Service Control Policies (added 10/1/2020)
-  - Account mgmt services to consolidate multiple indiv accounts. Central mgmt for consolidated billing, impost Org Unites and apply "Service Control Policies" to the accounts.
+  - Orgs: Account mgmt services to consolidate multiple indiv accounts. Central mgmt for consolidated billing. Org Unites and apply "Service Control Policies" to the accounts.
   - Root node, the master account, should have no resources: Just for billing and service control policies. Under root there are org units. A hierarchy. 
-  - Service Control Polcies are applied to all below at org unit and below. These create "permissions boundaries" to restrict what users, groups, roles, in those accounts can do. Includes the root account in accounts within the AWS Org. 
+  - Service Control Polcies are applied to all below at org unit and below. These create "permissions boundaries" to restrict what users, groups, roles, in those accounts can do. Includes the root account in accounts within the AWS Org. Acts like a filter. 
   - SCP's can "deny" access, not "Allow" access.  For example, you could restrict access to S3 accross a number of AWS accounts by creating a deny SCP. 
-  - Ex. Effect: Deny, { Action"cloudtrail:StopLogging", "Resource":"*" } will prevent someone from turning off logging (JSON isn't perfect ...)
+  - Ex. `Effect: Deny, { Action"cloudtrail:StopLogging", "Resource":"*" }` will prevent someone from turning off logging (JSON isn't perfect ...)
+  - Good for enforcing org - wide policy / procedure.
   
   # Amazon Key Management Service (KMS) (Added 10/1/2020)
   - NOTE: KMS is huge for the exam: Must know inside / outside / all around.
@@ -638,8 +660,21 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
 ## ECS Sample Application in the Console
 - Console | Containers | Elastic Container Service. There is a get started button with a sample app provided (wizard, takes about 10 minutes). Creates a VPV, public IP, task definition for the Fargate cluster, no auto scaling, cluster, log group, uses a CloudFormation stack, two subnets, and a security group.  When done reviewing you can "Delete cluster."
 -  To see the sample in action, get the public IP from the Tasks tab and hit the site.
+# VPC (Added 12/29/2020)
 
-# Creating a Custom VPC (Added 10/17/2020)
+## General Info (Added 12/29/2020)
+- VPC: provision logical isolated section, ...
+- Outermost: region - VPC's exist in a region. 
+- Larged IP range /15, smalles /28. 
+- We connect into a VPC through the console, through a Virtual Private Gateway, through a Bastion host, through front ended servies delivered through an IGW, or Transit GW.
+- Next layer is the Route table.
+- Next layer is the Stateless N-ACL (open inbound / outbound replies). First linke of defense.
+- Security groups secure AWS resources. Stateful. 
+- CIDR.zyz - goot site to do some sub net addressing. 
+- Default VPC is "user friendly", objective is easy deployment. 
+- Peering: Can peer VPC's with each other. Transitive peering is not supported. Done in a STAR config. Each 1:1 relationship needs a peering relationship. 
+
+## Creating a Custom VPC (Updated 12/29/2020)
 - Note the address range in the default VPC.
 - Create:
   - VPC - Name, IP range, and don't click "dedicated".
@@ -648,78 +683,77 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
     - A single security group is created as well, and it won't be named.
   - Subnets are next.
     - Name - Ideally you will have a naming convention = "Prv-10-0-1-us-east-1" might be a good one. Consider creating them on /24 boundaries for labs. 
-    - VPC - Select the VPC it belongs to
+    - VPC - Select the VPC the subnet belongs to.
     - AZ - which AZ will serve the subnet. Subnets cannot span AZs.
-    - NOTE: in a subnet, you cannot use the first four ( 0, 1 for VPC router, 2 for DNS, 3 is reserved) and the last one (255) IP address.
+    - NOTE: in a subnet, you cannot use the first four ( 0, 1 for VPC router, 2 for DNS, 3 is reserved) and the last one (255) IP address. Therefore 251 IP addresses are available per /24 subnet.
+    - For most labs you will need two - one for public access, one for private access.
   - Internet Gateway: Simple to create, you get one per VPC. Must separately attach a IGW to a VPC. The CLI command is `aws ec2 attach-internet-gateway --vpc-id "vpc-ID" --internet-gateway-id "igw-ID" --region us-east-1`
   - Attach the IGW to the route table: 
-  - Create a specific route table. Avoid using the 'default'. If you don't associate subnets to a route table, they are automatically associated with the 'main' route table. Create a route table w/ a good name and attach it to your VPC.
-  - Create a route out to the Internet. Edit the route table, add a route to 0.0.0.0. Select the target (there are several), and chose the IGW created above. Therefore any subnet that is assocaited w/ this one will have Internet Access. Select the subnet you intended to be 'public' to be associated w/ this route table. 
+    - There is a default "main" route table. Any subnet not attached to a specific route table are attached to the main route table. This is a reason why you do not want the main RT internet accessible. 
+    - Create a specific route table. Avoid using the 'default'. If you don't associate subnets to a route table, they are automatically associated with the 'main' route table. Create a route table w/ a good name and attach it to your VPC.
+    - Create a route that will be used for routing out to the Internet. Edit the route table, add a route to 0.0.0.0/0. Select the target (there are several), and chose the IGW created above. Therefore any subnet that is assocaited w/ this one will have Internet Access. Select the subnet you intended to be 'public' to be associated w/ this route table. This subnet needs the "auto assign public IP" attribute set so instances will get pub/priv IP addresses.
   - Enable Internet accessable subnet to get an auto-assigned public IP (subnets area Action). 
   - Test - setup an EC2 instance in priv and public subnets. 
+- Database servers should have their own Sec Group. Goes into the developed custom VPC, need inbound SSH, likely ICMP, and then ports for specific RDBMS servers. Source - the CIDR bock from, and then Dest would be the target IP range for DB servers. Like 10.0.1.0/24. This Sec Group can be applied to EC2 DB servers, or AWS RDS delivered RDS services (of which there are six). 
+- VPC Limits: https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
 
-
-# NAT Instances and Gateways (Added 10/17/2020)
-- There are two types of NAT. Older are instances, newer are NAT GW's.
-- Instances are an EC2 instance with updates to handle source rotuing - must disable the source / dest check.
-- Gateways are created from the VPC.
+## NAT Instances and Gateways (Updated 12/30/2020)
+- There are two types of NAT. Older are NAT instances, newer are NAT GW's.
+- Instances are an EC2 instance with updates to handle source rotuing - must disable the source / dest check for a NAT Instance. Performance driven by instance size.
+- Gateways are created from the VPC.  Charged hourly.  Need an Elastic IP. 
 - Creating a NAT GW.  
   - Select the Public Subnet. 
-  - Create a new Elastic IP (there is a small charge for these)
-  - Wait to edit the route table - it takes 10-15 minutes for a NAT GW to complete provisioning.
+  - Create a new Elastic IP (there is a small charge for these).  You don't add a NAT GW to a security group.
+  - Wait to edit the route table - it takes 10-15 minutes for a NAT GW to complete provisioning (10 to 15 minutes).
+  - You want multiple NaT GW's - one per AZ (2+). They are HA, they are not fault tolerant. 
 - After created, edit the route table.
   - In the route table, the 0.0.0.0/0 entry needs to point to the NatGW as the Target. 
-- One key difference - a NAT Instance can be a Bastion server between the pub and priv subnets.
+- Deleting
+  - When you delete a NAT GW, charges stop and the Elastic IP is disassociated; however, you are still charged for the EIP until you release it. 
+- One key difference - a NAT Instance can be a Bastion server between the pub and priv subnets. Full Comparison Chart: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-comparison.html
 
-# NACL vs. Sec Groups (added 10/17/2020)
-- NACLs have rule numbers for each rule which orders the rules. NACL's are first match out, lowest first.  Each subnet can only have one NACL, NACL's can have one or more subnets. 
+## NACL: Network Access Control List (Updated 12/30/2020)
+- NACLs have rule numbers for each rule to order the rules. NACL's are first match out, lowest number first to highest.  Each subnet can only have one NACL, NACL's can have one or more subnets. Subnets are associated with one NACL. NACls can be deployed in one VPC, and cannot span VPCs.
 - Emperically, the NACL controls inbound access to your VPC once it is associated with a subnet. Note that you need inbound access from, say, your IP to an EC2 server and response traffic via Ephemoral ports back outbound. 
-- The default NACL allows inbound/outbound by default. Not so with a custom (or private) - deny only at create time.
-- Rule numbers define the order, smaller integers to larger. 
-- NACL's have inbound and outbound rules, each can control traffic. They are stateless, so if you want response traffic you need to permit ephemoral ports outbound for responses. This means you have to add 1024-65535 as an outbound in the ;output; rule in order to get response traffic back out through the NACL. This opens up response from any inbound permitted traffic. 
-- One way to test - drop an inbound deny for a given port from your IP at a lower rule number than the 'allow' rule.
+- The 'default NACL' allows inbound/outbound by default. Not so with a custom (or private) - these are "deny only" at create time, so you need to add allow rules. 
+- NACL's have inbound and outbound rules, each  control traffic in respective direction. They are stateless, so if you want response traffic you need to permit ephemoral ports outbound for response packets. This means you have to add 1024-65535 as an outbound in the *output* rule in order to permit response traffic back out through the NACL. This opens up response from any inbound permitted traffic. NACLs end with a default deny.
+- One way to test - drop an inbound deny for a given port from your IP at a lower rule number than the 'allow' rule, try to get there - should be blocked.
 
-# Load Balancers and Custom VPC's (Added 10/19/2020)
-- Three types - Application for HTTP/HTTPS and Network for TCP / UDP traffic. 
+## Load Balancers and Custom VPC's (Added 10/19/2020)
+- Three types - Application for HTTP/HTTPS, Network for TCP / UDP traffic, and Classic (first gen). App load balancer is focused on HTTP traffic and is application aware. 
+- ALB and NLB have a "dualstack" address types for IPv4, IPv6. 
+- ALB's must be defined in two subnets.
 - Configure the load balancer through the wizard. We setup the LB for the VPC, and you must have two subnets into two public subnets for effecitveness. You get one subnet per AZ. 
 
-# Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)
-- You can terminate the TLS/sSL session at the LB or the EC2 Host. If you term at the LB, data is forwarded to the EC2 host in clear text.  Effectively, the decryption overhead and TLS certificate are on the LB itself, with the effect that the EC2 instances aren't doing crytographic processing. Be aware that if you use the ALB as the Termination point to the EC2 system is not encrypted. 
+## Elastic Load Balancers (ALB's) and TLS / SSL Termination (Added 10/19/2020)
+- You can terminate the TLS/sSL session at the ALB/NLB or the EC2 Host. If you term at the ALB, data is forwarded to the EC2 host in clear text.  Effectively, the decryption overhead and TLS certificate are on the ALB itself, with the effect that the EC2 instances aren't doing crytographic processing. Be aware that if you use the ALB as the Termination point network traffic to the EC2 system is not encrypted. Somewhat reduces mgmt o/t EC2 host(s).
 - If you have a reason or some requirement to have encryption End to End (client browser to WebServer) then you need to use the Network Load Balancer w/ the TCP protocol on port 443 / 8443 / etc. The Classic LB is still available, but not recommeended. 
+- ALB is the most cost effective, but is for HTTP
 
-# VPC Flow Logs (Added 10/19/2020)
-- Flow tuples between network interfaces to/from ENI's in the VPC. Can be created at three levels, which define how much data is collected. 1) VPC 2) subnet 3) interface. 
+## VPC Flow Logs (Added 10/19/2020)
+- Flow tuples between network interfaces to/from ENI's in the VPC. Can be created at three levels, which define how much data is collected. 1) VPC 2) subnet 3) network interface. 
 - To create: VPC | actions | create flow log. Can define a filter - the type of traffic (All, accept, reject). There is a role thats required - something like "FlowLogRole" works.  Logs go to a Destination Log Group, which are defined under Cloud Watch w/ an appropriate name. Once these are setup, you cannot change the definition. 
 - Logs can be streamed to Lambda (which will run a lot of functions!)
 - Can't setup a flow log for VPC's that are peered w/ your VPC unless both VPC's are in your account. No tagging yet.
 - Not monitored: AWS DNS, Windows activation, 169.234 metadata, DHCP, and the AWS reserved IP's per subnet isn't logged. 
+- Rules: 
+  - Cannot enable for peer VPC unless peered VPC is in your account. 
+  - No tagging (yet).
+  - Once created you cannot change. Must delete / recreate.
+  - Not all IP traffic is monitored, such as talking to AWS DNS, Windows actication, to/from 169.254 for monitoring, DHCP, reserved IP router.
 
-# NAT vs. Bastion Servers (Jump Boxes) (Added 10/19/2020)
+## NAT vs. Bastion Servers (Jump Boxes) (Updated 12/29/2020)
 - NAT handles Internet traffic, usually outbound.  Note that NAT Instances are on the way out. 
-- Bastions are used for admin only. Idea is to have a single hardened Bastion, locked down, SSH and RDP from your main network only, use over a private network, that sort of thing. 
+- You can create an inbound NAT if you want.
+- Bastions are used for admin only. Idea is to have a single hardened Bastion, locked down, SSH and RDP from your main network only, use over a private network, that sort of thing. Pattern is to access the bastion, restrict inbound from your IP, then jump from the bastion to other hosts.
+- High availability: Put a bastion in two subnets, each subnet in an AZ. Create an auto scale group to make sure 2+ hosts are responsive. 
 
-# Systems Manager Session Manager (Added 10/19/2020)
-- Enables secure remote login to EC2 Instances. An alternative to using SSH and RDP. Browser Based using PowerShell or Bash, invoked from within the console, or the CLI / SDK.  Single solution for Linux and Windows.  No true SSH or RDP connection involved. No Bastion either. 
-- Can be used for Phys/On Prem servers as well (hmmm). 
-- Connections are fully auditable as well because you have centralized access control by user to specific or groups of instances. Logs come through Cloud Trail (session history). Keystroke logging is inclueded (wow) which can be sent to Cloud Watch and/or S3 buckets.
-- You need a Role for SMSM to enable EC2 instances to communicate to SMSM. Service Role | EC2 Role | search for SSM, select AmazonEc2RoleforSSM. Launch an EC2 Instance w/ this role assigned.  Note: You cannot attach multiple IAM roles to a single instance (so if you want to use all of this cool AWS stuff... you will end up creating a Mega Role).
-- To begin a session, in SSM, select the instance and start the session to get an interactive shell. 
-- NOTE: On Linux, the SSM user starts w/ Root permissions by default. Once the log is written and the session is terminated, there will be a entry under "Totput Location" where you can review the output log - commands and output (so you have a recording of commands and results). 
-
-# Systems Manager Parameter Store (Added 10/23/2020)
-- Used to store confidential information. Idea is to store the data (license, credential, etc.) and control access to the paremter. 
-- In the console, under EC2 under Shared Resources you will find parameter store. Sensitive data is stored, variety of access methods. You create a unique name, description, and the paramter itself. Parameters can be string, secure string, and string list (mult values, comma separated). Secure string is encrypted w/ a KMS key. 
-
-# System Manager Run Command (Added 10/23/2020)
-- Allws you to automate common tasks and ad hoc vonfig changes without having to login to each instance. Global machine interaction tool.
-- Manageement Tools | Systems Manager or EC2 | Systems Manager. To get it to work, you will need a role and then apply the role to the instances. In the SSM portal, under Actions, hit "run command". There areseveral. Can add configuation in JSON, document the run event, and other options. At the bottom the run command shows you the AWS CLI command. 
-- Commands can be applied based on tags, or selected manually. the SSM agent is in the Windows 2016 and other base images. 
-
-# VPC End Points (Added 10/19/2020)
-- Remember there are private network segments behind NAT GW's. VPC endpoints setup a network connection or a gateway for instances to communicate to AWS services. 
+## VPC Endpoints (Added 10/19/2020)
+- Remember private network segments behind NAT GW's, so accessing a public API endpoint traverses the Internet (even if it is a very short hop). VPC endpoints setup a network connection or an internal gateway for instances to communicate with AWS services, like S3.
 - In the console, create a Role for EC2. We want to allow EC2 instances to call AWS services. 
-- Under Network and Content Delivery, you need to associate a subnet.
-- IN the VPC dashboard, go to EndPoint. There are two types - Interface which create an ENI, or Gateways, which are HA.  Generally, use gateway. Associate the GW w/ the 'main' route table. Note that when using an endpoint you use private IP's not public IP's. You 'create', which will add an etry in the route table w/ a DNS like name (com.amazonaws.us-east-1.s3 as an example).
+- Under Network and Content Delivery, for the NACL, you need to associate a subnet - use the "Subnet Associations" tab.
+- IN the VPC dashboard, go to EndPoint. There are two types - Interface which create an ENI, or Gateways, which are HA.  Associate the GW w/ the 'main' route table. Note that when using an endpoint you use private IP's not public IP's. You 'create', which will add an etry in the route table w/ a DNS like name (com.amazonaws.us-east-1.s3 as an example) on the 'Routes' tab. 
+- Gateways: These are Ha. AWS S3 and DynamoDB are the only two.
 
 ## VPC Clean Ups (Added 10/202020)
 - Make sure that you enable Cost Explorer early in your lab use process. 
@@ -734,20 +768,42 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
 - Optional
   - You *may* want to delete keypairs. Make sure that you know you have the private key if you chose to keep the Key Pairs
 
+# Systems Manager Session Manager (Added 10/19/2020)
+- Enables secure remote login to EC2 Instances. An alternative to using SSH and RDP. Browser Based using PowerShell or Bash, invoked from within the console, or the CLI / SDK.  Single solution for Linux and Windows.  No true SSH or RDP connection involved. No Bastion either. Uses TLS. Current recommended approach. 
+- Can be used for Phys/On Prem servers as well (hmmm). 
+- Connections are fully auditable as well because you have centralized access control by IAM user to specific/groups of instances. Logs come through Cloud Trail (session history). Keystroke logging is inclueded (wow) which can be sent to Cloud Watch and/or S3 buckets.
+- You need a Role for SMSM to enable EC2 instances to communicate to SMSM. Service Role | EC2 Role | search for SSM, select `AmazonEc2RoleforSSM`. Launch an EC2 Instance w/ this role assigned.  Note: You cannot attach multiple IAM roles to a single instance (so if you want to use all of this cool AWS stuff... you will end up creating a Mega Role).
+- To begin a session, in SSM, select the instance and start the session to get an interactive shell. 
+- NOTE: On Linux, the SSM user starts w/ Root permissions by default. Once the log is written and the session is terminated, there will be a entry under "Totput Location" where you can review the output log - commands and output (so you have a recording of commands and results). 
+
+# Systems Manager Parameter Store (Added 10/23/2020)
+- Used to store confidential information. Idea is to store the data (license, credential, etc.) and control access to the paremter. 
+- In the console, under EC2 under Shared Resources you will find parameter store. Sensitive data is stored, variety of access methods. You create a unique name, description, and the paramter itself. Parameters can be string, secure string, and string list (mult values, comma separated). Secure string is encrypted w/ a KMS key. 
+
+# System Manager Run Command (Added 10/23/2020)
+- Allws you to automate common tasks and ad hoc vonfig changes without having to login to each instance. Global machine interaction tool.
+- Manageement Tools | Systems Manager or EC2 | Systems Manager. To get it to work, you will need a role and then apply the role to the instances. In the SSM portal, under Actions, hit "run command". There areseveral. Can add configuation in JSON, document the run event, and other options. At the bottom the run command shows you the AWS CLI command. 
+- Commands can be applied based on tags, or selected manually. the SSM agent is in the Windows 2016 and other base images. 
+
 # AWS Cloud HSM (Added 10/19/2020)
 - $1.45 / hr. For those of you doing labs, you can spend some dollars!
-- Details: Single tenant, You control the keys, broad AWS support, supports Symmetric / asymetric (inlike KMS which is symmetric only), FIPS 140-2 and EAL 4 compliant.
-- For labs, you will create a cluster. verify the HSM identitiy, launch an EC2 instance, load/config to client. ...
+- Details: Single tenant, no sharing. You control the keys, broad AWS support, supports Symmetric / asymetric (inlike KMS which is symmetric only), FIPS 140-2 and EAL 4 compliant.
+- For labs, you will create a cluster. verify the HSM identitiy, launch an EC2 instance, load/config to client.
 - Clusters can have systems in multiple AZ's. Once created, you *cannot* change the subnets! One Way Operation!
 - For the Security Groups, you ned 2223 to 2225 inbound permitted for CloudHSM.
+
 - To Initialize a cluster:
-  - Click on the cluster ID and Initialize. Create the HSM in the cluster in private SubNet - takes a while.  Will assign an IP in the subnet. For ACG, there is an init-script - need to replace the cluster ID.  Need to download and sign a CSR from an EC2 instance. 
-  - Need two certificates - Cluster CSR and the Issuing Certificate. These are generated froman EC2 image, where you need the CSR. You will use the CSR to generate a private key, create a self signed certificate, and then push both up to the Cloud HSM. *Do Not* lose the password you generate along the way! Name your files well so that you can upload the files back into AWS console for the CA certificate and the HSM certificate. 
-  - For the client on EC2, need to get the 'cloudhsm-client-latest' file to have the AWS client package.  The pubkey needs to be dropped into the right location - /opt/cloudhsm/etc.  Connect to the cluster by using the private IP and the "cloudhsm_mgmt_util" script. 
+  - Click on the cluster ID and Initialize. Create the HSM in the cluster in private SubNet - takes a while and note the private IP.  Will assign an IP in the subnet. For ACG, there is an init-script - need to replace the cluster ID.  Need to download and sign a CSR from an EC2 instance. 
+  - Need two certificates - Cluster CSR and the Issuing Certificate. These are generated from an EC2 image, where you need the CSR. You will use the CSR to generate a private key, create a self signed certificate, and then push both up to the Cloud HSM. *Do Not* lose the password you generate along the way! Name your files well so that you can upload the files back into AWS console for the CA certificate and the HSM certificate. 
+  - For the client on EC2n(which is used to administer the HSM), need to get the 'cloudhsm-client-latest' file to have the AWS client package.  The pubkey needs to be dropped into the right location - /opt/cloudhsm/etc.  Connect to the cluster by using the private IP and the "cloudhsm_mgmt_util" script. 
   - Initialization then continues w/ logging in as the pre-crypto officer, updating the user/pass. Then login as the Crypto officer, and create some users. 
   - To import/export keys, you will need to use (generate and export) a "Wrapping key". 
   - When interacting with CloudHSM from the CLI, make sure you note the Key Handle ID as numerous commands require a specific key. 
-  - Four user types: Precrypto Officer, Crypto Officer, Crypto User, Appliance User. 
+  - Four user types:
+    - Precrypto Officer (PRECO) 
+    - Crypto Officer 
+    - Crypto User 
+    - Appliance User 
   - NOTE: Passwords are non-recoverable, so you will have an availability outage should you lose the CloudHSM password that was used to gen up the system. 
   - Review the (HSM role chart)[https://docs.aws.amazon.com/cloudhsm/latest/userguide/hsm-users.html]
   
@@ -755,26 +811,30 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
   - Pre Crypto Officer (admin/password) - once changed, promo'd to Crypto Officer, then it dissappears. 
   - Ctypto Officer - Can manage user accounts. New users, password changes. Can't manage keys. 
   - Ctypto Users - manage keys: create, delete, share, import, export. Perform various cryptographic operations: sign, enc/decrypt.
-  - Appliance User - cloning and synch operations. Exists on all 
+  - Appliance User - cloning and synch operations. Exists on all HSM devices.
   
   ## Cloud HSM Comamnds of Note (Added 10/19/2020)
-  - loginHSM <role> <user> <pass>
-  - listusers
-  - changePswd
-  - changePswd PRECO admin <passwd>
-  - createUser <username> <passwd>
+  - `loginHSM <role> <user> <pass>`
+  - `logoutHSM`
+  - `listusers`
+  - `changePswd`
+  - `changePswd PRECO admin <passwd>`
+  - `createUser <username> <passwd>`
   - # service cloudhsm-client start 
-  - genSymKey -t # -s # -l aes256 : this command will return a 'key handles'
-  - genSymKey -t # -s # -sess -l export-wrapping-key
-  - exSymkey -k # -out aes256.key.exp -w handle#
-  - exportPrivKey -k handle# -out rsa2048.key.exp -w handle# :: will produce a PEM file
-  - exportPubKey -k handle# -out rsa2048.pub.exp
+  - `genSymKey -t # -s # -l aes256` ## this command will return a 'key handles'
+  - `genSymKey -t # -s # -sess -l export-wrapping-key` ## needed for ecy export, returns the key handle
+  - `exSymkey -k # -out aes256.key.exp -w handle#` ## this is how you export a wrapping key for subsequent ops w/ file aes256.key.exp
+  - `genRSAKeyPair -n 2048 -e 65537 -l rsa2048` ## this will return a keyhandle for the private and public key
+  - `exportPrivKey -k handle# -out rsa2048.key.exp -w handle#` ## will produce a PEM file, need the key handle number, will generate an output file rsa2048.key.exp
+  - `exportPubKey -k handle# -out rsa2048.pub.exp`
+
+To export a private key or a symetric you will need a "wrapping key". You don't need a wrapping key for a public key, because you intend to share that with others. 
 
 ## Clean up (Lab Tear Down) (Added 10/20/2020)
-- Delete the EC2 instance you used w/ a terminate option.
+- Delete the EC2 instance you used w/ a 'terminate' option.
 - Services - find CloudHSM, delete the HSM from within the cluster. Wait.
 - Delete the cluster itself. 
-- Review the VPC - remove the associations and delete the auto-created security group.  Note you may need to update the Sec Grp itself and remove ref's.
+- Review the VPC - remove the associations and delete the auto-created security group.  Note you may need to update the Sec Grp itself and remove ref's.  Also any NACL entries that you may have creatred will need to have the change reverted.
 
 # Amazon DNS and Custom VPC's (Added 10/20/2020)
 - When you create a VPC, the VPC includes a DNS server. It uses a reserved IP in the CIDR range. For example 10.0.0.0/16, the .2 address will be the DNS server. 
