@@ -796,6 +796,7 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
   - Click on the cluster ID and Initialize. Create the HSM in the cluster in private SubNet - takes a while and note the private IP.  Will assign an IP in the subnet. For ACG, there is an init-script - need to replace the cluster ID.  Need to download and sign a CSR from an EC2 instance. 
   - Need two certificates - Cluster CSR and the Issuing Certificate. These are generated from an EC2 image, where you need the CSR. You will use the CSR to generate a private key, create a self signed certificate, and then push both up to the Cloud HSM. *Do Not* lose the password you generate along the way! Name your files well so that you can upload the files back into AWS console for the CA certificate and the HSM certificate. 
   - For the client on EC2n(which is used to administer the HSM), need to get the 'cloudhsm-client-latest' file to have the AWS client package.  The pubkey needs to be dropped into the right location - /opt/cloudhsm/etc.  Connect to the cluster by using the private IP and the "cloudhsm_mgmt_util" script. 
+  - Run `service cloudhsm-client start` for the service. 
   - Initialization then continues w/ logging in as the pre-crypto officer, updating the user/pass. Then login as the Crypto officer, and create some users. 
   - To import/export keys, you will need to use (generate and export) a "Wrapping key". 
   - When interacting with CloudHSM from the CLI, make sure you note the Key Handle ID as numerous commands require a specific key. 
@@ -820,7 +821,6 @@ In S3, Properties.  Encryption on the bucket isn't enabled.  Drill into an indiv
   - `changePswd`
   - `changePswd PRECO admin <passwd>`
   - `createUser <username> <passwd>`
-  - # service cloudhsm-client start 
   - `genSymKey -t # -s # -l aes256` ## this command will return a 'key handles'
   - `genSymKey -t # -s # -sess -l export-wrapping-key` ## needed for ecy export, returns the key handle
   - `exSymkey -k # -out aes256.key.exp -w handle#` ## this is how you export a wrapping key for subsequent ops w/ file aes256.key.exp
