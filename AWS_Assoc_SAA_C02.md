@@ -1,140 +1,35 @@
 - [1. Introduction](#1-introduction)
-    - [1.0.1. Exam Content Breakdown:](#101-exam-content-breakdown)
-    - [1.0.2. Recommended Reading:](#102-recommended-reading)
   - [1.1. Identity Access Management (IAM)](#11-identity-access-management-iam)
-    - [1.1.1. IAM Simplified:](#111-iam-simplified)
-    - [1.1.2. IAM Entities:](#112-iam-entities)
-    - [1.1.3. IAM Key Details:](#113-iam-key-details)
-    - [1.1.4. Amazon Resource Names (ARN) (Update 8-9/3/2020)](#114-amazon-resource-names-arn-update-8-932020)
-    - [1.1.5. Priority Levels in IAM:](#115-priority-levels-in-iam)
   - [1.2. Simple Storage Service (S3) OLDER](#12-simple-storage-service-s3-older)
-    - [1.2.1. S3 Simplified:](#121-s3-simplified)
-    - [1.2.2. S3 Key Details:](#122-s3-key-details)
-    - [1.2.3. S3 Storage Classes:](#123-s3-storage-classes)
-    - [1.2.4. S3 Encryption:](#124-s3-encryption)
-    - [1.2.5. S3 Versioning (Updated 9/2020):](#125-s3-versioning-updated-92020)
-    - [1.2.6. S3 Lifecycle Management:](#126-s3-lifecycle-management)
-    - [1.2.7. S3 Cross Region Replication:](#127-s3-cross-region-replication)
-    - [1.2.8. S3 Transfer Acceleration:](#128-s3-transfer-acceleration)
-    - [1.2.9. S3 Event Notications:](#129-s3-event-notications)
-    - [1.2.10. S3 and ElasticSearch:](#1210-s3-and-elasticsearch)
-    - [1.2.11. Maximizing S3 Read/Write Performance:](#1211-maximizing-s3-readwrite-performance)
-    - [1.2.12. S3 Server Access Logging:](#1212-s3-server-access-logging)
-    - [1.2.13. S3 URL's (9/19/20)](#1213-s3-urls-91920)
-    - [1.2.14. S3 Multipart Upload:](#1214-s3-multipart-upload)
-    - [1.2.15. S3 URL's (9/19/20)](#1215-s3-urls-91920)
-    - [1.2.16. S3 Pre-signed URLs:](#1216-s3-pre-signed-urls)
-    - [1.2.17. S3 Select:](#1217-s3-select)
-    - [1.2.18. S3 REST API (Added 9/24/2020)](#1218-s3-rest-api-added-9242020)
-    - [1.2.19. 1.2.19 S3 Static Website](#1219-1219-s3-static-website)
   - [1.3. CloudFront](#13-cloudfront)
-    - [1.3.1. CloudFront Simplified (Updated 11/16/2020)](#131-cloudfront-simplified-updated-11162020)
-    - [1.3.2. CloudFront Key Details (Updated 11/16/2020)](#132-cloudfront-key-details-updated-11162020)
-    - [1.3.3. CloudFront Signed URLs and Signed Cookies:](#133-cloudfront-signed-urls-and-signed-cookies)
   - [1.4. Snowball](#14-snowball)
-    - [1.4.1. Snowball Simplified:](#141-snowball-simplified)
-    - [1.4.2. Snowball Key Details:](#142-snowball-key-details)
-    - [1.4.3. Snowball Edge and Snowmobile:](#143-snowball-edge-and-snowmobile)
   - [1.5. Storage Gateway](#15-storage-gateway)
-    - [1.5.1. Storage Gateway Simplified (Updated 9/2020):](#151-storage-gateway-simplified-updated-92020)
-    - [1.5.2. Storage Gateway Key Details:](#152-storage-gateway-key-details)
-    - [1.5.3. Stored Volumes vs. Cached Volumes:](#153-stored-volumes-vs-cached-volumes)
   - [1.6. Elastic Compute Cloud (EC2)](#16-elastic-compute-cloud-ec2)
-    - [1.6.1. EC2 Simplified:](#161-ec2-simplified)
-    - [1.6.2. EC2 Key Details:](#162-ec2-key-details)
-    - [1.6.3. EC2 AMI's (updated 9/29/2020)](#163-ec2-amis-updated-9292020)
-    - [1.6.4. EC2 Instance Pricing:](#164-ec2-instance-pricing)
-    - [1.6.5. Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:](#165-standard-reserved-vs-convertible-reserved-vs-scheduled-reserved)
-    - [1.6.6. EC2 Instance Lifecycle:](#166-ec2-instance-lifecycle)
-    - [1.6.7. EC2 Security:](#167-ec2-security)
-    - [1.6.8. EC2 Placement Groups:](#168-ec2-placement-groups)
   - [1.7. Elastic Block Store (EBS)](#17-elastic-block-store-ebs)
-    - [1.7.1. EBS Simplified:](#171-ebs-simplified)
-    - [1.7.2. EBS Key Details (Updated 12/03/2020)](#172-ebs-key-details-updated-12032020)
-    - [1.7.3. SSD vs. HDD:](#173-ssd-vs-hdd)
-    - [1.7.4. EBS Snapshots:](#174-ebs-snapshots)
-    - [1.7.5. EBS Root Device Storage:](#175-ebs-root-device-storage)
-    - [1.7.6. Instance Store Notes (Updated 11/11/2020)](#176-instance-store-notes-updated-11112020)
-    - [1.7.7. EBS Encryption:](#177-ebs-encryption)
   - [1.8. Elastic Network Interfaces (ENI) (Updated 0/29/2020)](#18-elastic-network-interfaces-eni-updated-0292020)
-    - [1.8.1. ENI Simplified:](#181-eni-simplified)
-    - [1.8.2. ENI Key Details (Updated 8/29/2020)](#182-eni-key-details-updated-8292020)
   - [1.9. Security Groups](#19-security-groups)
-    - [1.9.1. Security Groups Simplified:](#191-security-groups-simplified)
-    - [1.9.2. Security Groups Key Details (Updated 9/29/2020)](#192-security-groups-key-details-updated-9292020)
   - [1.10. Web Application Firewall (WAF) (Updated 10/02/2020)](#110-web-application-firewall-waf-updated-10022020)
-    - [1.10.1. WAF Simplified:](#1101-waf-simplified)
-    - [1.10.2. WAF Key Details:](#1102-waf-key-details)
-    - [1.10.3. WAF Protection Capabilities:](#1103-waf-protection-capabilities)
   - [1.11. CloudWatch](#111-cloudwatch)
-    - [1.11.1. CloudWatch Simplified:](#1111-cloudwatch-simplified)
-    - [1.11.2. CloudWatch Key Details:](#1112-cloudwatch-key-details)
-    - [1.11.3. CloudWatch Logs:](#1113-cloudwatch-logs)
-    - [1.11.4. CloudWatch Events:](#1114-cloudwatch-events)
-    - [1.11.5. CloudWatch Alarms:](#1115-cloudwatch-alarms)
-    - [1.11.6. CloudWatch Metrics:](#1116-cloudwatch-metrics)
-    - [1.11.7. CloudWatch Dashboards:](#1117-cloudwatch-dashboards)
   - [1.12. CloudTrail](#112-cloudtrail)
-    - [1.12.1. CloudTrail Simplified:](#1121-cloudtrail-simplified)
-    - [1.12.2. CloudTrail Key Details:](#1122-cloudtrail-key-details)
   - [1.13. Elastic File System (EFS)](#113-elastic-file-system-efs)
-    - [1.13.1. EFS Simplified:](#1131-efs-simplified)
-    - [1.13.2. EFS Key Details (Updated 11/11/2020)](#1132-efs-key-details-updated-11112020)
   - [1.14. Amazon FSx for Windows](#114-amazon-fsx-for-windows)
-    - [1.14.1. Amazon FSx for Windows Simplified:](#1141-amazon-fsx-for-windows-simplified)
-    - [1.14.2. Amazon FSx for Windows Key Details:](#1142-amazon-fsx-for-windows-key-details)
   - [1.15. Amazon FSx for Lustre](#115-amazon-fsx-for-lustre)
-    - [1.15.1. Amazon FSx for Lustre Simplified:](#1151-amazon-fsx-for-lustre-simplified)
-    - [1.15.2. Amazon FSx for Lustre Key Details:](#1152-amazon-fsx-for-lustre-key-details)
   - [1.16. Relational Database Service (RDS)](#116-relational-database-service-rds)
-    - [1.16.1. RDS Simplified:](#1161-rds-simplified)
-    - [1.16.2. RDS Key Details:](#1162-rds-key-details)
-    - [1.16.3. RDS Multi-AZ (Updated 11/13/2020)](#1163-rds-multi-az-updated-11132020)
-    - [1.16.4. RDS Read Replicas:](#1164-rds-read-replicas)
-    - [1.16.5. RDS Backups:](#1165-rds-backups)
-    - [1.16.6. RDS Security:](#1166-rds-security)
-    - [1.16.7. RDS Enhanced Monitoring:](#1167-rds-enhanced-monitoring)
   - [1.17. Aurora](#117-aurora)
-    - [1.17.1. Aurora Simplified:](#1171-aurora-simplified)
-    - [1.17.2. Aurora Key Details:](#1172-aurora-key-details)
-    - [1.17.3. Aurora Serverless (Updated 11/11/2020)](#1173-aurora-serverless-updated-11112020)
-    - [1.17.4. Aurora Cluster Endpoints:](#1174-aurora-cluster-endpoints)
-    - [1.17.5. Aurora Reader Endpoints:](#1175-aurora-reader-endpoints)
   - [1.18. DynamoDB](#118-dynamodb)
-    - [1.18.1. DynamoDB Simplified:](#1181-dynamodb-simplified)
-    - [1.18.2. DynamoDB Key Details:](#1182-dynamodb-key-details)
-    - [1.18.3. DynamoDB Accelerator (DAX):](#1183-dynamodb-accelerator-dax)
-    - [1.18.4. DynamoDB Streams:](#1184-dynamodb-streams)
-    - [1.18.5. DynamoDB Global Tables](#1185-dynamodb-global-tables)
   - [1.19. Redshift](#119-redshift)
-    - [1.19.1. Redshift Simplified:](#1191-redshift-simplified)
-    - [1.19.2. Redshift Key Details:](#1192-redshift-key-details)
   - [1.20. Redshift Spectrum:](#120-redshift-spectrum)
   - [1.21. Redshift Enhanced VPC Routing:](#121-redshift-enhanced-vpc-routing)
   - [1.22. ElastiCache](#122-elasticache)
-    - [1.22.1. ElastiCache Simplified:](#1221-elasticache-simplified)
-    - [1.22.2. ElastiCache Key Details:](#1222-elasticache-key-details)
   - [1.23. Route53](#123-route53)
-    - [1.23.1. Route53 Simplified:](#1231-route53-simplified)
-    - [1.23.2. Route53 Key Details:](#1232-route53-key-details)
-    - [1.23.3. Route53 Routing Policies:](#1233-route53-routing-policies)
   - [1.24. Elastic Load Balancers (ELB)](#124-elastic-load-balancers-elb)
-    - [1.24.1. ELB Simplified:](#1241-elb-simplified)
-    - [1.24.2. ELB Key Details:](#1242-elb-key-details)
   - [1.25. External/Internet ELB (Added 11/06/2020):](#125-externalinternet-elb-added-11062020)
   - [1.26. Internal ELB (Added 11/06/2020):](#126-internal-elb-added-11062020)
   - [1.27. Main Configuration Steps (Added 11/06/2020):](#127-main-configuration-steps-added-11062020)
-    - [1.27.1. ELB Type Decision Matrix (Added 11/06/2020):](#1271-elb-type-decision-matrix-added-11062020)
-    - [1.27.2. ELB General Lifecycle for requests:](#1272-elb-general-lifecycle-for-requests)
-    - [1.27.3. ELB Advanced Features:](#1273-elb-advanced-features)
-    - [1.27.4. ELB Cross Zone Load Balancing:](#1274-elb-cross-zone-load-balancing)
-    - [1.27.5. ELB Security (Updated 11/6/2020):](#1275-elb-security-updated-1162020)
 - [2. Auto Scaling](#2-auto-scaling)
   - [2.1. Auto Scaling Simplified:](#21-auto-scaling-simplified)
   - [2.2. Auto Scaling Key Details:](#22-auto-scaling-key-details)
   - [2.3. Auto Scaling Default Termination Policy:](#23-auto-scaling-default-termination-policy)
-    - [2.3.1. Auto Scaling and Rebalancing (Added 12/03/2020)](#231-auto-scaling-and-rebalancing-added-12032020)
-    - [2.3.2. Auto Scaling Cooldown Period:](#232-auto-scaling-cooldown-period)
 - [3. Virtual Private Cloud (VPC)](#3-virtual-private-cloud-vpc)
   - [3.1. VPC Simplified:](#31-vpc-simplified)
   - [3.2. VPC Key Details (Updated 9/4/2020):](#32-vpc-key-details-updated-942020)
@@ -156,35 +51,14 @@
   - [5.2. SQS Key Details:](#52-sqs-key-details)
   - [5.3. SQS Polling:](#53-sqs-polling)
   - [5.4. Simple Workflow Service (SWF) (Updated 9/28/2020)](#54-simple-workflow-service-swf-updated-9282020)
-    - [5.4.1. SWF Simplified:](#541-swf-simplified)
-    - [5.4.2. SWF Key Details (Updated 9/28/2020)](#542-swf-key-details-updated-9282020)
   - [5.5. Simple Notification Service (SNS)](#55-simple-notification-service-sns)
-    - [5.5.1. SNS Simplified](#551-sns-simplified)
-    - [5.5.2. SNS Key Details (Updated 9/28/20)](#552-sns-key-details-updated-92820)
-    - [5.5.3. SNS vs. SQS](#553-sns-vs-sqs)
   - [5.6. Kinesis (Updated 9/27/2020)](#56-kinesis-updated-9272020)
-    - [5.6.1. Kinesis Simplified:](#561-kinesis-simplified)
-    - [5.6.2. Kinesis Key Details:](#562-kinesis-key-details)
   - [5.7. Lambda (Updated 10/12/2020)](#57-lambda-updated-10122020)
-    - [5.7.1. Lambda Simplified (Updated 10/12/2020)](#571-lambda-simplified-updated-10122020)
-    - [5.7.2. Example Patterns (Added 10/12/2020)](#572-example-patterns-added-10122020)
-    - [5.7.3. Lambda Key Details:](#573-lambda-key-details)
-    - [5.7.4. Lambda@Edge:](#574-lambdaedge)
   - [5.8. API Gateway (Updated 9/28/20)](#58-api-gateway-updated-92820)
-    - [5.8.1. API Gateway Simplified: (Updated 9/27/20)](#581-api-gateway-simplified-updated-92720)
-    - [5.8.2. API Gateway Key Details: (Updated 9/27/20)](#582-api-gateway-key-details-updated-92720)
-    - [5.8.3. Deployment (Added 9/27/2020)](#583-deployment-added-9272020)
-    - [5.8.4. Cross Origin Resource Sharing and Same Origin Policy: (Updated 9/27/2020)](#584-cross-origin-resource-sharing-and-same-origin-policy-updated-9272020)
   - [5.9. CloudFormation](#59-cloudformation)
-    - [5.9.1. CloudFormation Simplified:](#591-cloudformation-simplified)
-    - [5.9.2. CloudFormation Key Details:](#592-cloudformation-key-details)
   - [5.10. ElasticBeanstalk](#510-elasticbeanstalk)
-    - [5.10.1. ElasticBeanstalk Simplified:](#5101-elasticbeanstalk-simplified)
-    - [5.10.2. ElasticBeanstalk Key Details:](#5102-elasticbeanstalk-key-details)
   - [5.11. AWS Organizations](#511-aws-organizations)
-    - [5.11.1. AWS Organizations Simplified:](#5111-aws-organizations-simplified)
-    - [5.11.2. AWS Organizations Key Details:](#5112-aws-organizations-key-details)
-- [6. Web Identity Federation (Added 9/28/2020)](#6-web-identity-federation-added-9282020)
+- [6. Web Identity Federation (Updated 12/6/2020)](#6-web-identity-federation-updated-1262020)
   - [6.1. Cognotio User Pools (Added 9/28/2020)](#61-cognotio-user-pools-added-9282020)
 - [7. Event Processing Patterns (Added 9/28/2020)](#7-event-processing-patterns-added-9282020)
   - [7.1. Publisher / Subscriber (Added 9/28/2020)](#71-publisher--subscriber-added-9282020)
@@ -193,34 +67,6 @@
 - [8. Authentication](#8-authentication)
 - [9. Miscellaneous](#9-miscellaneous)
   - [9.1. Reducing Security Threats (Added 10/12/2020)](#91-reducing-security-threats-added-10122020)
-    - [9.1.1. What is the Amazon Cognito? (Legacy text)](#911-what-is-the-amazon-cognito-legacy-text)
-    - [9.1.2. What is AWS Resource Access Manager?](#912-what-is-aws-resource-access-manager)
-    - [9.1.3. What is Athena?](#913-what-is-athena)
-    - [9.1.4. What is AWS Macie?](#914-what-is-aws-macie)
-    - [9.1.5. What is AWS KMS? (Updated 10/12/2020)](#915-what-is-aws-kms-updated-10122020)
-    - [9.1.6. What is Cloud HSM (Added 11/12/2020)](#916-what-is-cloud-hsm-added-11122020)
-    - [9.1.7. What is Systems Manager Parameter Store (10/12/2020)](#917-what-is-systems-manager-parameter-store-10122020)
-    - [9.1.8. What is AWS Secrets Manager? (Updated 10/12/2020)](#918-what-is-aws-secrets-manager-updated-10122020)
-    - [9.1.9. What is AWS STS?](#919-what-is-aws-sts)
-    - [9.1.10. What is OpsWorks?](#9110-what-is-opsworks)
-    - [9.1.11. What is Elastic Transcoder?](#9111-what-is-elastic-transcoder)
-    - [9.1.12. What is AWS Directory Service?](#9112-what-is-aws-directory-service)
-    - [9.1.13. What is IoT Core?](#9113-what-is-iot-core)
-    - [9.1.14. What is AWS WorkSpaces?](#9114-what-is-aws-workspaces)
-    - [9.1.15. What is AWS Fargate?](#9115-what-is-aws-fargate)
-    - [9.1.16. What is Amazon Elastic Container Service?](#9116-what-is-amazon-elastic-container-service)
-    - [9.1.17. What is Amazon Elastic Kubernetes Service?](#9117-what-is-amazon-elastic-kubernetes-service)
-    - [9.1.18. What does pilot light mean? (Updated 12/03/2020)](#9118-what-does-pilot-light-mean-updated-12032020)
-    - [9.1.19. What are Blue-Green deployments?](#9119-what-are-blue-green-deployments)
-    - [9.1.20. What is Amazon Data Lifecycle Manager?](#9120-what-is-amazon-data-lifecycle-manager)
-    - [9.1.21. What is Route Origin Authorization?](#9121-what-is-route-origin-authorization)
-    - [9.1.22. What is AWS Shield (Added 10/12/2020)](#9122-what-is-aws-shield-added-10122020)
-    - [9.1.23. What is Amazon MQ?](#9123-what-is-amazon-mq)
-    - [9.1.24. What is AWS Config? (Updated 10/1/2020)](#9124-what-is-aws-config-updated-1012020)
-    - [9.1.25.  Unified Scaling Service (Added 11/11/2020)](#9125--unified-scaling-service-added-11112020)
-    - [9.1.26. LightSail](#9126-lightsail)
-    - [9.1.27. AWS EMR](#9127-aws-emr)
-    - [9.1.28. Amazon MQ (Added 12/03/2020)](#9128-amazon-mq-added-12032020)
 - [10. KEY AMAZON AWS TERMS (Added 11/11/2020)](#10-key-amazon-aws-terms-added-11112020)
 - [11. Well Architected Frame Work (Added 11/13/2020)](#11-well-architected-frame-work-added-11132020)
 - [12. Scenarios (Added 12/7/2020)](#12-scenarios-added-1272020)
@@ -230,7 +76,7 @@
   - [12.4. Database Migration](#124-database-migration)
   - [12.5. Collectng EC2 Stats](#125-collectng-ec2-stats)
 
-Last Updated: 12/9/2020 13:30 EST USA (Gobble x3)
+Last Updated: 1/5/2021 8:21 PM EST USA (Gobble x3)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
@@ -344,23 +190,24 @@ To see your region in the CLI:
 
 ### 1.1.3. IAM Key Details:
 
-- IAM is a global AWS services that is not limited by regions. Any user, group, role or policy is accessible globally.
+IAM is a global AWS services that is not limited by regions. Any user, group, role or policy is accessible globally. The root account with complete admin access is the account used to sign up for AWS. Therefore, the email address used to create the AWS account for use should probably be the official company email address. In a typical environment, only 2 or 3 staff should be able to use the root account (in the rare cases where it is needed.)
 
-- The root account with complete admin access is the account used to sign up for AWS. Therefore, the email address used to create the AWS account for use should probably be the official company email address.
+New users have no permissions when their accounts are first created. This is a secure way of delegating access as permissions must be intentionally granted.
 
-- New users have no permissions when their accounts are first created. This is a secure way of delegating access as permissions must be intentionally granted.
+When joining the AWS ecosystem for the first time, new users are supplied an access key ID and a secret access key ID when you grant them programmatic access. These are created just once specifically for the new user to join, so if they are lost simply generate a new access key ID and a new secret access key ID. Access keys are only used for the AWS CLI and SDK so you cannot use them to access the console.
 
-- When joining the AWS ecosystem for the first time, new users are supplied an access key ID and a secret access key ID when you grant them programmatic access. These are created just once specifically for the new user to join, so if they are lost simply generate a new access key ID and a new secret access key ID. Access keys are only used for the AWS CLI and SDK so you cannot use them to access the console.
+When creating your AWS account, you may have an existing identity provider internal to your company that offers Single Sign On (SSO). If this is the case, it is useful, efficient, and entirely possible to reuse your existing identities on AWS. To do this, you let an IAM role be assumed by one of the Active Directories. This is because the IAM ID Federation feature allows an external service to have the ability to assume an IAM role.
 
-- When creating your AWS account, you may have an existing identity provider internal to your company that offers Single Sign On (SSO). If this is the case, it is useful, efficient, and entirely possible to reuse your existing identities on AWS. To do this, you let an IAM role be assumed by one of the Active Directories. This is because the IAM ID Federation feature allows an external service to have the ability to assume an IAM role.
+IAM Roles can be assigned to a service, such as an EC2 instance, prior to its first use/creation or after its been in used/created. You can change permissions as many times as you need. This can all be done by using both the AWS console and the AWS command line tools.
 
-- IAM Roles can be assigned to a service, such as an EC2 instance, prior to its first use/creation or after its been in used/created. You can change permissions as many times as you need. This can all be done by using both the AWS console and the AWS command line tools.
+You cannot nest IAM Groups. Individual IAM users can belong to multiple groups, but creating subgroups so that one IAM Group is embedded inside of another IAM Group is not possible.
 
-- You cannot nest IAM Groups. Individual IAM users can belong to multiple groups, but creating subgroups so that one IAM Group is embedded inside of another IAM Group is not possible.
+With IAM Policies, you can easily add tags that help define which resources are accessible by whom. These tags are then used to control access via a particular IAM policy. For example, production and development EC2 instances might be tagged as such. This would ensure that people who should only be able to access development instances cannot access production instances.  
 
-- With IAM Policies, you can easily add tags that help define which resources are accessible by whom. These tags are then used to control access via a particular IAM policy. For example, production and development EC2 instances might be tagged as such. This would ensure that people who should only be able to access development instances cannot access production instances.  
+Pattern: Define a policy, attach a policy to a group, and then add users to the group. 
 
-- IAM Inline Policies. These are embedded in an IAM identity (user, group, role), an inherient patt of that identity.  Used to maintain strict 1:1 relationships, living within the scope of the IAM identity.
+### IAM Inline Policies
+These are embedded in an IAM identity (user, group, role), an inherient patt of that identity.  Used to maintain strict 1:1 relationships, living within the scope of the IAM identity.
 
 ### 1.1.4. Amazon Resource Names (ARN) (Update 8-9/3/2020)
 The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniquely identify resources.
@@ -444,14 +291,14 @@ AWS users can create up to 100 buckets by default.
 - from a client, you can use HTTP and post to an HTTPS S3 (or SSL/TLS) endpoint, as well as use HTTPS.
 
 ### 1.2.3. S3 Storage Classes:
-Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket.
+Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket. Accounts have up to 100 buckets by default (support can extend). 
 (AWS doc link)[https://aws.amazon.com/s3/storage-classes/]
 
 **S3 Standard** - 99.99% availability (highest) and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
 
 **S3 Infrequent Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval. 4 9s availability and 11 9s durability.
 
-**S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA. Z-IA (One Zone-Infrequent Access) has an availability SLA of 2.5 9s, the lowest of all S3 storage classes (PPT).
+**S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA. Z-IA (One Zone-Infrequent Access) has an availability SLA of 2.5 9s, the lowest of all S3 storage classes (PPT). Cheaper than standard S3.
 
 **S3 Intelligent Tiering** - Uses built-in ML/AI to determine the most cost-effective storage class and then automatically moves your data to the appropriate tier. It does this without operational overhead or performance impact.
 
@@ -536,6 +383,13 @@ The Amazon S3 notification feature enables you to receive and send notifications
    - S3 then consolidates those records into log files
    - S3 finally uploads the log files to your secondary monitoring bucket as log objects
 
+### Secure S3 using Presigned URL's (Updated 12/29/2020)
+- Has permissions to certain S3 objects assigned by the URL creator (not user). Does not contain encrypted credentials - rather the presigned URL is associated w/ the object and is a "bearer token". Default 15 minute time limit. When creating - specify the object key, bucket name, credentials, HTTP method, expiration date and time.  Several things can be behind a presigned URL: S3 object, EC2 instance w/ Web UI, CloudFront distribution.
+- Need an IAM role for EC2, grant AmazonS3FullAccess, and assign to applicable EC2 instances. Launch an Instance and add the role. (Don't forget about key pairs.) S3 buckets in this case start as 'private'. 
+- Usually done w/ scripting language - Python + boto3 for example.
+- Can do this via the comand line. You need a EC2 role, add S3FullAccess to the role. Launch a t2.micro instance, add the role. 
+- Command: `aws s3 presign s3://path/file`. By default, this command will presign for 60 seconds. To chage, use `--expires-in SECONDS`. You will get a long presigned URL, with the file, an ID, an expiratin, and a URL encoded token on the URL line. Can copy/paste, and get access. 
+  
 ### 1.2.13. S3 URL's (9/19/20)
 
 - An example ARN for an S3 item is: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
@@ -625,7 +479,7 @@ The AWS CDN service is called CloudFront. It serves up cached content and assets
 - An Origin Access Identity (OAI) is used for sharing private content via CloudFront. The OAI is a virtual user that will be used to give your CloudFront distribution permission to fetch a private object from your origin (e.g. S3 bucket).
 
 ### 1.3.3. CloudFront Signed URLs and Signed Cookies:
-- CloudFront signed URLs and signed cookies provide the same basic functionality: they allow you to control who can access your content. These features exist because many companies that distribute content via the internet want to restrict access to documents, business data, media streams, or content that is intended for selected users. As an example, users who have paid a fee should be able to access private content that users on the free tier shouldn't. 
+- CloudFront signed URLs and signed cookies provide the same basic functionality: they allow you to control who can access your content. These features exist because many companies that distribute content via the internet want to restrict access to documents, business data, s using RTMP, or content that is intended for selected users. As an example, users who have paid a fee should be able to access private content that users on the free tier shouldn't. 
 - If you want to serve private content through CloudFront and you're trying to decide whether to use signed URLs or signed cookies, consider the following:
   - Use signed URLs for the following cases:
     - You want to use an RTMP distribution. Signed cookies aren't supported for RTMP distributions.
@@ -701,6 +555,7 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 - When you launch a new EC2 instance, EC2 attempts to place the instance in such a way that all of your VMs are spread out across different hardware to limit failure to a single location. You can use placement groups to influence the placement of a group of interdependent instances that meet the needs of your workload. There is an explanation about placement groups in a section below.
 - When you launch an instance in Amazon EC2, you have the option of passing user data to the instance when the instance starts. This user data can be used to run common automated configuration tasks or scripts. For example, you can pass a bash script that ensures htop is installed on the new EC2 host and is always active.
 - By default, the public IP address of an EC2 Instance is released when the instance is stopped even if its stopped temporarily. Therefore, it is best to refer to an instance by its external DNS hostname. If you require a persistent public IP address that can be associated to the same instance, use an Elastic IP address which is basically a static IP address instead. 
+- Accounts have five (5) EIP's by default. They are scarce resources. 
 - If you have requirements to self-manage a SQL database, EC2 can be a solid alternative to RDS. To ensure high availability, remember to have at least one other EC2 Instance in a separate Availability zone so even if a DB instance goes down, the other(s) will still be available.
 - A golden image is simply an AMI that you have fully customized to your liking with all necessary software/data/configuration details set and ready to go once. This personal AMI can then be the source from which you launch new instances.
 - Instance status checks check the health of the running EC2 server, systems status check monitor the health of the underlying hypervisor. If you ever notice a systems status issue, just stop the instance and start it again (no need to reboot) as the VM will start up again on a new hypervisor.
@@ -709,10 +564,11 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 ### 1.6.3. EC2 AMI's (updated 9/29/2020)
 - AMI's are region specific.
 - If you build an AMI and need it in other regions, it needs to be copied to other regions <a href="https://aws.amazon.com/premiumsupport/knowledge-center/copy-ami-region/"> Tutorial </a>
+
 ### 1.6.4. EC2 Instance Pricing:
 - **On-Demand instances** are based on a fixed rate by the hour or second. As the name implies, you can start an On-Demand instance whenever you need one and can stop it when you no longer need it. There is no requirement for a long-term commitment.
 - **Reserved instances** ensure that you keep exclusive use of an instance on 1 or 3 year contract terms. The long-term commitment provides significantly reduced discounts at the hourly rate. These can't be moved between regions (updated 9/29/2020)
-- **Spot instances** take advantage of Amazon’s excess capacity and work in an interesting manner. In order to use them, you must financially bid for access. Because Spot instances are only available when Amazon has excess capacity, this option makes sense only if your app has flexible start and end times. You won’t be charged if your instance stops due to a price change (e.g., someone else just bid a higher price for the access) and so consequently your workload doesn’t complete. However, if you terminate the instance yourself you will be charged for any hour the instance ran. Spot instances are normally used in batch processing jobs. 
+- **Spot instances** take advantage of Amazon’s excess capacity and work in an interesting manner. In order to use them, you must financially bid for access. Because Spot instances are only available when Amazon has excess capacity, this option makes sense only if your app has flexible start and end times. You won’t be charged if your instance stops due to a price change (e.g., someone else just bid a higher price for the access) and so consequently your workload doesn’t complete. However, if you terminate the instance yourself you will be charged for any hour the instance ran. Spot instances are normally used in batch processing jobs. The "Spot Market" is where you bit on spot instances. 
 
 ### 1.6.5. Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:
 - **Standard Reserved Instances** have inflexible reservations that are discounted at 75% off of On-Demand instances. Standard Reserved Instances cannot be moved between regions. You can choose if a Reserved Instance applies to either a specific Availability Zone, or an Entire Region, but you cannot change the region.
@@ -1083,10 +939,11 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Disaster recovery in AWS always looks to ensure standby copies of resources are maintained in a separate geographical area. This way, if a disaster (natural disaster, political conflict, etc.) ever struck where your original resources are, the copies would be unaffected.
 - When you provision a Multi-AZ DB Instance, Amazon RDS automatically creates a primary DB instance and synchronously replicates the data to a standby instance in a different Availability Zone (AZ). Each AZ runs on its own physically distinct, independent infrastructure, and is engineered to be highly reliable.
 - With a Multi-AZ configuration, EC2 connects to its RDS data store using a DNS address masked as a connection string. If the primary DB fails, Multi-AZ is smart enough to detect that failure and automatically update the DNS address to point at the secondary. No manual intervention is required and AWS takes care of swapping the IP address in DNS.
-- Multi-AZ is supported for all DB flavors except aurora. This is because Aurora is completely fault-tolerant on its own.
+- Multi-AZ is supported for all DB flavors except Aurora. This is because Aurora is completely fault-tolerant on its own.
 - Multi-AZ feature allows for high availability across availability zones and not regions.
+- Replication occurs synchronously from primary to secondaries. (Asynch is for read replicas.)
 - During a failover, the recovered former primary becomes the new secondary and the promoted secondary becomes primary. Once the original DB is recovered, there will be a sync process kicked off where the two DBs mirror each other once to sync up on the new data that the failed former primary might have missed out on.
-- You can force a failover for a Multi-AZ setup by rebooting the primary instance
+- You can force a failover for a Multi-AZ setup by rebooting the primary instance.
 - With a Multi-AZ RDS configuration, backups are taken from the standby.
 - The SLA for RDS Multi-AZ is 99.95% (see https://aws.amazon.com/rds/sla/) (PPT).
 
@@ -1099,8 +956,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Read replicas are supported for all six flavors of DB on top of RDS.
 - Each Read Replica will have its own DNS endpoint. 
 - Automated backups must be enabled in order to use read replicas.
-- You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag.
-The caveat for Read Replicas is that they are subject to small amounts of replication lag. This is because they might be missing some of the latest transactions as they are not updated as quickly as primaries. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
+- You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag. Read replicas asynchronously. This is because they might be missing some of the latest transactions as they are not updated as quickly as primaries. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
 
 
 ### 1.16.5. RDS Backups:
@@ -1321,7 +1177,7 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
   - Geo-proximity Routing
   - Multivalue Answer Routing
 - **Simple Routing** is "standard or legacy DNS" behavior. You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
-- **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing.
+- **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing. A weight of 0 means the record will not be used (turned off if you will).
 - **Latency-based Routing**, as the name implies, is based on setting up routing based on what would be the lowest latency for a given user. To use latency-based routing, you must create a latency resource record set in the same region as the corresponding EC2 or ELB resource receiving the traffic. When Route53 receives a query for your site, it selects the record set that gives the user the quickest speed. When creating Latency-based Routing, you need to specify a new record for each IP. 
 - **Failover Routing** is used when you want to configure active-passive failover. Route53 will monitor the health of your primary so that it can failover when needed. You can also manually set up health checks to monitor all endpoints if you want more detailed rules. Systems that fail health checks based on the failure threshold are omitted from replies.
 - **Geolocation Routing** lets you choose where traffic will be sent based on the geographic location of your users.
@@ -1486,7 +1342,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - There is one default VPC per region. However, you can have as many custom VPCs as you want and all are private by default.
 - When you create a custom VPC, four resources are created: VPC definition itself w/ an IPv4 range (like 10.0.0.0/16), Network ACL, Route table, and a Security Group (for the test - just 3). New subnets are not created by default. You must create them separately. The same is true for an internet gateway. If you want your VPC to have internet access, you need to also create the gateway so that the network can be reached publicly by the world. (Updated 9/4/2020)
 - Because of this, when you create an IGW it will initially be in an detached state. You will need to manually assign it to the custom VPC.
-- The VPC "Network" itself is region scoped. Subnets can be in specific AZ's, but the network for the VPC cannot span regions (PPT.)
+- The VPC "Network" itself is region scoped. Subnets can be in specific AZ's, but the network for the VPC cannot span regions (PPT.) The default subnet mask is /16.
 - Once you create a custom VPC however, the following are created by default:
   - a route table
   - a NACL
@@ -1569,7 +1425,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - The best way to implement a Bastion Host is to create a small EC2 instance that only has a security group rule for a single IP address. This ensures maximum security.
 - It is perfectly fine to use a small instance rather than a large one because the instance will only be used as a jump server that connects different servers to each other. Relaying traffic is lightweight. 
 - If you are going to be RDPing or SSHing into the instances of your private subnet, use a Bastion Host. If you are going to be providing internet traffic into the instances of your private subnet, use a NAT.
-- Similar to NAT Gateways and NAT Instances, Bastion Hosts live within a public-facing subnet.
+- Similar to NAT Gateways and NAT Instances, Bastion Hosts live within a public-facing subnet. A NAT instance can be part of a Bastion host setup.
 - There are pre-baked Bastion Host AMIs.
 
 ## 3.7. Route Tables:
@@ -1603,6 +1459,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - A customer gateway is a physical device or software application on the on-premise side of the VPN connection. (AWS Console) The VPG (virtual private gateway) resource is hardware backed in two data centers within the region to which the VPC is deployed. It uses active/passive tunnels in a highly available mode but is not fault tolerant. (Pearson Practice Test)
 - A virtual private gateway is the router on the Amazon side of the VPN tunnel.
 - Although the term "VPN connection" is a general concept, a VPN connection for AWS always refers to the connection between your VPC and your own network. AWS supports Internet Protocol security (IPsec) VPN connections.
+- Route Propagration is a routing option that automatically propagates routes to the route table.  Most common in a Direct Connection setup.
 - Create two IPSec Tunnels for redundancy.
 - The following diagram illustrates a single VPN connection.
 
@@ -1924,11 +1781,12 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 ### 5.10.1. ElasticBeanstalk Simplified:
 ElasticBeanstalk is another way to script out your provisioning process by deploying existing applications to the cloud. ElasticBeanstalk is aimed toward developers who know very little about the cloud and want the simplest way of deploying their code.
 
-### 5.10.2. ElasticBeanstalk Key Details:
+### 5.10.2. Elastic Beanstalk Key Details:
 - Just upload your application and ElasticBeanstalk will take care of the underlying infrastructure.
-- ElasticBeanstalk has capacity provisioning, meaning you can use it with autoscaling from the get-go.
-ElasticBeanstalk applies updates to your application by having a duplicate ready with the already updated version. This duplicate is then swapped with the original. This is done as a preventative measure in case your updated application fails. If the app does fail, ElasticBeanstalk will switch back to the original copy with the older version and there will be no downtime experienced by the users who are using your application. 
-- You can use ElasticBeanstalk to even host Docker as Elastic Beanstalk supports the deployment of web applications from containers. With Docker containers, you can define your own runtime environment, your own platform, programming language, and any application dependencies (such as package managers or tools) that aren't supported by other platforms. ElasticBeanstalk makes it easy to deploy Docker as Docker containers are already self-contained and include all the configuration information and software required to run. 
+- Elastic Beanstalk has capacity provisioning, meaning you can use it with autoscaling from the get-go.
+Elastic Beanstalk applies updates to your application by having a duplicate ready with the already updated version. This duplicate is then swapped with the original. This is done as a preventative measure in case your updated application fails. If the app does fail, ElasticBeanstalk will switch back to the original copy with the older version and there will be no downtime experienced by the users who are using your application. 
+- You can use Elastic Beanstalk to even host Docker as Elastic Beanstalk supports the deployment of web applications from containers. With Docker containers, you can define your own runtime environment, your own platform, programming language, and any application dependencies (such as package managers or tools) that aren't supported by other platforms. ElasticBeanstalk makes it easy to deploy Docker as Docker containers are already self-contained and include all the configuration information and software required to run. 
+- Programming: Go, Java, .NET, Node.js, PHP, Python, and Ruby
 
 ## 5.11. AWS Organizations
 
@@ -1944,9 +1802,9 @@ AWS Organizations is an account management service that enables you to consolida
 - Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.  SCPs do not affect the root credentials, either console or API.  
 - An AWS Organizations SCP can be used for setting permission boundaries (Max Permissions) for the member accounts.) [Permission Boundaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) A permissions boundary is an advanced feature for using a managed policy to set the maximum permissions that an identity-based policy can grant to an IAM entity. An entity's permissions boundary allows it to perform only the actions that are allowed by both its identity-based policies and its permissions boundaries. (Added 11/13/2020)
 
-# 6. Web Identity Federation (Added 9/28/2020)
-- Provide access based on a third party web based auth provider. An auth code comes to AWS, and it is traded for a temp access code.
-- Offing: Cognito is the service. 
+# 6. Web Identity Federation (Updated 12/6/2020)
+- Provide access based on a third party web based auth provider. An auth code comes to AWS, and it is traded for a temp access code. Allows you to use AWS w/ external IdP.
+- Offing: Cognito is the AWS IdP service. 
 - Sign up/Sign In.
 - Access for Guests to an IAM role. 
 - Synch's user data on multiple devices. 
@@ -1985,6 +1843,14 @@ AWS Organizations is an account management service that enables you to consolida
 - 
 # 8. Authentication
 - You can enable single singn on (SSO) so your on prem users can directly authenticate into AWS. To do this, use the AWS Secure Token Service (STS) and SAML to achieve federation. Normally, use AD and SAML 2.0. 
+- To Grant resource from one AWS account to another AWS account( P = Prod, D = Dev):
+  - You need a trust between accounts. 
+  - Built from P -> D perspective, so the role needs to be in A, with account B as the 'trusted entity'.
+  - Get the "D" account ID.
+  - In "P", create an IAM role and define the permissions you want "D" to have.  You will need ARN's of the "P" resources.
+  - Create a role in "P" now that you have a policy for "D" to use.  Get the ARN of the role.
+  - In the "D" account, select the user group. On the permissions tab, inline policies. Create a policy to allow the "sts:AssumeRole" Action. Apply the policy.
+  - At this point, users in "D" can swich roles and gain access to the "P" resource.
 
 # 9. Miscellaneous
 
@@ -2148,6 +2014,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - You can choose to run your ECS clusters using AWS Fargate, which is serverless compute for containers. Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
 - For long-running container jobs, it can be more expensive than ECS on EC2 (PPT).
 - ECS is not "instant scaling" because ECS requires a short delay to deploy new containers during scaling (PPT.)
+- ECS has tasks. Tasks in a container need an IAM role with permissions to access a given service, like S3 (remember, a role needs a JSON policy doc.)
 
 ### 9.1.17. What is Amazon Elastic Kubernetes Service?
 - Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed Kubernetes service. EKS runs upstream Kubernetes and is certified Kubernetes conformant so you can leverage all benefits of open source tooling from the community. You can also easily migrate any standard Kubernetes application to EKS without needing to refactor your code.
