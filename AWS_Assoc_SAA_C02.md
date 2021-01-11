@@ -21,7 +21,7 @@
   - [1.20. Redshift Spectrum:](#120-redshift-spectrum)
   - [1.21. Redshift Enhanced VPC Routing:](#121-redshift-enhanced-vpc-routing)
   - [1.22. ElastiCache](#122-elasticache)
-  - [1.23. Route53](#123-route53)
+  - [1.23. Route 53 (Updated 1/11/2021)](#123-route-53-updated-1112021)
   - [1.24. Elastic Load Balancers (ELB)](#124-elastic-load-balancers-elb)
   - [1.25. External/Internet ELB (Added 11/06/2020):](#125-externalinternet-elb-added-11062020)
   - [1.26. Internal ELB (Added 11/06/2020):](#126-internal-elb-added-11062020)
@@ -41,8 +41,8 @@
   - [3.8. Internet Gateway:](#38-internet-gateway)
   - [3.9. Virtual Private Networks (VPNs): (Updated 11/11/2020)](#39-virtual-private-networks-vpns-updated-11112020)
   - [3.10. AWS DirectConnect (Updated 12/3/2020)](#310-aws-directconnect-updated-1232020)
-  - [3.11. VPC Endpoints:](#311-vpc-endpoints)
-  - [3.12. AWS PrivateLink:](#312-aws-privatelink)
+  - [3.11. VPC Endpoints (Gateway, Interface) (Updated 1/11/2021)](#311-vpc-endpoints-gateway-interface-updated-1112021)
+  - [3.12. AWS PrivateLink](#312-aws-privatelink)
   - [3.13. VPC Peering:](#313-vpc-peering)
   - [3.14. VPC Flow Logs:](#314-vpc-flow-logs)
 - [4. AWS Global Accelerator:](#4-aws-global-accelerator)
@@ -67,6 +67,7 @@
 - [8. Authentication](#8-authentication)
 - [9. Miscellaneous](#9-miscellaneous)
   - [9.1. Reducing Security Threats (Added 10/12/2020)](#91-reducing-security-threats-added-10122020)
+- [## 9.1.10. What is OpsWorks?](#-9110-what-is-opsworks)
 - [10. KEY AMAZON AWS TERMS (Added 11/11/2020)](#10-key-amazon-aws-terms-added-11112020)
 - [11. Well Architected Frame Work (Added 11/13/2020)](#11-well-architected-frame-work-added-11132020)
 - [12. Scenarios (Added 12/7/2020)](#12-scenarios-added-1272020)
@@ -75,8 +76,11 @@
   - [12.3. HPC and MPI](#123-hpc-and-mpi)
   - [12.4. Database Migration](#124-database-migration)
   - [12.5. Collectng EC2 Stats](#125-collectng-ec2-stats)
+  - [12.6. Prototype Cloud Storage (Added 1/11/2011)](#126-prototype-cloud-storage-added-1112011)
+  - [12.7. Web App and Storage](#127-web-app-and-storage)
+  - [12.8. RDS Pefrormance and Read Replicas](#128-rds-pefrormance-and-read-replicas)
 
-Last Updated: 1/5/2021 8:21 PM EST USA (Gobble x3)
+Last Updated: 1/11/2021 8:21 PM EST USA (Gobble x3)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
@@ -394,7 +398,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 
 - An example ARN for an S3 item is: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
 - S3 supports two URL styles: *virtual hosted* and *path* style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
-- Format: S3-Region.amazonaws.com/bucket_name (after domain name). For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
+- Format: For all but us-east-1, the format is S3-RegionName.amazonaws.com/bucket_name (after domain name). In us-east-1, it is s3.amazonaws.com.  For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
 - For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
 - Presigned URL's allow non AWS users object access. The creater assignes permissions. Presigned URL's allow access to a private bucket w/o requiring AWS credentials.
 
@@ -463,16 +467,17 @@ The AWS CDN service is called CloudFront. It serves up cached content and assets
 - When content is cached, it is done for a certain time limit called the Time To Live, or TTL, which is always in seconds
 - If needed, CloudFront can serve up entire websites including dynamic, static, streaming and interactive content. 
 - Requests are always routed and cached in the nearest edge location for the user, thus propagating the CDN nodes and guaranteeing best performance for future requests.
-- There are two different types of distributions: 
-  - **Web Distribution**: web sites, normal cached items, etc
-  - **RTMP**: streaming content, adobe, etc
+- There are two (and only two...) different types of distributions: 
+  - **Web Distribution**: web sites, normal cached items, etc.
+  - **RTMP**: streaming content, adobe, etc. 
 - Cloud Front has Origin Domain Settings: S3, an ELB, MediaPackage Origin, and Media Store packages. 
-- Cloud Front has these Origins: S3, EC2, and ELB.
-- Edge locations are not just read only. They can be written to which will then return the write value back to the origin.
-- Cached content can be manually invalidated or cleared beyond the TTL, but this does incur a cost.
-- You can invalidate the distribution of certain objects or entire directories so that content is loaded directly from the origin everytime. Invalidating content is also helpful when debugging if content pulled from the origin seems correct, but pulling that same content from an edge location seems incorrect.
+- The domain name registered in CF is the origin for your static/dynamic content, used by clients - not the ELB/ALB domain name.
+- Cloud Front has these Origins: S3, EC2, and ELB.  Note that CF provides low latency, whereas S3 does not.
+- Edge locations are read / write; mostly read, but files can be written to an edge location. 
+- Cached content can be manually invalidated or cleared beyond the TTL(default 24 hrs), but this does incur a cost.
+- You can invalidate the distribution of certain objects or entire directories so that content is loaded directly from the origin every time. Invalidating content is also helpful when debugging if content pulled from the origin seems correct, but pulling that same content from an edge location seems incorrect. To delete a CF cached file, delete it from the origin and set the expiration period to 0 to force a reload. There is no direct CLI to interact w/ edge locations (some tests say).
 - You can set up a failover for the origin by creating an origin group with two origins inside. One origin will act as the primary and the other as the secondary. CloudFront will automatically switch between the two when the primary origin fails.
-- Amazon CloudFront delivers your content from each edge location and offers a Dedicated IP Custom SSL feature. SNI Custom SSL works with most modern browsers.
+- Amazon CloudFront delivers your content from each edge location and offers a Dedicated IP Custom SSL feature. SNI Custom SSL works with most modern browsers. Wnen data is requested, it is either returned from the cache or directly from the orgin (then cached).
 - If you run PCI or HIPAA-compliant workloads and need to log usage data, you can do the following:
     - Enable CloudFront access logs. 
     - Capture requests that are sent to the CloudFront API.
@@ -515,18 +520,18 @@ Storage Gateway is a service that connects on-premise environments with cloud-ba
 Volume Gateway as a way of storing virtual hard disk drives in the cloud. 
 
 
-### 1.5.2. Storage Gateway Key Details:
+### 1.5.2. Storage Gateway Key Details (Updated 1/10/2021)
 - The Storage Gateway service can either be a physical device or a VM image downloaded onto a host in an on-prem data center. It acts as a bridge to send or receive data from AWS.
 - **Storage Gateway** can sit on top of VMWare's ESXi hypervisor for Linux machines and Microsoft’s Hyper-V hypervisor for Windows machines.
 - The three types of Storage Gateways are below:
-  - **File Gateway** - Operates via NFS or SMB and is used to store files in S3 over a network filesystem mount point in the supplied virtual machine. Simply put, you can think of a File Gateway as a file system mount on S3.
+  - **File Gateway** - Operates via NFS or SMB and is used to store files in S3 over a network filesystem mount point in the supplied virtual machine. Simply put, you can think of a File Gateway as a file system mount on S3. Note: one AWS pretest app points out that FG is better than TG for modern backup, as most backip solutions leverage NFS mounts. Review https://aws.amazon.com/storagegateway/file/ to see how often backups are mentioned (added 1/10/2021).
   - **Volume Gateway** - Operates via iSCSI and is used to store copies of hard disk drives or virtual hard disk drives in S3. These can be achieved via *Stored Volumes* or *Cached Volumes*. Simply put, you can think of Volume Gateway as a way of storing virtual hard disk drives in the cloud. Stored Volumes back up data asynchronously. Cached volumes only keep most accessed data local, entire data set is in S3 (less data onsite that stored).
   - **Tape Gateway** - Operates as a Virtual Tape Library
 - Relevant file information passing through Storage Gateway like file ownership, permissions, timestamps, etc. are stored as metadata for the objects that they belong to. Once these file details are stored in S3, they can be managed natively. This mean all S3 features like versioning, lifecycle management, bucket policies, cross region replication, etc. can be applied as a part of Storage Gateway.
 - Applications interfacing with AWS over the Volume Gateway is done over the iSCSI block protocol. Data written to these volumes can be asynchronously backed up into AWS Elastic Block Store (EBS) as point-in-time snapshots of the volumes’ content. These kind of snapshots act as incremental backups that capture only changed state similar to a pull request in Git. Further, all snapshots are compressed to reduce storage costs.
 - Tape Gateway offers a durable, cost-effective way of archiving and replicating data into S3 while getting rid of tapes (old-school data storage). The Virtual Tape Library, or VTL, leverages existing tape-based backup infrastructure to store data on virtual tape cartridges that you create on the Tape Gateway. It’s a great way to modernize and move backups into the cloud.
 
-### 1.5.3. Stored Volumes vs. Cached Volumes:
+### 1.5.3. Stored Volumes vs. Cached Volumes
 - Volume Gateway's **Stored Volumes** let you store data locally on-prem and backs the data up to AWS as a secondary data source. Stored Volumes allow low-latency access to entire datasets, while providing high availability over a hybrid cloud solution. Further, you can mount Stored Volumes on application infrastructure as iSCSI drives so when data is written to these volumes, the data is both written onto the on-prem hardware and asynchronously backed up as snapshots in AWS EBS or S3.
   - In the following diagram of a Stored Volume architecture, data is served to the user from the Storage Area Network, Network Attached, or Direct Attached Storage within your data center. S3 exists just as a secure and reliable backup.
   - ![Screen Shot 2020-06-08 at 5 10 33 PM](https://user-images.githubusercontent.com/13093517/84080932-05cc5380-a9ab-11ea-8dd5-a80717b1b067.png)
@@ -601,20 +606,21 @@ The following table highlights the many instance states that a VM can be in at a
     - `aws ec2 describe-key-pairs --key-name KEY-NAME-HERE` 
     - `aws iam upload-ssh-public-key --user-name KEY-NAME-HERE --ssh-public-key-body "$(< ~/.ssh/KEY-NAME-HERE.pub)"
 
-### 1.6.8. EC2 Placement Groups:
+### 1.6.8. EC2 Placement Groups (Updated 1/11/2011)
 -  Placement groups balance the tradeoff between risk tolerance and network performance when it comes to your fleet of EC2 instances. The more you care about risk, the more isolated you want your instances to be from each other. The more you care about performance, the more conjoined you want your instances to be with each other. 
 - There are three different types of EC2 placement groups:
 
-  1.) Clustered Placement Groups:: Single AZ - Lowest Latency
+  1.) Clustered Placement Groups: Single AZ - Lowest Latency
     - Clustered Placement Grouping is when you put all of your EC2 instances in a single availability zone. This is recommended for applications that need the lowest latency possible and require the highest network throughput.
-    - Only certain instances can be launched into this group (compute optimized, GPU optimized, storage optimized, and memory optimized).
+    - Only certain instances can be launched into this group (compute optimized, GPU optimized, storage optimized, and memory optimized).  Instances can be of different types/classes. S3 performance is not increased. (Updated 1/11/2011)
   
-  2.) Spread Placement Groups:: EC2 Instances on distinct HW 
+  2.) Spread Placement Groups: EC2 Instances on distinct HW 
     - Spread Placement Grouping is when you put each individual EC2 instance on top of its own distinct hardware so that failure is isolated. 
     - Your VMs live on separate racks, with separate network inputs and separate power requirements. Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other. 
     - Can also be in multiple AZ's.
+    - There is a **maximum** of Seven instances per AZ for SPG's (added 1/8/2021)
   
-  3.) Partitioned Placement Groups:: Mult instances on same HW, grouped diff AZ's
+  3.) Partitioned Placement Groups: Mult instances on same HW, grouped diff AZ's
     - Partitioned Placement Grouping is similar to Spread placement grouping, but differs because you can have multiple EC2 instances within a single partition. Failure instead is isolated to a partition (say 3 or 4 instances instead of 1), yet you enjoy the benefits of close proximity for improved network performance.
     - With this placement group, you have multiple instances living together on the same hardware inside of different availability zones across one or more regions.
     - If you would like a balance of risk tolerance and network performance, use Partitioned Placement Groups.
@@ -663,6 +669,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - SSD-backed volumes are built for transactional workloads involving frequent read/write operations, where the dominant performance attribute is IOPS. **Rule of thumb**: Will your workload be IOPS heavy? Plan for SSD.
 - HDD-backed volumes are built for large streaming workloads where throughput (measured in MiB/s) is a better performance measure than IOPS. **Rule of thumb**: Will your workload be throughput heavy? Plan for HDD.
 - The "Annualized Failure Rate" of EBS is better than traditional data center storage (Pearson Practice Test - note that Trad DC Storage isn't defined....)
+- Boot volumes: General Purpose SSD (gp2, gp3) not Throughput Optimized HDD (st1) or Cold HDD (sc1), and Magnetic/ Detais: (lots of them)[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html]
 
 ![hdd_vs_ssd](https://user-images.githubusercontent.com/13093517/84944872-76165b80-b0b4-11ea-819c-a93deb999ea2.png)
 
@@ -926,7 +933,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
   - Aurora
 - Think of RDS as the DB engine in which various DBs sit on top of.
 - RDS has two key features when scaling out:
-  - Read replication for improved performance
+  - Read replicas for improved read performance and reducing network latency (can put a replica in region closer to users as a side effect)
   - Multi-AZ for high availability 
 - In the database world, *Online Transaction Processing (OLTP)* differs from *Online Analytical Processing (OLAP)* in terms of the type of querying that you would do. OLTP serves up data for business logic that utimately composes the core functioning of your platform or application. OLAP is to gain insights into the data that you have stored in order to make better strategic decisions as a company.
 - RDS runs on virtual machines, but you do not have access to those machines. You cannot SSH into an RDS instance so therefore you cannot patch the OS. This means that AWS  isresponsible for the security and maintenance of RDS. You can provision an EC2 instance as a database if you need or want to manage the underlying server yourself, but not with an RDS engine.
@@ -949,14 +956,15 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 
 
 ### 1.16.4. RDS Read Replicas:
-- Read Replication is exclusively used for performance enhancement.
-- With a Read Replica configuration, EC2 connects to the RDS backend using a DNS address and every write that is received by the master database is also passed onto a DB secondary so that it becomes a perfect copy of the master. This has the overall effect of reducing the number of transactions on the master because the secondary DBs can be queried for the same data. 
-- However, if the master DB were to fail, there is no automatic failover. You would have to manually create a new connection string to sync with one of the read replicas so that it becomes a master on its own. Then you’d have to update your EC2 instances to point at the read replica. You can have up to have copies of your master DB with read replication.
+- Read Replication is exclusively used for performance enhancement. Reasons to implement include DB memory issues, serving geographically disperesed users, you need a set of "read" functions that slow down "OLTP write" functions. You find DB platform issues through "Enhanced Monitoring", which can be enabled.
+- With a Read Replica configuration, EC2 connects to the RDS backend using a DNS address and every write that is received by the master database is also passed asynchronously to a DB secondary so that it becomes a perfect copy of the master. This has the overall effect of reducing the number of transactions on the master because the secondary DBs can be queried for the same data. 
+- However, if the master DB were to fail, there is no automatic failover. You would have to manually create a new connection string to sync with one of the read replicas so that it becomes a master on its own. Then you’d have to update your EC2 instances to point at the read replica. You can have up to six copies of your master DB with read replication.
 - You can promote read replicas to be their very own production database if needed.
 - Read replicas are supported for all six flavors of DB on top of RDS.
 - Each Read Replica will have its own DNS endpoint. 
 - Automated backups must be enabled in order to use read replicas.
 - You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag. Read replicas asynchronously. This is because they might be missing some of the latest transactions as they are not updated as quickly as primaries. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
+- Key AWS Doc Page: https://aws.amazon.com/rds/features/read-replicas/
 
 
 ### 1.16.5. RDS Backups:
@@ -982,9 +990,10 @@ Automated backups are enabled by default. The backup data is stored freely up to
 DB instances that are encrypted can't be modified to disable encryption. 
 
 ### 1.16.7. RDS Enhanced Monitoring:
-- RDS comes with an Enhanced Monitoring feature. Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on. You can view the metrics for your DB instance using the console, or consume the Enhanced Monitoring JSON output from CloudWatch Logs in a monitoring system of your choice. 
+- RDS comes with an Enhanced Monitoring feature. Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on. You can view the metrics for your DB instance using the console, or consume the Enhanced Monitoring JSON output from CloudWatch Logs in a monitoring system of your choice. Granularity can be down to 1 second (w/ cost).
 - By default, Enhanced Monitoring metrics are stored in the CloudWatch Logs for 30 days. To modify the amount of time the metrics are stored in the CloudWatch Logs, change the retention for the RDSOSMetrics log group in the CloudWatch console.
 - Take note that there are key differences between CloudWatch and Enhanced Monitoring Metrics. CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work that can be picked up and interpreted as part of the metric.
+- MySQL or MariaDB also offer a "slow_query_log" to find slow runnig querries. 
 
 ## 1.17. Aurora
 
@@ -1136,7 +1145,7 @@ The ElastiCache service makes it easy to deploy, operate, and scale an in-memory
 - Amazon ElastiCache can scale-out, scale-in, and scale-up to meet fluctuating application demands. Write and memory scaling is supported with sharding. Replicas provide read scaling.
 - Security for an ElastiCache Redis cluster can be ehanced through Redis authentication tokens (passwords). To do this, include the parameter --auth-token (API: AuthToken) with the correct token when you create your replication group or cluster. AWSCSAAPT. 
 
-## 1.23. Route53
+## 1.23. Route 53 (Updated 1/11/2021)
 
 ### 1.23.1. Route53 Simplified:
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking. Route 53 has a 100% SLA uptime (PPT)
@@ -1176,8 +1185,8 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
   - Geolocation Routing
   - Geo-proximity Routing
   - Multivalue Answer Routing
-- **Simple Routing** is "standard or legacy DNS" behavior. You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available.
-- **Weighted Routing** is used when you want to split your traffic based on assigned weights. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing. A weight of 0 means the record will not be used (turned off if you will).
+- **Simple Routing** is "standard or legacy DNS" behavior. You used when you just need a single record in your DNS with either one or more IP addresses behind the record in case you want to balance load. If you specify multiple values in a Simple Routing policy, Route53 returns a random IP from the options available. Simple routing can have multiple primary and secondary resources. 
+- **Weighted Routing** is used when you want to split your traffic based on assigned weights. Weighted policies honor health checks. For example, if you want 80% of your traffic to go to one AZ and the reamaining 20% rst to go to another, use Weighted Routing. This policy is very useful for testing feature changes and due to the traffic splitting characteristics, it can double as a means to perform blue-green deployments. When creating Weighted Routing, you need to specify a new record for each IP address. You cannot group the various IPs under one record like with Simple Routing. A weight of 0 means the record will not be used (turned off if you will).
 - **Latency-based Routing**, as the name implies, is based on setting up routing based on what would be the lowest latency for a given user. To use latency-based routing, you must create a latency resource record set in the same region as the corresponding EC2 or ELB resource receiving the traffic. When Route53 receives a query for your site, it selects the record set that gives the user the quickest speed. When creating Latency-based Routing, you need to specify a new record for each IP. 
 - **Failover Routing** is used when you want to configure active-passive failover. Route53 will monitor the health of your primary so that it can failover when needed. You can also manually set up health checks to monitor all endpoints if you want more detailed rules. Systems that fail health checks based on the failure threshold are omitted from replies.
 - **Geolocation Routing** lets you choose where traffic will be sent based on the geographic location of your users.
@@ -1206,9 +1215,9 @@ When an EC2 instance behind an ELB fails a health check, the ELB stops sending t
   - Application LBs
   - Network LBs
   - Classic LBs.
-- **Application LBs** are best suited for HTTP/HTTP(S) traffic and they apply to layer 7. Uses a round robin routing process for EC2 instances in a target group based on content o/t request type/content. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your brower which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
-- **Network LBs** are best suited for *TCP* traffic where performance is required and they balance load on layer 4. Operates at L4/Session layer. Can use TCP, UDP, TCP w/ SSL, or TCP/UDP (according to the dialog) Can use a target group. They are capable of handling volatile workloads, managing millions of requests per second while maintaining extremely low latency. Also if you need to usen an IP, not a DNS name, use NLB.
-- **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. CLB's support HTTP/HTTPS, TCP, or SSL (chose one), and then the port number. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers. Today, ALB/NLB likely better to use. Operates on L4/L7 (Session/Application) layers. No sense of "target groups". 
+- **Application LBs** are best suited for HTTP/HTTP(S) traffic, including HTTPv2, and they apply to layer 7. Uses a round robin routing process for EC2 instances in a target group based on content o/t request type/content. They are intelligent enough to be application aware and Application Load Balancers also support path-based routing, host-based routing and support for containerized applications. As an example, if you change your web browser’s language into French, an Application LB has visibility of the metadata it receives from your brower which contains details about the language you use. To optimize your browsing experience, it will then route you to the French-language servers on the backend behind the LB. You can also create advanced request routing, moving traffic into specific servers based on rules that you set yourself for specific cases.
+- **Network LBs** are best suited for *TCP* traffic where performance is required and they balance load on layer 4. Operates at L4/Session layer. Can use TCP, UDP, TCP w/ SSL, or TCP/UDP (according to the dialog) Can use a target group. They are capable of handling volatile workloads, managing millions of requests (more than ALB) per second while maintaining extremely low latency. Also if you need to usen an IP, not a DNS name, use NLB.
+- **Classic LBs** are the legacy ELB produce and they balance either on HTTP(S) or TCP, but not both. CLB's support HTTP/HTTPS v1 and v1.1 (not 2), TCP, or SSL (chose one), and then the port number. Even though they are the oldest LBs, they still support features like sticky sessions and X-Forwarded-For headers. Today, ALB/NLB likely better to use. Operates on L4/L7 (Session/Application) layers. No sense of "target groups". CLB's support IPv6 and IPv4. 
 - If you need flexible application management and TLS termination then you should use the Application Load Balancer. If extreme performance and a static IP is needed for your application then you should use the Network Load Balancer. If your application is built within the EC2 Classic network then you should use the Classic Load Balancer. 
 - Health Checks: Ping protocol (HTTP), port, ping path (filename), response timeout, interval. Then unhealthy threshold vs. healthy threshold.
 
@@ -1294,10 +1303,10 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
   - **Better fault tolerance**: Auto Scaling can detect when an instance is unhealthy, terminate it, and launch an instance to replace it. You can also configure Auto Scaling to use multiple Availability Zones. If one Availability Zone becomes unavailable, Auto Scaling can launch instances in another one to compensate. 
   - **Better availability**: Auto Scaling can help you ensure that your application always has the right amount of capacity to handle the current traffic demands. 
 - When it comes to actualing scaling your instance groups, the Auto Scaling service is flexible and can be done in various ways:
-  - Auto Scaling can scale based on the demand placed on your instances. This option automates the scaling process by specifying certain thresholds that, when reached, will trigger the scaling. This is the most popular implementation of Auto Scaling.
-  - Auto Scaling can ensure the current number of instances at all times. This option will always maintain the number of servers you want running even when they fail.
-  - Auto Scaling can scale only with manual intervention. If want to control all of the scaling yourself, this option makes sense.
-  - Auto Scaling can scale based on a schedule. If you can reliably predict spikes in traffic, this option makes sense.
+  - **Demand**: Auto Scaling can scale based on the demand placed on your instances. This option automates the scaling process by specifying certain thresholds that, when reached, will trigger the scaling (most popular).
+  - **Maintain**: Auto Scaling can ensure the current number of instances at all times. This option will always maintain the number of servers you want running even when they fail.
+  - **Manual**. Auto Scaling can scale only with manual intervention. If want to control all of the scaling yourself, this option makes sense.
+  - **Schedule**: Auto Scaling can scale based on a schedule. If you can reliably predict spikes in traffic, this option makes sense.
   - Auto Scaling based off of predictive scaling. This option lets AWS AI/ML learn more about your environment in order to predict the best time to scale for both performance improvements and cost-savings.
 - In maintaining the current running instance, Auto Scaling will perform occasional health checks on the running instances to ensure that they are all healthy. When the service detects that an instance is unhealthy, it will terminate that instance and then bring up a new one online.
 - When designing HA for your Auto Scaling, use multiple AZs and multiple regions wherever you can.
@@ -1484,19 +1493,19 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - If you need a cost effective alternate: you could use an IPSec VPN conection with the same BGP prefix. Both will be advertised (same BGP number). Direct Conn will alwasy be preferred, unless down.
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
-## 3.11. VPC Endpoints:
+## 3.11. VPC Endpoints (Gateway, Interface) (Updated 1/11/2021)
 - VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem. These Endpoints are virtual devices or proxies (PPT) that are HA and without bandwidth constraints. 
 - These work basically by attaching an ENI to an EC2 instance that can easily communicate to a wide range of AWS services.
-- **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB. Gateway Endpoints are mainly just a target that you set. 
-- **Interface Endpoints** use AWS PrivateLink and have a private IP address so they are their own entity and not just a target in a route table.  Because of this, they cost $.01/hour. Gateway Endpoints are free as they’re just a new route in to set.
+- **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB (only two). Gateway Endpoints are targeted for a specific route in a route table. Gateway Endpoints are free as they’re just a new route in to set.
+- **Interface Endpoints** uses AWS PrivateLink and have a private IP address so they are their own entity and not just a target in a route table. Most services can use Int EP. Because of this, they cost $.01/hour.  You cannot attach an Int Endpt to a Internet GW (test distractor).
 - Interface Endpoint provisions an Elastic Network interface or ENI (think network card) within your VPC. They serve as an entry and exit for traffic going to and from another supported AWS service. It uses a DNS record to direct your traffic to the private IP address of the interface. Gateway Endpoint uses route prefix in your route table to direct traffic meant for S3 or DynamoDB to the Gateway Endpoint (think 0.0.0.0/0 -> igw).
 - To secure your Interface Endpoint, use Security Groups. But to secure Gateway Endpoint, use VPC Endpoint Policies.
 - **Summary**: VPC Endpoints connect your *VPC with AWS services* through a non-public tunnel.
 
-## 3.12. AWS PrivateLink:
+## 3.12. AWS PrivateLink
 - AWS PrivateLink simplifies the security of data shared with cloud-based applications by eliminating the exposure of data to the public Internet. AWS PrivateLink provides private connectivity between different VPCs, AWS services, and on-premises applications, securely on the Amazon network.
 - It's similar to the AWS Direct Connect service in that it establishes private connections to the AWS cloud, except Direct Connect links on-premises environments to AWS. PrivateLink, on the other hand, secures traffic from VPC environments which are already in AWS.
-- This is useful because different AWS services often talk to each other over the internet. If you do not want that behavior and instead want AWS services to only communicate within the AWS network, use AWS PrivateLink. By not traversing the Internet, PrivateLink reduces the exposure to threat vectors such as brute force and distributed denial-of-service attacks. 
+- If you do not to use AWS services over the Internet and want AWS services to only communicate within the AWS network, use AWS PrivateLink. PrivateLink reduces the exposure to threat vectors such as brute force and distributed denial-of-service attacks. 
 - PrivateLink allows you to publish an "endpoint" that others can connect with from their own VPC. It's similar to a normal VPC Endpoint, but instead of connecting to an AWS service, people can connect to your endpoint.
 - Further, you'd want to use private IP connectivity and security groups so that your services function as though they were hosted directly on your private network.
 - Remember that AWS PrivateLink applies to Applicatiosn/Services communicating with each other within the AWS network. For VPCs to communicate with each other within the AWS network, use VPC Peering.
@@ -1587,7 +1596,10 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 ## 5.4. Simple Workflow Service (SWF) (Updated 9/28/2020)
 
 ### 5.4.1. SWF Simplified:
-SWF is a web service that makes it easy to coordinate work across distributed application components. SWF has a range of use cases including media processing, web app backends, business process workflows, and analytical pipelines. Tasks: processing steps in an application - exec code, HTTP web service call, people, scripts, lamba functions, etc. Amazon uses this for its order processing / shipping pipeline in the warehouse. No real restriction on programming language.
+SWF is a web service that makes it easy to coordinate work across distributed application components. SWF has a range of use cases including media processing, web app backends, business process workflows, and analytical pipelines. 
+- Tasks: processing steps in an application - exec code, HTTP web service call, people, scripts, lamba functions, etc.  NOTE: SQS uses messages, SWF uses tasks (common test question).
+- Delivery: gaurantees single Delivery ONCE.  Most test tools advise to prefer tasks + single delivery, even though messages is also legit.
+- Amazon uses this for its order processing / shipping pipeline in the warehouse. No real restriction on programming language.
 
 ### 5.4.2. SWF Key Details (Updated 9/28/2020)
 - SWF is a way of coordinating tasks between application and people. It is a service that combines digital and human-oriented workflows. Related workflows are called a "domain". (Added 9/28/2020)
@@ -1598,6 +1610,9 @@ SWF is a web service that makes it easy to coordinate work across distributed ap
   - SWF Deciders are workers that control the flow of the workflow once it's been started.
   - SWF Activity Workers are the workers that actually carry out the task to completion.
 - With SWF, workflow executions can last up to one year compared to the 14 day maximum retention period for SQS.
+- SWF vs. SQS.
+  - SWF API's are task oriented, SQS is message oriented. 
+  - SQS needs you to create your own app level tracking, whereas SWF handles all that.
 
 ## 5.5. Simple Notification Service (SNS)
 
@@ -1761,7 +1776,7 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 ### 5.9.2. CloudFormation Key Details:
 - The main use case for CloudFormation is for advanced setups and production environments as it is complex and has many robust features.
 - CloudFormation templates can be used to create, update, and delete infrastructure.
-- The templates are written in YAML or JSON
+- The templates are written in YAML or JSON (not XML).
 - A full CloudFormation setup is called a stack.
 - Once a template is created, AWS will make the corresponding stack. This is the living and active representation of said template. One template can create an infinite number of stacks.
 - The *Resources* field is the only mandatory field when creating a CloudFormation template
@@ -1773,7 +1788,7 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 
 - For any Logical Resources in the stack, CloudFormation will make a corresponding Physical Resources in your AWS account. It is CloudFormation’s job to keep the logical and physical resources in sync.
 - If you create a new EC2 instance and a new EBS volume in a CloudFormatin template, you will need to specify the EC2 logical ID and the EBS volume ID to link them. 
-- A template can be updated and then used to update the same stack.
+- CloudFormation compliments Beanstalk. BS covers deploying (auto provisioning) everything for an application, as it is integrated w/ the developer lifecycle. BS uses CF to create / maintain instances - a PaaS like layer for apps.
 
 
 ## 5.10. ElasticBeanstalk
@@ -1786,7 +1801,7 @@ ElasticBeanstalk is another way to script out your provisioning process by deplo
 - Elastic Beanstalk has capacity provisioning, meaning you can use it with autoscaling from the get-go.
 Elastic Beanstalk applies updates to your application by having a duplicate ready with the already updated version. This duplicate is then swapped with the original. This is done as a preventative measure in case your updated application fails. If the app does fail, ElasticBeanstalk will switch back to the original copy with the older version and there will be no downtime experienced by the users who are using your application. 
 - You can use Elastic Beanstalk to even host Docker as Elastic Beanstalk supports the deployment of web applications from containers. With Docker containers, you can define your own runtime environment, your own platform, programming language, and any application dependencies (such as package managers or tools) that aren't supported by other platforms. ElasticBeanstalk makes it easy to deploy Docker as Docker containers are already self-contained and include all the configuration information and software required to run. 
-- Programming: Go, Java, .NET, Node.js, PHP, Python, and Ruby
+- Programming: Go, Java, .NET, Node.js, PHP, Python, and Ruby (not Scala, c++)
 
 ## 5.11. AWS Organizations
 
@@ -1973,7 +1988,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - Temporary security credentials work almost identically to the long-term access key credentials that your IAM users can use.
 - Temporary security credentials are short-term, as the name implies. They can be configured to last for anywhere from a few minutes to several hours. After the credentials expire, AWS no longer recognizes them or allows any kind of access from API requests made with them.
 
-### 9.1.10. What is OpsWorks?
+#  ## 9.1.10. What is OpsWorks?
 - AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. Chef and Puppet are automation platforms that allow you to use code to automate the configurations of your servers. 
 - OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premises compute environments. 
 - OpsWorks has three offerings - AWS Opsworks for Chef Automate, AWS OpsWorks for Puppet Enterprise, and AWS OpsWorks Stacks.
@@ -2072,7 +2087,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 Search or jump to…
 
 ### 9.1.25.  Unified Scaling Service (Added 11/11/2020)
-- The services covered by Unified Auto Scaling are EC2, Spot Fleets, DynamoDB, Aurora Read Replicas, and ECS on Fargate
+- The services covered by Unified Auto Scaling are EC2, Spot Fleets, DynamoDB, Aurora Read Replicas, and ECS on Fargate.
 
 ### 9.1.26. LightSail 
 - Easy way to get started. Focused on predefined servers to deploy and manage websites in the cloud. Sold as a "bundle".
@@ -2084,6 +2099,9 @@ Search or jump to…
 - A message queue services. Managed message broker service for Apache ActiveMQ. It uses industry-standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket.
 
 Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02]: 390 AWS Practice Exam Questions with Answers & detailed Explanations (p. 351). Kindle Edition. 
+
+### 9.1.29. AWS Marketplace (Added 1/8/2021)
+- Offers free/paid software products; many run in free tier. There are prebuilt AMI's, trials, and services.
 
 # 10. KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
@@ -2098,11 +2116,13 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 # 11. Well Architected Frame Work (Added 11/13/2020)
 - Cost optimization: Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs. As AWS releases new services and features, it is a best practice to review your existing architectural decisions to ensure they continue to be the most cost-effective.
 
-- Security
+- Security - Enable traceability, automate security best practices, protect data in transit. 
 - Reliability
 - Performance efficiency
 
 # 12. Scenarios (Added 12/7/2020)
+
+Note: Many of these scenarios are adapted from various test question tools.
 
 ## 12.1. Data Storage
 - Q. You need to store records with a 7 year retention period based on regulatory. Infrequently asked after created during the first 3 months, then must be available within 10 minutes. What do you use to absolutely minimize cost?
@@ -2125,3 +2145,19 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 ## 12.5. Collectng EC2 Stats
 - Q. An app will gather info about a hosted site on an EC2 instance, write it to S3 bucket. Intention is to use API calls. What is the most operationally efficent setup?
 - A. Grant programatic access (key, secret id) and create a supporting IAM policy which will grant access to the S3 resource.
+
+## 12.6. Prototype Cloud Storage (Added 1/11/2011)
+- Small business interested in prototyping cloud storage, but wary of cloud. 
+- If Focused on cost savings:
+  - Suggest storage gateway w/ storage volume because that keeps files local and will begin to synch up to S3.
+- If focused on maintaining access to small subset
+  - Suggest sotrage gateeway cached. 
+- Avoid complex VPN + S3 + Tiering options. 
+
+## 12.7. Web App and Storage
+- Storage for applications that write small amounts of data, infrequently and customer is cost concious.
+  - Magnetic can work. Infrequent access needs to be there, major driver. 
+
+## 12.8. RDS Pefrormance and Read Replicas
+- In response to questiosns about RDS performance: increate instance size, implement read replicas, implement cloud front to cache static and dynamic content.  Answers are shaped by the focus of the question. 
+- Reasons to use RR's include DB is showing memory saturation, customers are in a different region where your RDS system is. 
