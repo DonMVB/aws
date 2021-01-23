@@ -364,21 +364,21 @@ You can encrypted on the AWS supported server-side in the following ways:
 
 ### 1.2.9. S3 Event Notications:
 The Amazon S3 notification feature enables you to receive and send notifications when certain events happen in your bucket. To enable notifications, you must first configure the events you want Amazon S3 to publish (new object added, old object deleted, etc.) and the destinations where you want Amazon S3 to send the event notifications. Amazon S3 supports the following destinations where it can publish events:
-- **Amazon Simple Notification Service (Amazon SNS)** - A web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
-- **Amazon Simple Queue Service (Amazon SQS)** - SQS offers reliable and scalable hosted queues for storing messages as they travel between computers.
-- **AWS Lambda** - AWS Lambda is a compute service where you can upload your code and the service can run the code on your behalf using the AWS infrastructure. You package up and upload your custom code to AWS Lambda when you create a Lambda function. The S3 event triggering the Lambda function also can serve as the code's input.
+- **Amazon Simple Notification Service (Amazon SNS)**: A web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
+- **Amazon Simple Queue Service (Amazon SQS)**: SQS offers reliable and scalable hosted queues for storing messages as they travel between computers.
+- **AWS Lambda**: AWS Lambda is a compute service where you can upload your code and the service can run the code on your behalf using the AWS infrastructure. You package up and upload your custom code to AWS Lambda when you create a Lambda function. The S3 event triggering the Lambda function also can serve as the code's input.
 
-###  1.2.10. S3 and ElasticSearch:
+###  1.2.10. S3 and ElasticSearch
 - If you are using S3 to store log files, ElasticSearch provides full search capabilities for logs and can be used to search through data stored in an S3 bucket.
 - You can integrate your ElasticSearch domain with S3 and Lambda. In this setup, any new logs received by S3 will trigger an event notification to Lambda, which in turn will then run your application code on the new log data. After your code finishes processing, the data will be streamed into your ElasticSearch domain and be available for observation.
 
-### 1.2.11. Maximizing S3 Read/Write Performance:
+### 1.2.11. Maximizing S3 Read/Write Performance
 - Chose regions for S3 buckets based on placing storage close to your users, to reduce network latency, and distance from your operations center (DR scenarios.)
 - If the request rate for reading and writing objects to S3 is extremely high, then you can use hash keys or random strings to prefix the object's name. In such cases, the partitions used to store the objects will be better distributed and therefore will allow better read/write performance on your objects. 
 - If your S3 data is receiving a high number of GET requests from users, you should consider using Amazon CloudFront for performance optimization. By integrating CloudFront with S3, you can distribute content via CloudFront's cache to your users for lower latency and a higher data transfer rate. This also has the added bonus of sending fewer direct requests to S3 which will reduce costs. For example, suppose that you have a few objects that are very popular. CloudFront fetches those objects from S3 and caches them. CloudFront can then serve future requests for the objects from its cache, reducing the total number of GET requests it sends to Amazon S3.
 - <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html "> More information on how to ensure high performance in S3</a>
 
-### 1.2.12. S3 Server Access Logging:
+### 1.2.12. S3 Server Access Logging
 - Server access logging provides detailed records for the requests that are made to a bucket. Server access logs are useful for many applications. For example, access log information can be useful in security and access audits. It can also help you learn about your customer base and better understand your Amazon S3 bill. 
 - By default, logging is disabled. When logging is enabled, logs are saved to a bucket in the same AWS Region as the source bucket. 
 - Each access log record provides details about a single access request, such as the requester, bucket name, request time, request action, response status, and an error code, if relevant.
@@ -839,22 +839,23 @@ Within the storage and content delivery domains, CloudWatch can inform you about
 - For example, you can create custom CloudWatch alarms which will trigger notifications such as surpassing a set billing threshold.
 - CloudWatch alarms have two states of either `ok` or `alarm`
 
-### 1.11.6. CloudWatch Metrics:
+### 1.11.6. CloudWatch Metrics
 - CloudWatch Metrics represent a time-ordered set of data points.
-- These basically are a variable you can monitor over time to help tell if everything is okay, e.g. Hourly CPU Utilization.
+- These are "variables" you can monitor over time to help tell if everything is okay, e.g. Hourly CPU Utilization.
+- Default: every 5 min, can use every 1 min with a cost. 
 - CloudWatch Metrics allows you to track high resolution metrics at sub-minute intervals all the way down to per second.
 
-### 1.11.7. CloudWatch Dashboards:
+### 1.11.7. CloudWatch Dashboards
 - CloudWatch dashboards are customizable home pages in the CloudWatch console that you can use to monitor your resources in a single view
 - These dashboards integrate with CloudWatch Metrics and CloudWatch Alarms to create customized views of the metrics and alarms for your AWS resources.
 
 
 ## 1.12. CloudTrail
 
-### 1.12.1. CloudTrail Simplified:
+### 1.12.1. CloudTrail Simplified
 AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With it, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, API calls, and other AWS services. It is a regional service, but you can configure CloudTrail to collect trails in all regions.
 
-### 1.12.2. CloudTrail Key Details:
+### 1.12.2. CloudTrail Key Details
 - CloudTrail Events logs API calls or activities. 
 - CloudTrail Events stores the last 90 days of events in its Event History. This is enabled by default and is no additional cost.
 - This event history simplifies security analysis, resource change tracking, and troubleshooting.
@@ -896,15 +897,17 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 Amazon FSx for Windows File Server provides a fully managed native Microsoft File System.
 
 ### 1.14.2. Amazon FSx for Windows Key Details
-- Move your Windows-based applications that require SMB file storage in AWS. What is [link](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html)
-- Built on Windows Server. 
-- Exists for Microsoft-based applications. 
+- Updated 1/23/2021
+- Move your Windows-based applications that require SMB file storage in AWS. What is FSx [link]. (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html)
+- Built on Windows Server. Purchaed by the GB and amount of throughput. 
+- Exists for Microsoft-based applications. Uses native Windows Vol Shadow Svc (VSS).
 - SMB-based file storage - choose FSx.
 - FSx for Windows also permits connectivity between on-premise servers and AWS.
+- Two levels of availability / durability. Single-AZ and Multi-AZ. Multi-AZ supports failover because it provisions a secondary server.
 - You can use Microsoft Active Directory to authenticate into the file system.
 - Provides multiple levels of security and compliance to help ensure your data is protected.
 - AWS FSx automatically encrypts your data at-rest and in-transit.
-- You can access Amazon FSx for Windows from a variety of compute resources: EC2, Workspaces, AppStream 2.X, VMware Cloud VMs.
+- You can map shares from Amazon FSx for Windows from a variety of compute resources: EC2, Workspaces, AppStream 2.X, VMware Cloud VMs.
 - You can deploy your Amazon FSx for Windows in a single AZ or in a Multi-AZ configuration.
 - You can use SSD or HDD for the storage device depending on your requirements.
 - FSx for Windows support daily automated backups and admins take take backups when needed as well.
@@ -942,7 +945,6 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - In the database world, *Online Transaction Processing (OLTP)* differs from *Online Analytical Processing (OLAP)* in terms of the type of querying that you would do. OLTP serves up data for business logic that utimately composes the core functioning of your platform or application. OLAP is to gain insights into the data that you have stored in order to make better strategic decisions as a company.
 - RDS runs on virtual machines, but you do not have access to those machines. You cannot SSH into an RDS instance so therefore you cannot patch the OS. This means that AWS  isresponsible for the security and maintenance of RDS. You can provision an EC2 instance as a database if you need or want to manage the underlying server yourself, but not with an RDS engine.
 - Just because you cannot access the VM directly, it does not mean that RDS is serverless. There is Aurora serverless however (explained below) which serves a niche purpose.
-- SQS queues can be used to store pending database writes if your application is struggling under a high write load. These writes can then be added to the database when the database is ready to process them. Adding more IOPS will also help, but this alone will not wholly eliminate the chance of writes being lost. A queue however ensures that writes to the DB do not become lost.
 - Two RDS database engines support Transparent Data Encryption (TDE): Oracle and MS SQL. TDE encrypts the data at a database level, on top of the storage layer and in the software itself. (Added 11/11/2020)
 
 
@@ -1576,17 +1578,18 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
  Example: Travel site. User wants deal of flight, hotel, car. Various EC2 servers can process the user request queue, get thier part of the answer, pass the answers back to web server. 
 
 ## 5.2. SQS Key Details:
-- The point behind SQS is to decouple work across systems. This way, downstream services in a system can perform work when they are ready to rather than when upstream services feed them data.
+- SQS decouples work across systems. Downstream services in a system can perform work when they are ready to rather than when upstream services feed them data.
 - In a hypothetical AWS environment running without SQS, *Application A* would pass *Application B* data regardless if Application B was ready to receive the info. With SQS however, there is an intermediary step where the data is stored temporarily in a buffer. It waits there until Application B pulls the temporarily stored data. SQS is not a push-based service so it is necessary for SQS to work in tandem with another service that queries it for information.
 - There are two types of SQS queues; **standard** and **FIFO**. Standard queues may be received out of order based on message size or however else the SQS queues decide to optimize. FIFO queues guarantees that the order of messages that went into the queue is the same as the order of messages that leave it.
 - Standard SQS queues (the default) guarantee that a message is delivered at least once and because of this, it is possible on occasion that a message might be delivered more than once due to the asynchronous and highly distributed architecture. With standard queues, you have a nearly unlimited number of transactions per second.  They provide best effort ordering. App needs to cope with out of order possibility, duplicate possibility.
 - FIFO SQS queues guarantee *exactly-once processing* and is limited to 300 transactions per second. Messages remain until processed. FIFO queues support multiple ordered message groups.
-- FIFO queues when batching can support up to 3,000 transactions per second, per API method (SendMessageBatch, ReceiveMessage, or DeleteMessageBatch). The 3000 transactions represent 300 API calls, each with a batch of 10 messages. 
+  - FIFO queues when batching can support up to 3,000 transactions per second, per API method (SendMessageBatch, ReceiveMessage, or DeleteMessageBatch). The 3000 transactions represent 300 API calls, each with a batch of 10 messages. 
 - Messages in the queue can be kept there from one minute to 14 days and the default retention period is 4 days.
-- Visibility timeouts in SQS are the mechanism in which messages marked for delivery from the queue are given a timeframe to be fully received by a reader. This is done by temporarily making them invisible to other readers. If the message is not fully processed within the time limit, the message becomes visible again. This is another way in which messages can be duplicated. If you want to reduce the chance of duplication, increase the visibility timeout. 
-- The visibility timeout maximum is 12 hours.
+- Visibility timeouts in SQS are the mechanism in which messages marked for delivery from the queue are given a timeframe to be fully received by a reader. If the message is not fully processed within the time limit, the message becomes visible again. This is another way in which messages can be duplicated. If you want to reduce the chance of duplication, increase the visibility timeout. 
+- The visibility timeout maximum is 12 hours. Default is 30 seconds. 
 - Always remember that the messages in the SQS queue will continue to exist even after the EC2 instance has processed it, until you delete that message. You have to ensure that you delete the message after processing to prevent the message from being received and processed again once the visibility timeout expires.
-- An SQS queue can contain an unlimited number of messages. 
+- An SQS queue can contain an unlimited number of messages. The "backlog" is the number of messages in the queue. 
+- Messages that were received from a queue by a consumer, but not yet deleted, are "in flight".  Max is 120,000 in flight for standard, 20,000 for FIFO.
 - You cannot set a priority to the individual items in the SQS queue. If priority of messaging matters, create two separate SQS queues. The SQS queues for the priority message can be polled first by the EC2 Instances and once completed, the messages from the second queue can be processed next.
 - When you configure a single SNS topic and multipe SQS queues subscribe, it is called a Fan Out architecture (PPT.)
 
@@ -1595,7 +1598,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - **SQS long-polling**: This polling technique will only return from the queue once a message is there, regardless if the queue is currently full or empty. This way, the reader needs to wait either for the timeout set or for a message to finally arrive. SQS long polling doesn't return a response until a message arrives in the queue, reducing your overall cost over time. 
 - **SQS short-polling**: This polling technique will return immediately with either a message that’s already stored in the queue or empty-handed. 
 - The ReceiveMessageWaitTimeSeconds is the queue attribute that determines whether you are using Short or Long polling. By default, its value is zero which means it is using short-polling. If it is set to a value greater than zero, then it is long-polling.
-- Everytime you poll the queue, you incur a charge. So thoughtfully deciding on a polling strategy that fits your use case is important.
+- Everytime you poll the queue, you incur a charge. Long polling is recommeended. 
 
 ## 5.4. Simple Workflow Service (SWF) (Updated 9/28/2020)
 
@@ -1642,17 +1645,20 @@ Simple Notification Service is a pushed-based messaging service that provides a 
 
 ## 5.6. Kinesis (Updated 9/27/2020)
 
-### 5.6.1. Kinesis Simplified:
+### 5.6.1. Kinesis Simplified
 Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information (think KB in size). With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications. Amazon Kinesis enables you to process and analyze data as it arrives and respond instantly instead of having to wait until all your data is collected before the processing can begin. Examples: stock, social network, gaming, eCommerce, geospatial. 
 
-### 5.6.2. Kinesis Key Details:
+### 5.6.2. Kinesis Key Details
 - Amazon Kinesis makes it easy to load and analyze the large volumes of data entering AWS (a platform.) 
 - Kinesis is used for processing real-time data streams (data that is generated continuously) from devices constantly sending data into AWS so that said data can be collected and analyzed.
 - It is a fully managed service that automatically scales to match the throughput of your data and requires no ongoing administration. It can also batch, compress, and encrypt the data before loading it, minimizing the amount of storage used at the destination and increasing security.
 - There are three different types of Kinesis:
-  - Kinesis Streams - data producers
-  - Kinesis Firehose - load data into stores, analysis tools, transforms into S3
-  - Kinesis Analytics
+  - Kinesis Data Stream: For consuming and storing data. 
+  - Kinesis Firehose: Load data into stores, analysis tools, transforms into S3.
+  - Kinesis Analytics: 
+- Key Terms:
+  - Data Stream: a set of shards, which are sequence of records from with a sequence number from data producers. A data record: Consist of a sequence number, partition key, data blob up to 1 MB. 
+  - The partition key distributes data across shards. Kinesis Data Streams uses the partition key to segregate data records to a stream into multiple shards, using the partition key associated with each data record to determine the shard to which a given data record belongs. Partition keys are Unicode strings, with a maximum length limit of 256 characters for each key. An MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards using the hash key ranges of the shards. 
 
 Kinesis Streams (Updated 9/27/2020)
 - Kinesis Streams works where the data producers stream their data into Kinesis Streams which can retain the data that enters it from one day (default) up until 7 days. Once inside Kinesis Streams, the data is contained within shards. 
