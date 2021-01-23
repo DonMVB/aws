@@ -896,7 +896,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 Amazon FSx for Windows File Server provides a fully managed native Microsoft File System.
 
 ### 1.14.2. Amazon FSx for Windows Key Details
-- Move your Windows-based applications that require SMB file storage in AWS. What is (link)[https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html]
+- Move your Windows-based applications that require SMB file storage in AWS. What is [link](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html)
 - Built on Windows Server. 
 - Exists for Microsoft-based applications. 
 - SMB-based file storage - choose FSx.
