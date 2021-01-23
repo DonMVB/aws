@@ -573,10 +573,10 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 ### 1.6.4. EC2 Instance Pricing:
 - **On-Demand instances** are based on a fixed rate by the hour or second. As the name implies, you can start an On-Demand instance whenever you need one and can stop it when you no longer need it. There is no requirement for a long-term commitment.
 - **Reserved instances** ensure that you keep exclusive use of an instance on 1 or 3 year contract terms. The long-term commitment provides significantly reduced discounts at the hourly rate. These can't be moved between regions (updated 9/29/2020)
-- **Spot instances** take advantage of Amazon’s excess capacity and work in an interesting manner. In order to use them, you must financially bid for access. Because Spot instances are only available when Amazon has excess capacity, this option makes sense only if your app has flexible start and end times. You won’t be charged if your instance stops due to a price change (e.g., someone else just bid a higher price for the access) and so consequently your workload doesn’t complete. However, if you terminate the instance yourself you will be charged for any hour the instance ran. Spot instances are normally used in batch processing jobs. The "Spot Market" is where you bit on spot instances. 
+- **Spot instances** take advantage of Amazon’s excess capacity and work in an interesting manner - you bid for them. This option makes sense only if your app has flexible start and end times. You won’t be charged if your instance stops due to a price change (e.g., someone else just bid a higher price for the access); your workload doesn’t complete. If you terminate the instance are charged for any hour the instance ran. Spot instances are normally used in batch processing jobs. The "Spot Market" is where you bit on spot instances. 
 
 ### 1.6.5. Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:
-- **Standard Reserved Instances** have inflexible reservations that are discounted at 75% off of On-Demand instances. Standard Reserved Instances cannot be moved between regions. You can choose if a Reserved Instance applies to either a specific Availability Zone, or an Entire Region, but you cannot change the region.
+- **Standard Reserved Instances** have inflexible reservations that are discounted at 75% off of On-Demand instances for the instance type (M, C, T, etc.) and you must stay within the family if you change size. Standard Reserved Instances cannot be moved between regions. You can choose if a Reserved Instance applies to either a specific Availability Zone, or an Entire Region, but you cannot change the region.
 - **Convertible Reserved Instances** are instances that are discounted at 54% off of On-Demand instances, but you can also modify the instance type at any point. For example, you suspect that after a few months your VM might need to change from general purpose to memory optimized, but you aren't sure just yet. So if you think that in the future you might need to change your VM type or upgrade your VMs capacity, choose Convertible Reserved Instances. There is no downgrading instance type with this option though.
 - **Scheduled Reserved Instances** are reserved according to a specified timeline that you set. For example, you might use Scheduled Reserved Instances if you run education software that only needs to be available during school hours. This option allows you to better match your needed capacity with a recurring schedule so that you can save money. You pay if you don't use them during that time though. 
 
@@ -942,7 +942,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - RDS has two key features when scaling out:
   - Read replicas for improved read performance and reducing network latency (can put a replica in region closer to users as a side effect)
   - Multi-AZ for high availability 
-- In the database world, *Online Transaction Processing (OLTP)* differs from *Online Analytical Processing (OLAP)* in terms of the type of querying that you would do. OLTP serves up data for business logic that utimately composes the core functioning of your platform or application. OLAP is to gain insights into the data that you have stored in order to make better strategic decisions as a company.
+- *Online Transaction Processing (OLTP)* differs from *Online Analytical Processing (OLAP)* in terms of the type of querying that you would do. OLTP serves up data for business logic that utimately composes the core functioning of your platform or application. OLAP is structured differently (different table layout) is to gain insights into the data that you have stored in order to make better strategic decisions as a company.
 - RDS runs on virtual machines, but you do not have access to those machines. You cannot SSH into an RDS instance so therefore you cannot patch the OS. This means that AWS  isresponsible for the security and maintenance of RDS. You can provision an EC2 instance as a database if you need or want to manage the underlying server yourself, but not with an RDS engine.
 - Just because you cannot access the VM directly, it does not mean that RDS is serverless. There is Aurora serverless however (explained below) which serves a niche purpose.
 - Two RDS database engines support Transparent Data Encryption (TDE): Oracle and MS SQL. TDE encrypts the data at a database level, on top of the storage layer and in the software itself. (Added 11/11/2020)
@@ -965,13 +965,12 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Read Replication is exclusively used for performance enhancement. Reasons to implement include DB memory issues, serving geographically disperesed users, you need a set of "read" functions that slow down "OLTP write" functions. You find DB platform issues through "Enhanced Monitoring", which can be enabled.
 - With a Read Replica configuration, EC2 connects to the RDS backend using a DNS address and every write that is received by the master database is also passed asynchronously to a DB secondary so that it becomes a perfect copy of the master. This has the overall effect of reducing the number of transactions on the master because the secondary DBs can be queried for the same data. 
 - However, if the master DB were to fail, there is no automatic failover. You would have to manually create a new connection string to sync with one of the read replicas so that it becomes a master on its own. Then you’d have to update your EC2 instances to point at the read replica. You can have up to six copies of your master DB with read replication.
-- You can promote read replicas to be their very own production database if needed.
+- You can promote read replicas to be their very own production database if needed - they get a new DNS name.
 - Read replicas are supported for all six flavors of DB on top of RDS.
 - Each Read Replica will have its own DNS endpoint. 
 - Automated backups must be enabled in order to use read replicas.
-- You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag. Read replicas asynchronously. This is because they might be missing some of the latest transactions as they are not updated as quickly as primaries. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
+- You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag (asynchronous rep) - might not be 100% current. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
 - Key AWS Doc Page: https://aws.amazon.com/rds/features/read-replicas/
-
 
 ### 1.16.5. RDS Backups:
 - When it comes to RDS, there are two kinds of backups:
@@ -1022,7 +1021,7 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 - A common tactic for migrating RDS DBs into Aurora RDs is to create a read replica of a RDS MariaDB/MySQL DB as an Aurora DB. Then simply promote the Aurora DB into a production instance and delete the old MariaDB/MySQL DB.
 - Aurora starts w/ 10GB and scales per 10GB all the way to 64 TB via storage autoscaling. Aurora's computing power scales up to 32vCPUs and 244GB memory.
 - A benefit of deploying an Aurora database using Multi-Master: when deploying multiple masters for a relational database, it is possible to direct a higher number of write queries to the underlying database because the compute and storage tiers are separate infrastructures (PPT.)
-- Physical replication, called *Aurora Global Database*, uses dedicated infrastructure that leaves your databases entirely available to serve your application, and can replicate to up to five secondary regions with typical latency of under a second. 
+- **Aurora Global Database**, uses dedicated infrastructure for data replication (storage based), that leaves your databases entirely available to serve your application, and can replicate to up to five secondary regions with typical latency of under a second. 
 
 ### 1.17.3. Aurora Serverless (Updated 11/11/2020)
 - Aurora Serverless is a simple, on-demand, autoscaling configuration which is also fault tollerant for the MySQL/PostgreSQl-compatible editions of Aurora. With Aurora Serveress, your instance automatically scales up or down and starts on or off based on your application usage. The use cases for this service are infrequent, intermittent, and unpredictable workloads. Doesn't function w/ traditional resources - you use the endpoint.
@@ -1998,7 +1997,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - Temporary security credentials work almost identically to the long-term access key credentials that your IAM users can use.
 - Temporary security credentials are short-term, as the name implies. They can be configured to last for anywhere from a few minutes to several hours. After the credentials expire, AWS no longer recognizes them or allows any kind of access from API requests made with them.
 
-#  ## 9.1.10. What is OpsWorks?
+### 9.1.10. What is OpsWorks?
 - AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. Chef and Puppet are automation platforms that allow you to use code to automate the configurations of your servers. 
 - OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premises compute environments. 
 - OpsWorks has three offerings - AWS Opsworks for Chef Automate, AWS OpsWorks for Puppet Enterprise, and AWS OpsWorks Stacks.
@@ -2112,6 +2111,11 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 
 ### 9.1.29. AWS Marketplace (Added 1/8/2021)
 - Offers free/paid software products; many run in free tier. There are prebuilt AMI's, trials, and services.
+- Copies data between NFS, CIFS/SMB, SnowCore, S3 Buckets, EFS file systems, and FSx for Windows.
+- Data sync agent is deployed on a local VM. It encrypts source data, pushes to AWS target. Targets can be FSx, S3, and EFS.
+
+### What is DataSync? (Added 1/23/2021)
+- An online data transfer service that simplifies, automates, and accelerates moving data between on-prem and cloudl. 
 
 # 10. KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
