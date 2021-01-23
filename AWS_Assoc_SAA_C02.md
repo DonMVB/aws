@@ -892,16 +892,19 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 
 ## 1.14. Amazon FSx for Windows
 
-### 1.14.1. Amazon FSx for Windows Simplified:
+### 1.14.1. Amazon FSx for Windows Simplified
 Amazon FSx for Windows File Server provides a fully managed native Microsoft File System.
 
-### 1.14.2. Amazon FSx for Windows Key Details:
-- With FSx for Windows, you can easily move your Windows-based applications that require file storage in AWS.
-- It is built on Windows Server and exists solely for Microsoft-based applications so if you need SMB-based file storage then choose FSx.
-- FSx for Windows also permits connectivity between on-premise servers and AWS so those same on-premise servers can make use of Amazon FSx too.
+### 1.14.2. Amazon FSx for Windows Key Details
+- Move your Windows-based applications that require SMB file storage in AWS. What is (link)[https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html]
+- Built on Windows Server. 
+- Exists for Microsoft-based applications. 
+- SMB-based file storage - choose FSx.
+- FSx for Windows also permits connectivity between on-premise servers and AWS.
 - You can use Microsoft Active Directory to authenticate into the file system.
-- Amazon FSx for Windows provides multiple levels of security and compliance to help ensure your data is protected. Amazon FSx automatically encrypts your data at-rest and in-transit.
-- You can access Amazon FSx for Windows from a variety of compute resources, not just EC2.
+- Provides multiple levels of security and compliance to help ensure your data is protected.
+- AWS FSx automatically encrypts your data at-rest and in-transit.
+- You can access Amazon FSx for Windows from a variety of compute resources: EC2, Workspaces, AppStream 2.X, VMware Cloud VMs.
 - You can deploy your Amazon FSx for Windows in a single AZ or in a Multi-AZ configuration.
 - You can use SSD or HDD for the storage device depending on your requirements.
 - FSx for Windows support daily automated backups and admins take take backups when needed as well.
@@ -909,6 +912,7 @@ Amazon FSx for Windows File Server provides a fully managed native Microsoft Fil
 - By default, all data is encrypted at rest.
 
 ## 1.15. Amazon FSx for Lustre
+Note: The Lustre® file system is an open-source, parallel file system that supports many requirements of leadership class HPC simulation environments. https://www.lustre.org/
 
 ### 1.15.1. Amazon FSx for Lustre Simplified:
 Amazon FSx for Lustre makes it easy and cost effective to launch and run the open source Lustre file system for high-performance computing applications. With FSx for Lustre, you can launch and run a file system that can proccess massive data sets at up to hundreds of gigabytes per second of throughput, millions of IOPS, and sub-millisecond latencies.
