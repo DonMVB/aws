@@ -970,6 +970,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - Each Read Replica will have its own DNS endpoint. 
 - Automated backups must be enabled in order to use read replicas.
 - You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag (asynchronous rep) - might not be 100% current. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
+- If you want to deploy an encrypted read replica in a different and the source database is not encrypted, you mus encrypt a snapshot from the master, create a new encrypted master DB, and then create an encrypted cross-region replica. (DAvis, T1-33).
 - Key AWS Doc Page: https://aws.amazon.com/rds/features/read-replicas/
 
 ### 1.16.5. RDS Backups:
@@ -1085,12 +1086,10 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - Whenever an application creates, updates, or deletes items in the table, DynamoDB Streams writes a stream record with the primary key attribute(s) of the items that were modified. A stream record contains information about a data modification to a single item in a DynamoDB table. You can configure the stream so that the stream records capture additional information, such as the "before" and "after" images of modified items.
 
 ### 1.18.5. DynamoDB Global Tables
-- Global Tables is a multi-region, multi-master replication solution for fast local performance of globally distributed apps.
-- Global Tables replicates your Amazon DynamoDB tables automatically across your choice of AWS regions.
+- Global Tables is a multi region, multi master replicates solution. It enables fast local performance of a globally distributed app. DynamoDB tables are automatically replicated across your choice of AWS regions.
 - It is based on DynamoDB streams and is multi-region redundant for data recovery or high availability purposes. Application failover is as simple as redirecting your application’s DynamoDB calls to another AWS region.
 - Global Tables eliminates the difficult work of replicating data between regions and resolving update conflicts, enabling you to focus on your application’s business logic. You do not need to rewrite your applications to make use of Global Tables. When data is replicated into each region, the access latency decreases, assuming that the application is configured to use the nearest table replica (PPT.)
 - Replication latency with Global Tables is typically under one second.
-
 
 ## 1.19. Redshift
 
@@ -1135,15 +1134,16 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
   
 ## 1.22. ElastiCache
 
-### 1.22.1. ElastiCache Simplified:
+### 1.22.1. ElastiCache Simplified
 The ElastiCache service makes it easy to deploy, operate, and scale an in-memory cache in the cloud. It helps you boost the performance of your existing databases by retrieving data from high throughput and low latency in-memory data stores.
 
-### 1.22.2. ElastiCache Key Details:
-- The service is great for improving the performance of web applications by allowing you to receive information locally instead of relying solely on relatively distant DBs.
-- Amazon ElastiCache offers fully managed Redis and Memcached for the most demanding applications that require sub-millisecond response times.
+### 1.22.2. ElastiCache Key Details
+- The service improves the performance of web applications by allowing you to receive information locally instead of relying solely on relatively distant DBs.
+- Amazon ElastiCache offers fully managed Redis and Memcached with require sub-millisecond response times.
 - For data that doesn’t change frequently and is oftenly asked for, it makes a lot of sense to cache said data rather than querying it from the database.
-- Common configurations that improve DB performance include introducing read replicas of a DB primary and inserting a caching layer into the storage architecture. 
-- MemcacheD is for simple caching purposes with horizontal scaling and multi-threaded performance, but if you require more complexity for your caching environment then choose Redis.
+- Common configurations that improve DB performance include introducing read replicas of a DB primary and inserting a caching layer into the storage architecture - in particular, authentication data is a solid candidate for cached information. 
+  - MemcacheD is for simple caching purposes with horizontal scaling and multi-threaded performance, but if you require more complexity for your caching environment then choose Redis.
+  - Redis provides a persistant memory based data store. Redis also has authentication tokens so it can enable to confirm a client can execute commands. Use the "--auth-token" parameter to enable.
 - A further comparison between MemcacheD and Redis for ElastiCache:
 ![Screen Shot 2020-06-18 at 8 18 34 PM](https://user-images.githubusercontent.com/13093517/85083820-edc1b480-b1a0-11ea-88b0-15f90bd60282.png)
 - Another advatnage of using ElastiCache is that by caching query results, you pay the price of the DB query only once without having to re-execute the query unless the data changes.
@@ -1270,7 +1270,7 @@ When an EC2 instance behind an ELB fails a health check, the ELB stops sending t
 ### 1.27.3. ELB Advanced Features:
 - To enable IPv6 DNS resolution, you need to create a second DNS resource record so that the **ALIAS AAAA** record resolves to the load balancer along with the IPv4 record.
 - The X-Forwarded-For header, via the Proxy Protocol, is simply the idea for load balancers to forward the requester's IP address along with the actual request for information from the servers behind the LBs. Normally, the servers behind the LBs only see that the IP sending it traffic belongs to the Load Balancer. They usually have no idea about the true origin of the request as they only know about the computer (the LB) that asks them to do something. But sometimes we may want to route the original IP to the backend servers for specific use cases and have the LB’s IP address ignored. The X-Forwarded-For header makes this possible.
-- Sticky Sessions bind a given user to a specific instance throughout the duration of their stay on the application or website. This means all of their interactions with the application will be directed to the same host each time. If you need local disk for your application to work, sticky sessions are great as users are guaranteed consistent access to the same ephemeral storage on a particular instance. The downside of sticky sessions is that, if done improperly, it can defeat the purpose of load balancing. All traffic could hypothetically be bound to the same instance instead of being evenly distributed.
+- Sticky Sessions bind a given user to a specific instance throughout the duration of their stay on the application or website. This means all of their interactions with the application will be directed to the same host each time. Sticky sessions use a cooke named AWSALB (target info, encrypted cooike). If you need local disk for your application to work, sticky sessions are great as users are guaranteed consistent access to the same ephemeral storage on a particular instance. The downside of sticky sessions is that, if done improperly, it can defeat the purpose of load balancing. All traffic could hypothetically be bound to the same instance instead of being evenly distributed.
 - Path Patterns create a listener with rules to forward requests based on the URL path set within those user requests. This method, known as path-based routing, ensures that traffic can be specifically directed to multiple back-end services. 
 For example, with Path Patterns you can route general requests to one target group and requests to render images to another target group. So the URL, “www.example.com/” will be forwarded to a server that is used for general content while “www.example.com/photos” will be forwarded to another server that renders images.
 
@@ -1337,9 +1337,10 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - Auto Scaling can be configured to send email via a SNS notification (start, stop, fail to launch, fail to term). 
 
 ### 2.3.2. Auto Scaling Cooldown Period:
-- The cooldown period is a configurable setting for your Auto Scaling Group that helps to ensure that it doesn't launch or terminate additional instances before the previous scaling activity takes effect. 
+- The cooldown period is a configurable setting for your Auto Scaling Group that helps to ensure that it doesn't launch or terminate additional instances before the previous scaling activity takes effect.  The Cloud Watch alarm evaluation period is the number of most recent data points to evaluate.
 - After the Auto Scaling Group scales using a policy, it waits for the cooldown period to complete before resuming further scaling activities if needed.
 - The default waiting period is 300 seconds, but this can be modified.
+- If you notice that Auto Scaling is scaling up/down multiple times within an hour, and you want to reduce the number of scaling events, you should modify the Cloud Watch alarm period that triggers the auto scaling scale down policy and review/modify the cool time timers. 
 
 # 3. Virtual Private Cloud (VPC)
 
@@ -1555,8 +1556,8 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   - Windows licensing activitation isn't monitored (9/4/2020)
   - Traffic to reserved IP o/t default VPC router (9/4/2020)
 
-# 4. AWS Global Accelerator:
-- AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static IP addresses that you can make use of. Or two existing AWS IP from their pool's can be migrated into Global Accelerator. There is also a BYO-IP capability. These IPs must be "AnyCast IP's". 
+# 4. AWS Global Accelerator
+- AWS Global Accelerator accelerates connectivity to improve performance and availability for users. Global Accelerator sits on top of the AWS backbone and directs traffic to optimal endpoints worldwide. By default, Global Accelerator provides you two static AnyCast IP addresses that you can use. Or two existing AWS IP from their pool's can be migrated into Global Accelerator. There is also a BYO-IP capability. This solution provides **deterministic failover**.
 - Global Accelerator helps reduce the number of hops to get to your AWS resources. Your users just need to make it to an edge location and once there, everything will remain internal to the AWS global network. Normally, it takes many networks to reach the application in full and paths to and from the application may vary. With each hop, there is risk involved either in security or in failure. There must be a AWB GA endpoint in each region (but not all regions appear to support AWS-GA...)
 
 ![Screen Shot 2020-06-21 at 5 50 02 PM](https://user-images.githubusercontent.com/13093517/85235996-aa0cbc00-b3e7-11ea-9e85-039f0ba6e770.png)
