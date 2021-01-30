@@ -301,7 +301,7 @@ Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 buc
 
 **S3 Standard** - 99.99% availability (highest) and 11 9s durability. Data in this class is stored redundantly across multiple devices in multiple facilities and is designed to withstand the failure of 2 concurrent data centers.
 
-**S3 Infrequent Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval. 4 9s availability and 11 9s durability.
+**S3 Infrequent Accessed (IA)** - For data that is needed less often, but when it is needed the data should be available quickly. The storage fee is cheaper, but you are charged for retrieval. 4 9s availability and 11 9s durability. Has a 30d minimum.
 
 **S3 One Zone Infrequently Accessed (an improvement of the legacy RRS / Reduced Redundancy Storage)** -  For when you want the lower costs of IA, but do not require high availability. This is even cheaper because of the lack of HA. Z-IA (One Zone-Infrequent Access) has an availability SLA of 2.5 9s, the lowest of all S3 storage classes (PPT). Cheaper than standard S3.
 
@@ -473,7 +473,7 @@ The AWS CDN service is called CloudFront. It serves up cached content and assets
   - **RTMP**: streaming content, adobe, etc. 
 - Cloud Front has Origin Domain Settings: S3, an ELB, MediaPackage Origin, and Media Store packages. 
 - The domain name registered in CF is the origin for your static/dynamic content, used by clients - not the ELB/ALB domain name.
-- Cloud Front has these Origins: S3, EC2, and ELB.  Note that CF provides low latency, whereas S3 does not.
+- Cloud Front has these Origins: S3, EC2, ELB, or some HTTP server.  Note that CF provides low latency, whereas S3 does not. CloudFront supports SSL/TLS as well.
 - Edge locations are read / write; mostly read, but files can be written to an edge location. 
 - Cached content can be manually invalidated or cleared beyond the TTL(default 24 hrs), but this does incur a cost.
 - You can invalidate the distribution of certain objects or entire directories so that content is loaded directly from the origin every time. Invalidating content is also helpful when debugging if content pulled from the origin seems correct, but pulling that same content from an edge location seems incorrect. To delete a CF cached file, delete it from the origin and set the expiration period to 0 to force a reload. There is no direct CLI to interact w/ edge locations (some tests say).
@@ -970,7 +970,7 @@ RDS is a managed service that makes it easy to set up, operate, and scale a rela
 - With a Read Replica configuration, EC2 connects to the RDS backend using a DNS address and every write that is received by the master database is also passed asynchronously to a DB secondary so that it becomes a perfect copy of the master. This has the overall effect of reducing the number of transactions on the master because the secondary DBs can be queried for the same data. 
 - However, if the master DB were to fail, there is no automatic failover. You would have to manually create a new connection string to sync with one of the read replicas so that it becomes a master on its own. Then you’d have to update your EC2 instances to point at the read replica. You can have up to six copies of your master DB with read replication.
 - You can promote read replicas to be their very own production database if needed - they get a new DNS name.
-- Read replicas are supported for all six flavors of DB on top of RDS.
+- Read replicas are supported for all six flavors of DB on top of RDS. Some say SQL/Oracle isn't - AWS Says... https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html
 - Each Read Replica will have its own DNS endpoint. 
 - Automated backups must be enabled in order to use read replicas.
 - You can have read replicas with Multi-AZ turned on or have the read replica in an entirely separate region. You can have even have read replicas of read replicas, but watch out for latency or replication lag. The caveat for Read Replicas is that they are subject to small amounts of replication lag (asynchronous rep) - might not be 100% current. Application designers need to consider which queries have tolerance to slightly stale data. Those queries should be executed on the read replica, while those demanding completely up-to-date data should run on the primary node.
@@ -1055,9 +1055,12 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - The main components of DyanmoDB are:
   - a collection which serves as the foundational table
   - a document which is equivalent to a row in a SQL database
-  - key-value pairs which are the fields within the document or row
+  - key-value pairs which are the fields within the document or row - does really well with GET/PUT operations
 - The convenience of non-relational DBs is that each row can look entirely different based on your use case. There doesn't need to be uniformity. For example, if you need a new column for a particular entry you don't also need to ensure that that column exists for the other entries.
 - DyanmoDB supports both document and key-value based models. It is a great fit for mobile, web, gaming, ad-tech, IoT, etc.
+- Provisioned throughput is measured in Read Capacity Units (RCU) and Write Capacity Units (WCU).
+  - RCU: you get one 'strong' read / second, or you can relax and double.
+  - WCU: one write per second, up to 1 KB in size (better design that data structure well!)
 - DynamoDB is stored via SSD which is why it is fast.
 - It is spread across 3 geographically distinct data centers.
 - The default consistency model is Eventually Consistent Reads, but there are also Strongly Consistent Reads.
@@ -1068,7 +1071,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
   - It generally incurs the performance costs of an ACID-compliant transaction system.
   - It uses expensive joins to reassemble required views of query results.
 - High cardinality is good for DynamoDB I/O performance. The more distinct your partition key values are, the better.  It makes it so that the requests sent will be spread across the partitioned space. 
-- DynamoDB makes use of parallel processing to achieve predictable performance. You can visualise each partition or node as an independent DB server of fixed size with each partition or node responsible for a defined block of data. In SQL terminology, this concept is known as sharding but of course DynamoDB is not a SQL-based DB. With DynamoDB, data is stored on Solid State Drives (SSD).
+- DynamoDB makes use of parallel processing to achieve predictable performance. You can visualise each partition or node as an independent DB server of fixed size with each partition or node responsible for a defined block of data. In SQL terminology, this concept is known as sharding but of course DynamoDB is not a SQL-based DB.
 - DynamoDB partition keys should exhibit a high degree of cardinality—that is, a large range and values spread evenly across that range. The partition key portion of a table's primary key determines the logical partitions in which a table's data is stored. This in turn affects the underlying physical partitions. A partition key design that doesn't distribute I/O requests evenly can create "hot" partitions that result in throttling and use your provisioned I/O capacity inefficiently. (Pearson Practice Test)
 - When configuring Read/Write operations, there are two modes: On-Demand or Provisioned mode (PPT.)
 
@@ -2135,7 +2138,7 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 
 # 11. Well Architected Frame Work (Added 11/13/2020)
 - Cost optimization: Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs. As AWS releases new services and features, it is a best practice to review your existing architectural decisions to ensure they continue to be the most cost-effective.
-
+- Operational Excellance: Perform Ops with Code, annocate docs, make frequent + small + reversable changes. refine ops procedures often, anticiapte failure, and lear from op failure. Supported by AWS Config, CloudFormation, AWS Trusted Advisor, CloudTrail, VPC Flow Logs, and AWS Inspector (AWS SAA prep).  CloudWatch extracts data from logs, because it tracks and creats alarms as needed.
 - Security - Enable traceability, automate security best practices, protect data in transit. 
 - Reliability
 - Performance efficiency
@@ -2189,4 +2192,11 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
   - Fault Tollerance <> High Availability.  FT is a higher requirement. 
   - HA: System will always be up and can fail over in event of failure.
   - FT: System conceals its fail from users, no loss of service. 
-  
+- Scaling
+  - Vertical: Replace a smaller instance with a larger one. 
+  - Horizontal: Increase / decrease instances.
+ - IAM roles are easier/safer than storing creds. 
+ - Monitor metrics across systems.
+ - Automate responses to metrics when approp.
+ - Alert on anomalies.
+ 
