@@ -663,7 +663,10 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - You can change EBS volumes on the fly, including the size and storage type.
 - EBS volumes are an AZ-scoped resource. Any writes are synchronously written to two different storage units in different data centers. (PPT)
 - Accounts have a limit to thier total EBS volume size. Depending on the AMI, you could be limited from 3 to 28 - max number of volumes is 28. An instance will go from Pend to Term if the attachment limit is exceeded, or if the volume is corrupted. (Added 12/03/2020)
-- EBS Multi Attach allows you to attach a volume to up to 16 instances, but would have issues across multiple availability zones, and could not use NTFS natively. Limited to 4 Regions (Sept 2020). Article: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html
+- EBS and EC2 crashes may have an RTO / ROP question. If you take daily snapshots (RPO) and it takes ten minutes to recover the instance from the snap (RTO), your RPO is 1d, RTO is 10 min. (AWS SAA Prep).
+  RTO = Recovery Time Objective:  How long for the system to come back online.
+  RPO = Recover Point Objective:  How much data is lost of the system fails. 
+- DON"T use the following for the SAA-C02 test::: EBS Multi Attach allows you to attach a volume to up to 16 instances, but would have issues across multiple availability zones, and could not use NTFS natively. Limited to 4 Regions (Sept 2020). Article: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html
 
 ### 1.7.3. SSD vs. HDD:
 - SSD-backed volumes are built for transactional workloads involving frequent read/write operations, where the dominant performance attribute is IOPS. **Rule of thumb**: Will your workload be IOPS heavy? Plan for SSD.
@@ -1697,10 +1700,10 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 ### 5.7.3. Lambda Key Details:
 - Lambda is a compute service where you upload your code as a function and AWS provisions the necessary details underneath the function so that the function executes successfully. 
 - AWS Lambda is the ultimate abstraction layer. You only worry about code, AWS does everything else.
-- Lambda supports Go, Python, C#, PowerShell, Node.js, and Java
+- Lambda supports Go, Python, C#, PowerShell, Node.js, and Java. To access print statements produced by your code, you need to review Cloud Watch logs. Primt stmts aren't ignored (AWS SAA Prep).
 - Each Lambda function maps to one request. Lambda scales horizontally automatically.
 - Lambda is priced on the number of requests. First one million are free. Each million afterwards is $0.20 per million.  
-- Lambda is also priced on the runtime (duration) of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates.
+- Lambda is also priced on the runtime (duration) of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates. The "Power" defines the amount of memory. 
 - Lambda works globally.
 - Lambda functions can trigger other Lambda functions.
 - You can use Lambda as an event-driven service that executes based on changes in your AWS ecosystem.
@@ -1798,6 +1801,7 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 
 - For any Logical Resources in the stack, CloudFormation will make a corresponding Physical Resources in your AWS account. It is CloudFormation’s job to keep the logical and physical resources in sync.
 - If you create a new EC2 instance and a new EBS volume in a CloudFormatin template, you will need to specify the EC2 logical ID and the EBS volume ID to link them. 
+- Templates do not have to be region specific, although since AMI's are region specific you would need to use CF "mappings" to specify the base AMI (AWS SAA Prep).
 - CloudFormation compliments Beanstalk. BS covers deploying (auto provisioning) everything for an application, as it is integrated w/ the developer lifecycle. BS uses CF to create / maintain instances - a PaaS like layer for apps.
 
 
