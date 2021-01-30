@@ -261,21 +261,22 @@ AWS users can create up to 100 buckets by default.
 - Amazon guarantees 99.999999999% (or 11 9s) durability for all S3 storage classes except its Reduced Redundancy Storage class.
   
 - S3 comes with the following main features:
+ - 1.) tiered storage and pricing variability
+ - 2.) lifecycle management to expire older content
+ - 3.) versioning for version control
+ - 4.) encryption for privacy
+ - 5.) MFA deletes to prevent accidental or malicious removal of content, and it works with verioning as well.
+ - 6.) access control lists & bucket policies to secure the data. For example, to restrict access for a website, you can add a bucket policy that allows `s3:GetObject` permission with a condition, using the `aws:referer` key, that the get request must originate from specific webpages. AWSCSAAPT. 
 
-  1.) tiered storage and pricing variability
-  2.) lifecycle management to expire older content
-  3.) versioning for version control
-  4.) encryption for privacy
-  5.) MFA deletes to prevent accidental or malicious removal of content, and it works with verioning as well.
-  6.) access control lists & bucket policies to secure the data. For example, to restrict access for a website, you can add a bucket policy that allows `s3:GetObject` permission with a condition, using the `aws:referer` key, that the get request must originate from specific webpages. AWSCSAAPT. 
-
-- S3 charges by:
-  1.) storage size
-  2.) number of requests
-  3.) storage management pricing (known as tiers)
-  4.) data transfer pricing (objects leaving/entering AWS via the internet)
-  5.) transfer acceleration (an optional speed increase for moving objects via Cloudfront)
-  6.) cross region replication (more HA than offered by default
+- S3 charges by (GB/Mo, XFer out of region, requests)
+ - 1.) storage size
+ - 2.) number of requests
+ - 3.) storage management pricing (known as tiers)
+ - 4.) data transfer out of region pricing (objects leaving/entering AWS via the internet)
+ - 5.) transfer acceleration (an optional speed increase for moving objects via Cloudfront)
+ - 6.) cross region replication (more HA than offered by default
+ 
+ - Free of charge: Transfer into S3 (like a desktop upload) and Transfer from S3 to Cloud Front or the same region. 
 
 - Bucket policies secure data at the bucket level while access control lists secure data at the more granular object level.
 - By default, all newly created buckets are private.
