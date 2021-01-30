@@ -663,7 +663,7 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - You can change EBS volumes on the fly, including the size and storage type.
 - EBS volumes are an AZ-scoped resource. Any writes are synchronously written to two different storage units in different data centers. (PPT)
 - Accounts have a limit to thier total EBS volume size. Depending on the AMI, you could be limited from 3 to 28 - max number of volumes is 28. An instance will go from Pend to Term if the attachment limit is exceeded, or if the volume is corrupted. (Added 12/03/2020)
-- EBS and EC2 crashes may have an RTO / ROP question. If you take daily snapshots (RPO) and it takes ten minutes to recover the instance from the snap (RTO), your RPO is 1d, RTO is 10 min. (AWS SAA Prep).
+- EBS and EC2 crashes may have an RTO / RPO question. If you take daily snapshots (RPO) and it takes ten minutes to recover the instance from the snap (RTO), your RPO is 1d, RTO is 10 min. (AWS SAA Prep).
   RTO = Recovery Time Objective:  How long for the system to come back online.
   RPO = Recover Point Objective:  How much data is lost of the system fails. 
 - DON"T use the following for the SAA-C02 test::: EBS Multi Attach allows you to attach a volume to up to 16 instances, but would have issues across multiple availability zones, and could not use NTFS natively. Limited to 4 Regions (Sept 2020). Article: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html
@@ -2180,3 +2180,12 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 ## 12.8. RDS Pefrormance and Read Replicas
 - In response to questiosns about RDS performance: increate instance size, implement read replicas, implement cloud front to cache static and dynamic content.  Answers are shaped by the focus of the question. 
 - Reasons to use RR's include DB is showing memory saturation, customers are in a different region where your RDS system is. 
+
+# Test Axioms from AWS SAA Prep
+- Never the right answer.
+  - Single AZ
+- General
+  - Fault Tollerance <> High Availability.  FT is a higher requirement. 
+  - HA: System will always be up and can fail over in event of failure.
+  - FT: System conceals its fail from users, no loss of service. 
+  
