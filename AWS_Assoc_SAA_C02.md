@@ -194,11 +194,11 @@ To see your region in the CLI:
 
 ### 1.1.3. IAM Key Details:
 
-IAM is a global AWS services that is not limited by regions. Any user, group, role or policy is accessible globally. The root account with complete admin access is the account used to sign up for AWS. Therefore, the email address used to create the AWS account for use should probably be the official company email address. In a typical environment, only 2 or 3 staff should be able to use the root account (in the rare cases where it is needed.)
+IAM is a global AWS services that is not limited by regions. Any user, group, role or policy is accessible globally. The root account with complete admin access is the account used to sign up for AWS. Therefore, the email address used to create the AWS account for use should probably be the official company email address. In a typical environment, only 2 or 3 staff should be able to use the root account (in the rare cases where it is needed.) Note: You cannot "IP Restrict" the root accont (or console access, in general).  This is why MFA is so important!
 
 New users have no permissions when their accounts are first created. This is a secure way of delegating access as permissions must be intentionally granted.
 
-When joining the AWS ecosystem for the first time, new users are supplied an access key ID and a secret access key ID when you grant them programmatic access. These are created just once specifically for the new user to join, so if they are lost simply generate a new access key ID and a new secret access key ID. Access keys are only used for the AWS CLI and SDK so you cannot use them to access the console.
+When joining the AWS ecosystem for the first time, new users are supplied an access key ID and a secret access key ID when you *check the box to* grant them programmatic access. These are created just once - recreate if lost. Limited to two key pairs. Access keys are only used for the AWS CLI and SDK so you cannot use them to access the console.
 
 When creating your AWS account, you may have an existing identity provider internal to your company that offers Single Sign On (SSO). If this is the case, it is useful, efficient, and entirely possible to reuse your existing identities on AWS. To do this, you let an IAM role be assumed by one of the Active Directories. This is because the IAM ID Federation feature allows an external service to have the ability to assume an IAM role.
 
