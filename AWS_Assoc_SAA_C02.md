@@ -1338,9 +1338,9 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
   - **Manual**. Auto Scaling can scale only with manual intervention. If want to control all of the scaling yourself, this option makes sense.
   - **Schedule**: Auto Scaling can scale based on a schedule. If you can reliably predict spikes in traffic, this option makes sense.
   - Auto Scaling based off of predictive scaling. This option lets AWS AI/ML learn more about your environment in order to predict the best time to scale for both performance improvements and cost-savings.
-  - There are two policy types. 
-    - Simple: After a scaling action starts, policy must wait for activity to finish or health check replacement to complete and cooldown period to expire before responding to the next alarm. Cooldown period helps prevent initiation of additional activities before prior activity is visible.
-    - Target: Increase / decrease capacity based on specific target value metric. Helps resolve over provisioniong. Add/Remove to keep metric as close as possible to target value.
+- There are two policy types. 
+  - Simple: After a scaling action starts, policy must wait for activity to finish or health check replacement to complete and cooldown period to expire before responding to the next alarm. Cooldown period helps prevent initiation of additional activities before prior activity is visible.
+  - Target: Increase / decrease capacity based on specific target value metric. Helps resolve over provisioniong. Add/Remove to keep metric as close as possible to target value.
 - In maintaining the current running instance, Auto Scaling will perform occasional health checks on the running instances to ensure that they are all healthy. When the service detects that an instance is unhealthy, it will terminate that instance and then bring up a new one online.
 - When designing HA for your Auto Scaling, use multiple AZs and multiple regions wherever you can.
 - Auto Scaling allows you to suspend and then resume one or more of the Auto Scaling processes in your Auto Scaling Group. This can be very useful when you want to investigate a problem in your application without triggering the Auto Scaling process when making changes.
