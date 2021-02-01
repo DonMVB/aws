@@ -45,7 +45,7 @@
   - [3.12. AWS PrivateLink](#312-aws-privatelink)
   - [3.13. VPC Peering:](#313-vpc-peering)
   - [3.14. VPC Flow Logs:](#314-vpc-flow-logs)
-- [4. AWS Global Accelerator:](#4-aws-global-accelerator)
+- [4. AWS Global Accelerator](#4-aws-global-accelerator)
 - [5. Simple Queuing Service (SQS) (Updated 9/28/2)](#5-simple-queuing-service-sqs-updated-9282)
   - [5.1. SQS Simplified (Updated 9/24/2020)](#51-sqs-simplified-updated-9242020)
   - [5.2. SQS Key Details:](#52-sqs-key-details)
@@ -67,7 +67,6 @@
 - [8. Authentication](#8-authentication)
 - [9. Miscellaneous](#9-miscellaneous)
   - [9.1. Reducing Security Threats (Added 10/12/2020)](#91-reducing-security-threats-added-10122020)
-- [## 9.1.10. What is OpsWorks?](#-9110-what-is-opsworks)
 - [10. KEY AMAZON AWS TERMS (Added 11/11/2020)](#10-key-amazon-aws-terms-added-11112020)
 - [11. Well Architected Frame Work (Added 11/13/2020)](#11-well-architected-frame-work-added-11132020)
 - [12. Scenarios (Added 12/7/2020)](#12-scenarios-added-1272020)
@@ -79,8 +78,9 @@
   - [12.6. Prototype Cloud Storage (Added 1/11/2011)](#126-prototype-cloud-storage-added-1112011)
   - [12.7. Web App and Storage](#127-web-app-and-storage)
   - [12.8. RDS Pefrormance and Read Replicas](#128-rds-pefrormance-and-read-replicas)
+- [Test Axioms from AWS SAA Prep](#test-axioms-from-aws-saa-prep)
 
-Last Updated: 1/11/2021 8:21 PM EST USA (Gobble x3)
+Last Updated: 1/29/2021 8:21 PM EST USA (Gobble x3)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
 
