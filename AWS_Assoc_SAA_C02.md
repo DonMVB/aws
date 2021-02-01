@@ -885,6 +885,10 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
   - Lambda function execution activity 
 - By default, CloudTrail logs management events, but not data events. 
 - By default, CloudTrail Events log files are encrypted using Amazon S3 server-side encryption (SSE). You can also choose to encrypt your log files with an AWS Key Management Service (AWS KMS) key. As these logs are stored in S3, you can define Amazon S3 lifecycle rules to archive or delete log files automatically. If you want notifications about log file delivery and validation, you can set up Amazon SNS notifications.
+- A robust CloudTrail environment example:
+  - Multiple VPCs in multiple regions, want IAM, CloudFront, WAF, Route53 - the works - both CLI and Console.
+  - It must be secure, have integrity, and be durable. 
+  - You would: Setup a new Cloud Trail in a new bucket using the CLI. Pass in `--is-multi-region-trail` and `--include-global-service-events`. Then encrypt w/ a KMS key. Next, setup MFA-Delete on the bucket. Lastly, bucket policies for only auth'd users.
 
 ## 1.13. Elastic File System (EFS)
 
@@ -1334,6 +1338,9 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
   - **Manual**. Auto Scaling can scale only with manual intervention. If want to control all of the scaling yourself, this option makes sense.
   - **Schedule**: Auto Scaling can scale based on a schedule. If you can reliably predict spikes in traffic, this option makes sense.
   - Auto Scaling based off of predictive scaling. This option lets AWS AI/ML learn more about your environment in order to predict the best time to scale for both performance improvements and cost-savings.
+  - There are two policy types. 
+    - Simple: After a scaling action starts, policy must wait for activity to finish or health check replacement to complete and cooldown period to expire before responding to the next alarm. Cooldown period helps prevent initiation of additional activities before prior activity is visible.
+    - Target: Increase / decrease capacity based on specific target value metric. Helps resolve over provisioniong. Add/Remove to keep metric as close as possible to target value.
 - In maintaining the current running instance, Auto Scaling will perform occasional health checks on the running instances to ensure that they are all healthy. When the service detects that an instance is unhealthy, it will terminate that instance and then bring up a new one online.
 - When designing HA for your Auto Scaling, use multiple AZs and multiple regions wherever you can.
 - Auto Scaling allows you to suspend and then resume one or more of the Auto Scaling processes in your Auto Scaling Group. This can be very useful when you want to investigate a problem in your application without triggering the Auto Scaling process when making changes.
