@@ -99,6 +99,8 @@ Go through the course you purchased as part of Step 1. Twice. The first time sho
 
 *Note*: Udemy often has their courses go on sale from time to time. It might be worth waiting to purchase either the Tutorial Dojo practice exam or Stephane Maarek's course depending on how urgently you need the study material.
 
+*Note*: Items marked with "PPT" are derived from the Perason Practice test on Safari. Most of the time, they are the only ones who discuss some of thier points.. (and they are ocassionally wrong, even though they cite the right page!)
+
 # 1. Introduction
 
 <a href="https://d1.awsstatic.com/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate-Exam-Guide_v1.1_2019_08_27_FINAL.pdf">**The official AWS Solutions Architect - Associate (SAA-C02) exam guide**</a>
@@ -293,7 +295,8 @@ AWS users can create up to 100 buckets by default.
 - When you upload new files and have versioning enabled, they will not inherit the properties of the previous version. Uploads are a "single operation". 
 - AWS CSAPT advises to use Multi part over stable uploads, and can help with lower reliability networks because only failed parts need to be uploaded again.
 - You can create a folder structure within S3 (Folder | Objects tab). 
-- from a client, you can use HTTP and post to an HTTPS S3 (or SSL/TLS) endpoint, as well as use HTTPS.
+- Fom a client, you can use HTTP and post to an HTTPS S3 (or SSL/TLS) endpoint, as well as use HTTPS.
+- First Byte Out Latency - (100ms to 200ms)[https://docs.aws.amazon.com/AmazonS3/latest/dev/optimizing-performance.html]
 
 ### 1.2.3. S3 Storage Classes:
 Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 bucket. Accounts have up to 100 buckets by default (support can extend). 
@@ -314,6 +317,8 @@ Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 buc
     Bulk: 5 - 12 hours. This option has the lowest cost and is good for a large set of data.
 
 The Expedited duration listed above could possibly be longer during rare situations of unusually high demand across all of AWS. If it is absolutely critical to have quick access to your Glacier data under all circumstances, you must purchase *Provisioned Capacity*. Provisioned Capacity guarentees that Expedited retrievals always work within the time constraints of 1 to 5 minutes.
+
+**Glacier Vault** - There is a compliance focused version of Glacier called 'vault'. You set data retnion for X yrs. Once the Vault Lock poiicy is defined, it cannot be modified or removed after the initial 24-hour grace period, even by AWS (PPT - and somwhere else, but not ACG).
 
 **S3 Deep Glacier Deep Archive** - The lowest cost S3 storage where retrieval can take 12 hours. Has longest retrieval time of any option.
 
@@ -550,22 +555,25 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 ### 1.6.2. EC2 Key Details:
 - You can launch different types of instances from a single AMI. An instance type essentially determines the hardware of the host computer used for your instance. Each instance type offers different compute and memory capabilities. You should select an instance type based on the amount of memory and computing power that you need for the application or software that you plan to run on top of the instance.   
 - From within an instance there are two useful Meta Data URL's.
-- To see the bootstrap script: http:169.254.169.254/latest/user-data. 
-- Starring place for Meta data: http:169.254.169.254/latest/meta-data. For example data/public-ipv4 shows your Public IP address (Whats my IP)
+  - To see the bootstrap script: http:169.254.169.254/latest/user-data. 
+  - Starring place for Meta data: http:169.254.169.254/latest/meta-data. For example data/public-ipv4 shows your Public IP address (Whats my IP)
 - You can launch multiple instances of an AMI, as shown in the following figure:
 
 ![architecture_ami_instance](https://user-images.githubusercontent.com/13093517/84097031-64a4c380-a9d1-11ea-8358-1c3eec1c4471.png)
 
 - You have the option of using dedicated tenancy with your instance. This means that within an AWS datacenter, you have exclusive access to physical hardware. Naturally, this option incurs a high cost, but it makes sense if you work with technology that has a strict licensing policy. 
-- With EC2 VM Import, you can import existing VMs into AWS as long as those hosts use VMware ESX, VMware Workstation, Microsoft Hyper-V, or Citrix Xen virtualization formats.
+-  EC2 VM Import works to import existing VMs into AWS. Sources: VMware ESX, VMware Workstation, Microsoft Hyper-V, or Citrix Xen virtualization formats.
 - When you launch a new EC2 instance, EC2 attempts to place the instance in such a way that all of your VMs are spread out across different hardware to limit failure to a single location. You can use placement groups to influence the placement of a group of interdependent instances that meet the needs of your workload. There is an explanation about placement groups in a section below.
 - When you launch an instance in Amazon EC2, you have the option of passing user data to the instance when the instance starts. This user data can be used to run common automated configuration tasks or scripts. For example, you can pass a bash script that ensures htop is installed on the new EC2 host and is always active.
 - By default, the public IP address of an EC2 Instance is released when the instance is stopped even if its stopped temporarily. Therefore, it is best to refer to an instance by its external DNS hostname. If you require a persistent public IP address that can be associated to the same instance, use an Elastic IP address which is basically a static IP address instead. 
-- Accounts have five (5) EIP's by default. They are scarce resources. 
+- AWS Accounts have five (5) EIP's by default. They are scarce resources. 
 - If you have requirements to self-manage a SQL database, EC2 can be a solid alternative to RDS. To ensure high availability, remember to have at least one other EC2 Instance in a separate Availability zone so even if a DB instance goes down, the other(s) will still be available.
 - A golden image is simply an AMI that you have fully customized to your liking with all necessary software/data/configuration details set and ready to go once. This personal AMI can then be the source from which you launch new instances.
 - Instance status checks check the health of the running EC2 server, systems status check monitor the health of the underlying hypervisor. If you ever notice a systems status issue, just stop the instance and start it again (no need to reboot) as the VM will start up again on a new hypervisor.
 - IAM policy changes can be applied/updated at run time and take effect almost imediately. 
+- Costing: 
+ - Instances and storage have charges as you'd expect.
+ - For EC2 to S3 in the same region, you pay S3 access (PUT's, DELETE's, etc.) charges, no throughput or data transfer.
 
 ### 1.6.3. EC2 AMI's (updated 9/29/2020)
 - AMI's are region specific.
@@ -612,14 +620,15 @@ The following table highlights the many instance states that a VM can be in at a
 - There are three different types of EC2 placement groups:
 
   1.) Clustered Placement Groups: Single AZ - Lowest Latency
-    - Clustered Placement Grouping is when you put all of your EC2 instances in a single availability zone. This is recommended for applications that need the lowest latency possible and require the highest network throughput.
+    - All EC2 instances in a single availability zone. Tecommended for applications that need the lowest latency possible and require the highest network throughput.
     - Only certain instances can be launched into this group (compute optimized, GPU optimized, storage optimized, and memory optimized).  Instances can be of different types/classes. S3 performance is not increased. (Updated 1/11/2011)
   
   2.) Spread Placement Groups: EC2 Instances on distinct HW 
     - Spread Placement Grouping is when you put each individual EC2 instance on top of its own distinct hardware so that failure is isolated. 
     - Your VMs live on separate racks, with separate network inputs and separate power requirements. Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other. 
-    - Can also be in multiple AZ's.
+    - Can also be in multiple AZ's. Partition PG's are, therefore, "region wide" in scope *because* they can span AZ's.
     - There is a **maximum** of Seven instances per AZ for SPG's (added 1/8/2021)
+    
   
   3.) Partitioned Placement Groups: Mult instances on same HW, grouped diff AZ's
     - Partitioned Placement Grouping is similar to Spread placement grouping, but differs because you can have multiple EC2 instances within a single partition. Failure instead is isolated to a partition (say 3 or 4 instances instead of 1), yet you enjoy the benefits of close proximity for improved network performance.
@@ -639,11 +648,11 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 - Each EBS volume is automatically replicated within its Availability Zone to protect from both component failure and disaster recovery (similar to Standard S3).
 - There are five different types of EBS Storage:
   - General Purpose (SSD)
-  - Provisioned IOPS (SSD, built for speed)
-  - Throughput Optimized Hard Disk Drive (magnetic, built for larger data loads)
+  - Provisioned IOPS (SSD, built for speed): Provisioned IOPS (piops) volumes are the only EBS volume type that allows the user to provision static performance for consistent IOPS.
+  - Throughput Optimized Hard Disk Drive (magnetic, built for larger data loads). 
   - Cold Hard Disk Drive (magnetic, built for less frequently accessed workloads)
   - Magnetic
-- EBS Volumes offer 99.999% SLA.  Throughput Optimized (st1) and Cold (sc1) are the cheapest because they are HDD, not SSD.
+- EBS Volumes offer 99.999% SLA.  Throughput Optimized (st1) and Cold (sc1) are the cheapest because they are HDD, not SSD. Throughput-optimized HDD volumes are a good choice for applications that frequently perform large data copies to disk. ST1 volumes are also less expensive than any SSD solution. (PPT).
 - Wherever your EC2 instance is, your volume for it is going to be in the same availability zone,
 - An EBS volume can only be attached to one EC2 instance at a time.
 - An EBS volume can be detached from a running instance, but it takes time - AND - don't forget the OS functions! (Added 9/29/2020)
@@ -884,16 +893,18 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 
 ### 1.13.2. EFS Key Details (Updated 11/11/2020)
 - In EFS, storage capacity is elastic (grows and shrinks automatically) and its size changes based on adding or removing files.
-- On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate. While it is only achievable in some regions, the maximum throughput for EFS is 3Gbps (PPT.)
+- On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate. While it is only achievable in some regions, the maximum throughput for EFS is 3Gbps (PPT.) General Purpose performance mode file systems have the lowest metadata latency and perform best for jobs like a UNIX find command (PPT - really nit picky, eh?)
 - While EBS mounts one EBS volume to one instance, you can attach one EFS volume across multiple EC2 instances.
-- The EC2 instances communicate to the remote file system using the NFSv4 protocol. This makes it required to open up the NFS port for our security group (EC2 firewall rules) to allow inbound traffic on that port.
+- The EC2 instances communicate to the remote file system using the NFSv4/NFSv4.1 protocol. This makes it required to open up the NFS port for our security group (EC2 firewall rules) to allow inbound traffic on that port.
 - Within an EFS volume, the mount target state will let you know what instances are available for mounting
-- With EFS, you only pay for the storage that you use so you pay as you go. No pre-provisioning required.
+- Pay for the storage that you use so you pay as you go. No pre-provisioning required.
+- EFS has integrated (backup)[https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html] capability. The AWS Backup service allows for partial file system restores (even a single file) to be recovered to another location on the file system. (PPT)
 - EFS can scale up to the petabytes and can support thousands of concurrent NFS connections.
 - Data is stored across multiple AZs in a region and EFS ensures read after write consistency. EFS stores the data at a region scope, replicating that data into at least three AZs within the region, which improves the durability over EBS. The SLA documentation states that the service is designed for 3 9s availability. Thus EFS has higher availability and durability than EBS. 
 - It is best for file storage that is accessed by a fleet of servers rather than just one server.
 - In April 2020, Amazon increated the EFS SLA to 99.99%. (used to be 99.9%). This is a general measure, not "mount point specific" (Term is on a Pearson Practice Test).
 - In CloudWatch, the BurstCreditBalance metric can be used to determine if you are saturating the available bandwidth for the file system.
+- AWS recommends up to 40 concurrent transfers per client, with a hard limit of 250Mbps per client overall. (Pearson practice)
 
 ## 1.14. Amazon FSx for Windows
 
@@ -1052,6 +1063,7 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale. It's a fully managed, multiregion, multimaster, durable non-SQL database. It comes with built-in security, backup and restore, and in-memory caching for internet-scale applications.
 
 ### 1.18.2. DynamoDB Key Details:
+- Costing: DynamoDB auto-scaling operates within minimum and maximum values for reads and writes to the table, and the customer is charged separately for storage, depending on the amount of data in the table. This model is very similar to Aurora Serverless. (PPT).
 - The main components of DyanmoDB are:
   - a collection which serves as the foundational table
   - a document which is equivalent to a row in a SQL database
@@ -1064,8 +1076,10 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 - DynamoDB is stored via SSD which is why it is fast.
 - It is spread across 3 geographically distinct data centers.
 - The default consistency model is Eventually Consistent Reads, but there are also Strongly Consistent Reads.
-- The difference between the two consistency models is the one second rule. With Eventual Consistent Reads, all copies of data are usually reached within one second. A repeated read after a short period of time should return the updated data. However, if you need to read updated data within or less than a second and this needs to be a guarantee, then strongly consistent reads are your best bet.
-- If you face a scenario that requires the schema, or the structure of your data, to change frequently, then you have to pick a database which provides a non-rigid and flexible way of adding or removing new types of data. This is a classic example of choosing between a relational database and non-relational (NoSQL) database. In this scenario, pick DynamoDB.
+- The difference between the two consistency models is the one second rule. 
+  - With Eventual Consistent Reads, all copies of data are usually reached within one second. A repeated read after a short period of time should return the updated data. 
+  - However, if you need to read updated data within or less than a second and this needs to be a guarantee, then strongly consistent reads are your best bet.
+- If you face a scenario that requires the schema to change frequently, then you have to pick a database which provides a non-rigid and flexible way of adding or removing new types of data -> DynamoDB. SQL DB's don't easily support schema changes.
 - A relational database system does not scale well for the following reasons:
   - It normalizes data and stores it on multiple tables that require multiple queries to write to disk.
   - It generally incurs the performance costs of an ACID-compliant transaction system.
@@ -1104,7 +1118,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
  Amazon Redshift is a fully managed, petabyte-scale data warehouse service in the cloud. The Amazon Redshift service manages all of the work of setting up, operating, and scaling a data warehouse. These tasks include provisioning capacity, monitoring and backing up the cluster, and applying patches and upgrades to the Amazon Redshift engine.
 
 ### 1.19.2. Redshift Key Details:
--  An Amazon Redshift cluster is a set of nodes which consists of a leader node and one or more compute nodes. The type and number of compute nodes that you need depends on the size of your data, the number of queries you will execute, and the query execution performance that you need. 
+-  An Amazon Redshift cluster is a set of nodes: a leader node and one or more compute nodes. The type and number of compute nodes that you need depends on the size of your data, the number of queries you will execute, and the query execution performance that you need. The Node model is the main pricing component, with provisioned storage part of the cost (you don't pay for storage, specifically - PPT).
 - Redshift is used for business intelligence and pulls in very large and complex datasets to perform complex queries in order to gather insights from the data.
 - It fits the use case of Online Analytical Processing (OLAP). Redshift is a powerful technology for data discovery including capabilities for almost limitless report viewing, complex analytical calculations, and predictive “what if” scenario (budget, forecast, etc.) planning.
 - Depending on your data warehousing needs, you can start with a small, single-node cluster and easily scale up to a larger, multi-node cluster as your requirements change. You can add or remove compute nodes to the cluster without any interruption to the service. 
@@ -1217,7 +1231,7 @@ Elastic Load Balancing automatically distributes incoming application traffic ac
   - Health Checks: detect unhealthy conditions to ping a port/protocol/destination. If the response isn't what we want, the target is unhealthy and the ELB responds. 
 
 ### 1.24.2. ELB Key Details:
-- Load balancers can be internet facing or application internal.
+- Load balancers can be internet facing or application internal. You pay for ELB's by the hour, not matter how small.
 - To route domain traffic to an ELB load balancer, use Amazon Route 53 to create an Alias record that points to your load balancer. An Alias record is preferable over a CName, but both can work.
 - ELBs (ALB/CLB) do not have predefined IPv4 addresses; you must resolve them with DNS instead. Your load balancer will never have its own IP by default, but you can create a static IP for a network load balancer because network LBs are for high performance purposes.
 - Instances behind the ELB are reported as `InService` or `OutofService`.
@@ -1491,8 +1505,9 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - **Summary**: VPNs connect your *on-prem with your VPC* over the internet.
 
 ## 3.10. AWS DirectConnect (Updated 12/3/2020)
-- Direct Connect is an AWS service that establishes a dedicated network connection between your premises and AWS. You can create this private connectivity to reduce network costs, increase bandwidth, and provide more consistent network experience compared to regular internet-based connections.
-- The use case for Direct Connect is high throughput workloads or if you need a stable or reliable connection.
+- Direct Connect establishes a dedicated network connection between your premises and AWS. You can create this private connectivity to reduce network costs, increase bandwidth, and provide more consistent network experience compared to regular internet-based connections.
+- Use case: Direct Connect is high throughput workloads or if you need a stable or reliable connection. 1 GB or 10 GB.
+- Direct Connect uses IPSec to encrypt connections to individual VPCs using a VPN across a public virtual interface (VIF). (PPT)
 - VPN connects to your on-prem over the internet and DirectConnect connects to your on-prem off through a private tunnel. There are multiple DC locations around the world. There is a AWS dedicated cage at each location. Your router is also caged. There is a cross connect cable at the cage location (a cable).
 - Video: https://www.youtube.com/watch?reload=9&v=dhpTTT6V1So&feature=youtu.be 
 - The steps for setting up an AWS DirectConnect connection:
@@ -1507,9 +1522,8 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
 ## 3.11. VPC Endpoints (Gateway, Interface) (Updated 1/11/2021)
-- VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem. These Endpoints are virtual devices or proxies (PPT) that are HA and without bandwidth constraints. 
-- These work basically by attaching an ENI to an EC2 instance that can easily communicate to a wide range of AWS services.
-- **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB (only two). Gateway Endpoints are targeted for a specific route in a route table. Gateway Endpoints are free as they’re just a new route in to set.
+- VPC Endpoints ensure that you can connect your VPC to supported AWS services without requiring an internet gateway, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and other AWS services stay within the Amazon ecosystem. These Endpoints are virtual ENI devices or proxies (PPT) that are HA and without bandwidth constraints. These resources are horizontally scaled, redundant resource, which means it is *fault tolerant* (PPT).
+- **Gateway Endpoints** rely on creating entries in a route table and pointing them to private endpoints used for S3 or DynamoDB (only two). Gateway Endpoints are targeted for a specific route in a route table. Gateway Endpoints are free of charge; they’re just a new route in to set.
 - **Interface Endpoints** uses AWS PrivateLink and have a private IP address so they are their own entity and not just a target in a route table. Most services can use Int EP. Because of this, they cost $.01/hour.  You cannot attach an Int Endpt to a Internet GW (test distractor).
 - Interface Endpoint provisions an Elastic Network interface or ENI (think network card) within your VPC. They serve as an entry and exit for traffic going to and from another supported AWS service. It uses a DNS record to direct your traffic to the private IP address of the interface. Gateway Endpoint uses route prefix in your route table to direct traffic meant for S3 or DynamoDB to the Gateway Endpoint (think 0.0.0.0/0 -> igw).
 - To secure your Interface Endpoint, use Security Groups. But to secure Gateway Endpoint, use VPC Endpoint Policies.
@@ -1525,8 +1539,10 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - **Summary:** AWS PrivateLink connects your *AWS services with other AWS services* through a non-public tunnel.
 
 ## 3.13. VPC Peering:
-- VPC peering allows you to connect one VPC with another via a direct network route using the Private IPs belonging to both. With VPC peering, instances in different VPCs behave as if they were on the same network.
+- VPC peering allows you to connect one VPC with another via a direct network route using the Private IPs belonging to both. With VPC peering, instances in different VPCs behave as if they were on the same network. Between regions, all data is encrypted (HW level). Between VPC's in the same region doesn't use encryption, connection marked 'private' (PPT).
+- Cost: VPC peering connections are charged by the hour and for throughput, regardless of the destination (even within the same AZ). (PPT). 
 - You can create a VPC peering connection between your own VPCs, regardless if they are in the same region or not, and with a VPC in an enirely different AWS account.
+- VPC peering connections in the same region do not use encryption, but the connections are labeled as private. Cross-region connections use encryption and also use the AWS private network. (PPT).
 - VPC Peering is usually done in such a way that there is one central VPC that peers with others. Only the central VPC can talk to the other VPCs.
 - VPC Peering connection is documented as exhibiting no single point of failure and is a redundant resource, which means it is fault tolerant (PPT). (11/13/2020)
 - You cannot do transitive peering for non-central VPCs. Non-central VPCs cannot go through the central VPC to get to another non-central VPC. You must set up a new portal between non-central nodes if you need them to talk to each other.
@@ -1634,7 +1650,7 @@ SWF is a web service that makes it easy to coordinate work across distributed ap
 Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible, and cost-effective (inexpensive) method to publish a custom messages to subscribers who wish to be informed about a certain topic. First steps for new customers is to setup a billing alert. Publish messages and imediately deliver to subscribers or applications. 
 
 ### 5.5.2. SNS Key Details (Updated 9/28/20)
-- SNS is mainly used to send alarms or alerts.
+- SNS is mainly used to send alarms or alerts.  SNS assigns a default policy to the topic when created. This policy can be modified to grant additional permissions. (PPT)
 - SNS provides topics for high-throughput, push-based, many-to-many messaging. 
 - Using Amazon SNS topics (which have a unique ARN), your publisher systems can fan out messages to a large number of subscriber endpoints for parallel processing, including Amazon SQS queues, AWS Lambda functions, and HTTP/S webhooks. Additionally, SNS can be used to fan out notifications to end users using mobile push, SMS, and email. 
 - You can send these push notifications to Apple, Google, Fire OS, and Windows devices. Native methods for Apple and Android are supported. SMS text is supported. Other methdods include email and to an HTTP endpoint. 
@@ -1754,8 +1770,7 @@ API Gateway is a fully managed service for developers that makes it easy to buil
   - Can be version controlled
   - Can be connected to CloudWatch for logging, monitoring, and observability
 - Since API Gateway can function with AWS Lambda, you can run your APIs and code without needing to maintain servers.
-- Amazon API Gateway provides throttling at multiple levels including global and by a service call.
-  - In software, a throttling process, or a throttling controller as it is sometimes called, is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.
+- Amazon API Gateway provides throttling at multiple levels including global and by a service call. Therefore customers can control cost by setting an upper limit (PPT).
   - Throttling limits can be set for standard rates and bursts. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure Amazon API Gateway to handle a burst of 2,000 requests per second for a few seconds. 
   - Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response. The client SDKs generated by Amazon API Gateway retry calls automatically when met with this response.
 - You can add caching to API calls by provisioning an Amazon API Gateway cache and specifying its size in gigabytes. The cache is provisioned for a specific stage of your APIs. This improves performance and reduces the traffic sent to your back end. Cache settings allow you to control the way the cache key is built and the time-to-live in seconds (TTL) of the data stored for each method. Amazon API Gateway also exposes management APIs that help you invalidate the cache for each stage. For example, a GET. If the same GET was recently seen, the prior results are sent back. 
@@ -1766,6 +1781,7 @@ API Gateway is a fully managed service for developers that makes it easy to buil
 - With API Gateway, there are two kinds of API calls:
   - Calls to the API Gateway API to create, modify, delete, or deploy REST APIs. These are logged in CloudTrail.
   - API calls set up by the developers to deliver their custom functionality: These are not logged in CloudTrail.
+  - NOTE: The API GW policy is evaluated before any user authentication event occurs (PPT).
 
 ### 5.8.3. Deployment (Added 9/27/2020)
 - Configure API GW by defining the container, define resources and nested resources which are URL paths.
@@ -2128,6 +2144,7 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 
 # 10. KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
+- Availability is related to whether a resource is accessible at a given time and is determined by a percentage uptime, in 9s. (PPT Term, not 100% thrilled with this though...)
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
 - Reliability: When designing an infrastructure for reliability, the ability to recover from failure is important for maintaining availability. (Pearson Practice Test).
 - Fault-tolerance is the ability for a system to remain in operation even if some of the components used to build the system fail (AWS Docs).
@@ -2135,13 +2152,15 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 - Elasticity: Sale up or down, scale in and out horizontally. 
 - Synchronous: In synchronous communication, multiple parties are participating at the same time and wait for replies from each other (PPT).
 - Asynchronous: Asynchronous communication can be described as “fire and forget,” where the workflow can complete without the original requestor requiring a response (PPT.)
+- 
 
 # 11. Well Architected Frame Work (Added 11/13/2020)
 - Cost optimization: Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs. As AWS releases new services and features, it is a best practice to review your existing architectural decisions to ensure they continue to be the most cost-effective.
 - Operational Excellance: Perform Ops with Code, annocate docs, make frequent + small + reversable changes. refine ops procedures often, anticiapte failure, and lear from op failure. Supported by AWS Config, CloudFormation, AWS Trusted Advisor, CloudTrail, VPC Flow Logs, and AWS Inspector (AWS SAA prep).  CloudWatch extracts data from logs, because it tracks and creats alarms as needed.
 - Security - Enable traceability, automate security best practices, protect data in transit. 
 - Reliability
-- Performance efficiency
+- Performance efficiency - Selection, Review, Monitoring, and Tradeoffs.
+  - Serverless architectures use resources only when absolutely necessary, thus exhibiting a high degree of performance efficiency. (PPT)
 
 # 12. Scenarios (Added 12/7/2020)
 
@@ -2192,6 +2211,7 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
   - Fault Tollerance <> High Availability.  FT is a higher requirement. 
   - HA: System will always be up and can fail over in event of failure.
   - FT: System conceals its fail from users, no loss of service. 
+  - Any solution that duplicates the data into a second AWS account is more durable than any solution that keeps the data in the same account.
 - Scaling
   - Vertical: Replace a smaller instance with a larger one. 
   - Horizontal: Increase / decrease instances.
