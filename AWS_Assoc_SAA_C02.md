@@ -212,6 +212,12 @@ With IAM Policies, you can easily add tags that help define which resources are 
 
 Pattern: Define a policy, attach a policy to a group, and then add users to the group. 
 
+An Example:
+- If you want to control access to the DynamoDB 'Nooks' table, the ARN is: arn:aws:dynamodb:us-east-1:123456789012:table/Books. If you specifiecd ":table/*" at the end, it would be 'all dynamodb tables'.
+- If you want to allue "Put" and "Delete to the table, you need "Effect": "Allow", and then "Action": { "dynamodb:PutItem", "dynamodb:DeleteItem" } then the "Resource" with the ARN.
+- If you want to allow all actions, then you need "Effect": "Allow", "Action:" "dynamodb:*", then the resource. 
+- Remember that any "Effect": "Deny" over rides any allow actions. 
+
 ### IAM Inline Policies
 These are embedded in an IAM identity (user, group, role), an inherient patt of that identity.  Used to maintain strict 1:1 relationships, living within the scope of the IAM identity.
 
@@ -373,6 +379,9 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - **Amazon Simple Notification Service (Amazon SNS)**: A web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
 - **Amazon Simple Queue Service (Amazon SQS)**: SQS offers reliable and scalable hosted queues for storing messages as they travel between computers.
 - **AWS Lambda**: AWS Lambda is a compute service where you can upload your code and the service can run the code on your behalf using the AWS infrastructure. You package up and upload your custom code to AWS Lambda when you create a Lambda function. The S3 event triggering the Lambda function also can serve as the code's input.
+- Example (TudDJ):
+  - You want a PUT/DELETE (create/delete) event from S3 to notify a SQS queue, which in turn needs to notify two different teams.
+  - You could add a *single* notification configuruation to the bucket, which would trigger SNS using the Fanout model and send the notifcation to two specific SQS queues because each queue can subscribe to the SNS topic. (AWS Walkthrough)[https://docs.aws.amazon.com/AmazonS3/latest/dev/ways-to-add-notification-config-to-bucket.html] and (S3 Event Notifications)[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/enable-event-notifications.html]
 
 ###  1.2.10. S3 and ElasticSearch
 - If you are using S3 to store log files, ElasticSearch provides full search capabilities for logs and can be used to search through data stored in an S3 bucket.
@@ -869,7 +878,8 @@ Within the storage and content delivery domains, CloudWatch can inform you about
 AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. With it, you can log, continuously monitor, and retain account activity related to actions across your AWS infrastructure. CloudTrail provides event history of your AWS account activity, including actions taken through the AWS Management Console, AWS SDKs, command line tools, API calls, and other AWS services. It is a regional service, but you can configure CloudTrail to collect trails in all regions.
 
 ### 1.12.2. CloudTrail Key Details
-- CloudTrail Events logs API calls or activities. 
+- CloudTrail Events logs API calls or activities. Can be single region; best practice is to have one that applies to all regions.
+- Most services log to their respective region. IAM, STS, CloudFront, and Route 53 are delivered to any trail marked as 'global' (see below), and are housed in a S3 bucket in US East 1 - Northern VA, USA.
 - CloudTrail Events stores the last 90 days of events in its Event History. This is enabled by default and is no additional cost.
 - This event history simplifies security analysis, resource change tracking, and troubleshooting.
 - There are two types of events that can be logged in CloudTrail: management events and data events. 
@@ -1623,6 +1633,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - You cannot set a priority to the individual items in the SQS queue. If priority of messaging matters, create two separate SQS queues. The SQS queues for the priority message can be polled first by the EC2 Instances and once completed, the messages from the second queue can be processed next.
 - When you configure a single SNS topic and multipe SQS queues subscribe, it is called a Fan Out architecture (PPT.)
 
+
 ## 5.3. SQS Polling:
 - Polling is the means in which you query SQS for messages or work. Amazon SQS provides short-polling and long-polling to receive messages from a queue. By default, queues use short polling. 
 - **SQS long-polling**: This polling technique will only return from the queue once a message is there, regardless if the queue is currently full or empty. This way, the reader needs to wait either for the timeout set or for a message to finally arrive. SQS long polling doesn't return a response until a message arrives in the queue, reducing your overall cost over time. 
@@ -1729,8 +1740,9 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 - AWS Lambda is the ultimate abstraction layer. You only worry about code, AWS does everything else.
 - Lambda supports Go, Python, C#, PowerShell, Node.js, and Java. To access print statements produced by your code, you need to review Cloud Watch logs. Primt stmts aren't ignored (AWS SAA Prep).
 - Each Lambda function maps to one request. Lambda scales horizontally automatically.
-- Lambda is priced on the number of requests. First one million are free. Each million afterwards is $0.20 per million.  
-- Lambda is also priced on the runtime (duration) of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates. The "Power" defines the amount of memory. 
+- Lambda Costs:
+  - Lambda is priced on the number of requests. First one million are free. Each million afterwards is $0.20 per million.  
+  - Labda is also priced on the runtime (duration) of your code, rounded up to the nearest 100mb, and the amount of memory your code allocates. The "Power" defines the amount of memory. 
 - Lambda works globally.
 - Lambda functions can trigger other Lambda functions.
 - You can use Lambda as an event-driven service that executes based on changes in your AWS ecosystem.
@@ -1739,7 +1751,7 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 
 ![Screen Shot 2020-06-30 at 9 19 33 AM](https://user-images.githubusercontent.com/13093517/86130894-df35a000-bab2-11ea-9908-acbe3e8d4824.png)
 
-- When you create or update Lambda functions that use environment variables, AWS Lambda encrypts them using the AWS Key Management Service. When your Lambda function is invoked, those values are decrypted and made available to the Lambda code.
+- When you create or update Lambda functions that use environment variables, AWS Lambda encrypts them using the AWS Key Management Service. When your Lambda function is invoked, those values are decrypted and made available to the Lambda code. Note that anyone who has access to the console and KMS can view the env variables. To solve, use encryption helpers, create an AMS KMS key, use KMS to encrypt environment variables. You gain ability to create, rotate, delete, audit key usage (TDJ). (Ref) [https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption]
 - The first time you create or update Lambda functions that use environment variables in a region, a default service key is created for you automatically within AWS KMS. This key is used to encrypt environment variables. However, if you wish to use encryption helpers and use KMS to encrypt environment variables after your Lambda function is created, you must create your own AWS KMS key and choose it instead of the default key. 
 - To enable your Lambda function to access resources inside a private VPC, you must provide additional VPC-specific configuration information that includes VPC subnet IDs and security group IDs. AWS Lambda uses this information to set up elastic network interfaces (ENIs) that enable your function to connect securely to other resources within a private VPC.
 - AWS X-Ray allows you to debug your Lambda function in case of unexpected behavior.
