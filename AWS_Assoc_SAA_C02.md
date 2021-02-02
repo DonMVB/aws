@@ -35,7 +35,7 @@
   - [3.2. VPC Key Details (Updated 9/4/2020):](#32-vpc-key-details-updated-942020)
   - [3.3. VPC Subnets (Updated 9/4/2020):](#33-vpc-subnets-updated-942020)
   - [3.4. Network Access Control Lists:](#34-network-access-control-lists)
-  - [3.5. NAT Instances vs. NAT Gateways:](#35-nat-instances-vs-nat-gateways)
+  - [3.5. NAT Instances vs. NAT Gateways](#35-nat-instances-vs-nat-gateways)
   - [3.6. Bastion Hosts:](#36-bastion-hosts)
   - [3.7. Route Tables:](#37-route-tables)
   - [3.8. Internet Gateway:](#38-internet-gateway)
@@ -50,36 +50,50 @@
   - [5.1. SQS Simplified (Updated 9/24/2020)](#51-sqs-simplified-updated-9242020)
   - [5.2. SQS Key Details:](#52-sqs-key-details)
   - [5.3. SQS Polling:](#53-sqs-polling)
-  - [5.4. Simple Workflow Service (SWF) (Updated 9/28/2020)](#54-simple-workflow-service-swf-updated-9282020)
-  - [5.5. Simple Notification Service (SNS)](#55-simple-notification-service-sns)
-  - [5.6. Kinesis (Updated 9/27/2020)](#56-kinesis-updated-9272020)
-  - [5.7. Lambda (Updated 10/12/2020)](#57-lambda-updated-10122020)
-  - [5.8. API Gateway (Updated 9/28/20)](#58-api-gateway-updated-92820)
-  - [5.9. CloudFormation](#59-cloudformation)
-  - [5.10. ElasticBeanstalk](#510-elasticbeanstalk)
-  - [5.11. AWS Organizations](#511-aws-organizations)
-- [6. Web Identity Federation (Updated 12/6/2020)](#6-web-identity-federation-updated-1262020)
-  - [6.1. Cognotio User Pools (Added 9/28/2020)](#61-cognotio-user-pools-added-9282020)
-- [7. Event Processing Patterns (Added 9/28/2020)](#7-event-processing-patterns-added-9282020)
-  - [7.1. Publisher / Subscriber (Added 9/28/2020)](#71-publisher--subscriber-added-9282020)
-  - [7.2. Dead Letter Queue (Added 9/28/2020](#72-dead-letter-queue-added-9282020)
-  - [7.3. FanOut Pattern](#73-fanout-pattern)
-- [8. Authentication](#8-authentication)
-- [9. Miscellaneous](#9-miscellaneous)
-  - [9.1. Reducing Security Threats (Added 10/12/2020)](#91-reducing-security-threats-added-10122020)
-- [10. KEY AMAZON AWS TERMS (Added 11/11/2020)](#10-key-amazon-aws-terms-added-11112020)
-- [11. Well Architected Frame Work (Added 11/13/2020)](#11-well-architected-frame-work-added-11132020)
-- [12. Scenarios (Added 12/7/2020)](#12-scenarios-added-1272020)
-  - [12.1. Data Storage](#121-data-storage)
-  - [12.2. VPC NACL Security](#122-vpc-nacl-security)
-  - [12.3. HPC and MPI](#123-hpc-and-mpi)
-  - [12.4. Database Migration](#124-database-migration)
-  - [12.5. Collectng EC2 Stats](#125-collectng-ec2-stats)
-  - [12.6. Prototype Cloud Storage (Added 1/11/2011)](#126-prototype-cloud-storage-added-1112011)
-  - [12.7. Web App and Storage](#127-web-app-and-storage)
-  - [12.8. RDS Pefrormance and Read Replicas](#128-rds-pefrormance-and-read-replicas)
-- [Test Axioms from AWS SAA Prep](#test-axioms-from-aws-saa-prep)
-
+- [6. Simple Workflow Service (SWF) (Updated 9/28/2020)](#6-simple-workflow-service-swf-updated-9282020)
+  - [6.1. SWF Simplified](#61-swf-simplified)
+  - [6.2. SWF Key Details (Updated 9/28/2020)](#62-swf-key-details-updated-9282020)
+- [7. Simple Notification Service (SNS)](#7-simple-notification-service-sns)
+  - [7.1. SNS Simplified](#71-sns-simplified)
+  - [7.2. SNS Key Details (Updated 9/28/20)](#72-sns-key-details-updated-92820)
+  - [7.3. SNS vs. SQS](#73-sns-vs-sqs)
+- [8. Kinesis (Updated 9/27/2020)](#8-kinesis-updated-9272020)
+  - [8.1. Kinesis Simplified](#81-kinesis-simplified)
+  - [8.2. Kinesis Key Details](#82-kinesis-key-details)
+- [9. Lambda (Updated 10/12/2020)](#9-lambda-updated-10122020)
+  - [9.1. Lambda Simplified (Updated 10/12/2020)](#91-lambda-simplified-updated-10122020)
+  - [9.2. Example Patterns (Added 10/12/2020)](#92-example-patterns-added-10122020)
+  - [9.3. Lambda Key Details](#93-lambda-key-details)
+  - [9.4. Lambda@Edge](#94-lambdaedge)
+- [10. API Gateway (Updated 9/28/20)](#10-api-gateway-updated-92820)
+  - [10.1. API Gateway Simplified: (Updated 9/27/20)](#101-api-gateway-simplified-updated-92720)
+  - [10.2. API Gateway Key Details: (Updated 1/29/2021)](#102-api-gateway-key-details-updated-1292021)
+  - [10.3. CloudFormation](#103-cloudformation)
+  - [10.4. ElasticBeanstalk](#104-elasticbeanstalk)
+  - [10.5. AWS Organizations](#105-aws-organizations)
+- [11. Web Identity Federation (Updated 12/6/2020)](#11-web-identity-federation-updated-1262020)
+  - [11.1. Cognotio User Pools (Added 9/28/2020)](#111-cognotio-user-pools-added-9282020)
+  - [11.2. Integrating with AD for User Home Directories (Added 1/29/2021)](#112-integrating-with-ad-for-user-home-directories-added-1292021)
+- [12. Event Processing Patterns (Added 9/28/2020)](#12-event-processing-patterns-added-9282020)
+  - [12.1. Publisher / Subscriber (Added 9/28/2020)](#121-publisher--subscriber-added-9282020)
+  - [12.2. Dead Letter Queue (Added 9/28/2020](#122-dead-letter-queue-added-9282020)
+  - [12.3. FanOut Pattern](#123-fanout-pattern)
+- [13. Authentication](#13-authentication)
+- [14. Miscellaneous](#14-miscellaneous)
+  - [14.1. Reducing Security Threats (Added 10/12/2020)](#141-reducing-security-threats-added-10122020)
+- [15. KEY AMAZON AWS TERMS (Added 11/11/2020)](#15-key-amazon-aws-terms-added-11112020)
+- [16. Well Architected Frame Work (Added 11/13/2020)](#16-well-architected-frame-work-added-11132020)
+- [17. Scenarios (Added 12/7/2020)](#17-scenarios-added-1272020)
+  - [17.1. Data Storage](#171-data-storage)
+  - [17.2. VPC NACL Security](#172-vpc-nacl-security)
+  - [17.3. HPC and MPI](#173-hpc-and-mpi)
+  - [17.4. Database Migration](#174-database-migration)
+  - [17.5. Collectng EC2 Stats](#175-collectng-ec2-stats)
+  - [17.6. Prototype Cloud Storage (Added 1/11/2011)](#176-prototype-cloud-storage-added-1112011)
+  - [17.7. Web App and Storage](#177-web-app-and-storage)
+  - [17.8. RDS Pefrormance and Read Replicas](#178-rds-pefrormance-and-read-replicas)
+  - [17.9. EC2 in AZ's](#179-ec2-in-azs)
+- [18. Test Axioms from AWS SAA Prep](#18-test-axioms-from-aws-saa-prep)
 Last Updated: 1/29/2021 8:21 PM EST USA (Gobble x3)
 
 This study guide will help you pass the newer AWS Certified Solutions Architect - Associate exam.  Included are some references to a few books as well as some practice tests. 
@@ -218,10 +232,10 @@ An Example:
 - If you want to allow all actions, then you need "Effect": "Allow", "Action:" "dynamodb:*", then the resource. 
 - Remember that any "Effect": "Deny" over rides any allow actions. 
 
-### IAM Inline Policies
+### 1.1.4. IAM Inline Policies
 These are embedded in an IAM identity (user, group, role), an inherient patt of that identity.  Used to maintain strict 1:1 relationships, living within the scope of the IAM identity.
 
-### 1.1.4. Amazon Resource Names (ARN) (Update 8-9/3/2020)
+### 1.1.5. Amazon Resource Names (ARN) (Update 8-9/3/2020)
 The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniquely identify resources.
 - Format: arn:partition:service:region:account_id:
 - Partition: Separates infrastructure, 'aws' or 'aws-cn' (China)
@@ -232,7 +246,7 @@ The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniq
 - There can be two consecutive colons, so some values can be esparated. 
 - ARN's are embedded in IAM policies.
 
-### 1.1.5. Priority Levels in IAM:
+### 1.1.6. Priority Levels in IAM:
 - **Explicit Deny**: Denies access to a particular resource and this ruling cannot be overruled.
 
 - **Explicit Allow**: Allows access to a particular resource so long as there is not an associated Explicit Deny.
@@ -369,12 +383,17 @@ You can encrypted on the AWS supported server-side in the following ways:
 - <a href="https://aws.amazon.com/solutions/cross-region-replication-monitor/">Cross Region Replication Overview</a>
 - <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#replication-what-is-not-replicated ">What is and isn’t replicated such as encrypted objects, deletes, items in glacier, etc.</a>
 
-### 1.2.8. S3 Transfer Acceleration:
+### 1.2.8. S3 Transfer Acceleration
 - Transfer acceleration makes use of the CloudFront network by sending or receiving data at CDN points of presence (called edge locations) rather than slower uploads or downloads at the origin.
 - This is accomplished by uploading to a distinct URL for the edge location instead of the bucket itself. This is then transferred over the AWS network backbone at a much faster speed.
 - <a href="https://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html">You can test transfer acceleration speed directly in comparison to regular uploads.</a>
+- Example: (ref)[https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html]
+  - You have a SCADA network in multiple countries that uploads about 500 GB / day, per location (thats a key detail here). If you want to aggregate the data, use TA.
+  - Transfer Accel on the dest bucket plus multi part upload. TA supports speeding up content transfers 50% to 500% (can use the gui to see this.)  Multi part upload breaks data up into parts. If one part fails, only that part is retransmitted. 
 
-### 1.2.9. S3 Event Notications:
+
+
+### 1.2.9. S3 Event Notications
 The Amazon S3 notification feature enables you to receive and send notifications when certain events happen in your bucket. To enable notifications, you must first configure the events you want Amazon S3 to publish (new object added, old object deleted, etc.) and the destinations where you want Amazon S3 to send the event notifications. Amazon S3 supports the following destinations where it can publish events:
 - **Amazon Simple Notification Service (Amazon SNS)**: A web service that coordinates and manages the delivery or sending of messages to subscribing endpoints or clients.
 - **Amazon Simple Queue Service (Amazon SQS)**: SQS offers reliable and scalable hosted queues for storing messages as they travel between computers.
@@ -402,14 +421,14 @@ The Amazon S3 notification feature enables you to receive and send notifications
    - S3 then consolidates those records into log files
    - S3 finally uploads the log files to your secondary monitoring bucket as log objects
 
-### Secure S3 using Presigned URL's (Updated 12/29/2020)
+### 1.2.13. Secure S3 using Presigned URL's (Updated 12/29/2020)
 - Has permissions to certain S3 objects assigned by the URL creator (not user). Does not contain encrypted credentials - rather the presigned URL is associated w/ the object and is a "bearer token". Default 15 minute time limit. When creating - specify the object key, bucket name, credentials, HTTP method, expiration date and time.  Several things can be behind a presigned URL: S3 object, EC2 instance w/ Web UI, CloudFront distribution.
 - Need an IAM role for EC2, grant AmazonS3FullAccess, and assign to applicable EC2 instances. Launch an Instance and add the role. (Don't forget about key pairs.) S3 buckets in this case start as 'private'. 
 - Usually done w/ scripting language - Python + boto3 for example.
 - Can do this via the comand line. You need a EC2 role, add S3FullAccess to the role. Launch a t2.micro instance, add the role. 
 - Command: `aws s3 presign s3://path/file`. By default, this command will presign for 60 seconds. To chage, use `--expires-in SECONDS`. You will get a long presigned URL, with the file, an ID, an expiratin, and a URL encoded token on the URL line. Can copy/paste, and get access. 
   
-### 1.2.13. S3 URL's (9/19/20)
+### 1.2.14. S3 URL's (9/19/20)
 
 - An example ARN for an S3 item is: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
 - S3 supports two URL styles: *virtual hosted* and *path* style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
@@ -417,7 +436,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - For static web hosting if you want images uploaded to 'images', the URL is: https://ytmProfilePictures.s3-website-us-east-2.amazonaws.com/images because the bucket name is part of the FQDN.
 - Presigned URL's allow non AWS users object access. The creater assignes permissions. Presigned URL's allow access to a private bucket w/o requiring AWS credentials.
 
-### 1.2.14. S3 Multipart Upload:
+### 1.2.15. S3 Multipart Upload:
 - Multipart upload allows you to upload a single object as a set of parts. Each part is a contiguous portion of the object's data. You can upload these object parts independently and in any order. 
 - Multipart uploads are recommended for files over 100 MB and is *the only way* to upload files over 5 GB. It achieves functionality by uploading your data in parallel to boost efficiency.
 - If transmission of any part fails, you can retransmit that part without affecting other parts. After all parts of your object are uploaded, Amazon S3 assembles these parts and creates the object.
@@ -429,7 +448,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - You can use an AWS SDK to upload an object in parts. Alternatively, you can perform the same action via the AWS CLI.
 - You can also parallelize downloads from S3 using **byte-range fetches**. If there's a failure during the download, the failure is localized just to the specfic byte range and not the whole object.
 
-### 1.2.15. S3 URL's (9/19/20)
+### 1.2.16. S3 URL's (9/19/20)
 - An example ARN: arn:aws:s3:::a45fg94g223cq6 in a given VPC.
 - S3 supports two URL styles: virtual hosted and path style. Virtual-hosted-style URLs are of the form http://bucket.s3-aws-region.amazonaws.com, and path-style URLs are the traditional URLs you’ve seen: https://s3-aws-region.amazonaws.com/bucket-name. (AWS-CSAPT)
 - For a new bucket in us-east-2 named "ytmProfilePictures", the S3 URL is: https://s3-us-east-2.amazonaws.com/ytmProfilePictures because for direct access, the bucket name comes after the region FQDN.
@@ -437,7 +456,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - Presigned URL's allow non AWS users object access. The creater assignes permissions.
 
 
-### 1.2.16. S3 Pre-signed URLs:
+### 1.2.17. S3 Pre-signed URLs:
 - All S3 objects are private by default, however the object owner of a private bucket with private objects can optionally share those objects with without having to change the permissions of the bucket to be public.
 - This is done by creating a pre-signed URL. Using your own security credentials, you can grant time-limited permission to download or view your private S3 objects.
 - When you create a pre-signed URL for your S3 object, you must do the following:
@@ -452,7 +471,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 
 ![Screen Shot 2020-06-09 at 8 20 53 PM](https://user-images.githubusercontent.com/13093517/84213482-c6773300-aa8e-11ea-84a1-3c17e14197bc.png)
 
-### 1.2.17. S3 Select:
+### 1.2.18. S3 Select:
 - S3 Select is an Amazon S3 feature that is designed to pull out only the data you need from an object, which can dramatically improve the performance and reduce the cost of applications that need to access data in S3. 
 - Most applications have to retrieve the entire object and then filter out only the required data for further analysis. S3 Select enables applications to offload the heavy lifting of filtering and accessing data inside objects to the Amazon S3 service. 
 - As an example, let’s imagine you’re a developer at a large retailer and you need to analyze the weekly sales data from a single store, but the data for all 200 stores is saved in a new GZIP-ed CSV every day. 
@@ -461,11 +480,11 @@ The Amazon S3 notification feature enables you to receive and send notifications
 - By reducing the volume of data that has to be loaded and processed by your applications, S3 Select can improve the performance of most applications that frequently access data from S3 by up to 400% because you’re dealing with significantly less data.
 - You can also use S3 Select for Glacier.
 
-### 1.2.18. S3 REST API (Added 9/24/2020)
+### 1.2.19. S3 REST API (Added 9/24/2020)
 - Review the article that discusses MFA delete https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
 - REST API calls use 'x-amz' as part of the header,and x-amz-mfa request header for MFA DELETE (AWS CSAPT)
 
-### 1.2.19. 1.2.19 S3 Static Website
+### 1.2.20. 1.2.19 S3 Static Website
 - To host a static website on Amazon S3, you configure an Amazon S3 bucket for website hosting and then upload your website content to the bucket. When you configure a bucket as a static website, you must enable website hosting, set permissions, and create and add an index document. Depending on your website requirements, you can also configure redirects, web traffic logging, and a custom error document. (AWS Docs)
 - Depending on your Region, your Amazon S3 website endpoint follows one of these two formats.
   - s3-website dash (-) Region ‐ http://bucket-name.s3-website-Region.amazonaws.com
@@ -563,6 +582,7 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 
 ### 1.6.2. EC2 Key Details:
 - You can launch different types of instances from a single AMI. An instance type essentially determines the hardware of the host computer used for your instance. Each instance type offers different compute and memory capabilities. You should select an instance type based on the amount of memory and computing power that you need for the application or software that you plan to run on top of the instance.   
+- Nitro is the latest generation of EC2 instances. There are several improvements - one of note is that Nitro instances can support Provision IOPS up to 64k.
 - From within an instance there are two useful Meta Data URL's.
   - To see the bootstrap script: http:169.254.169.254/latest/user-data. 
   - Starring place for Meta data: http:169.254.169.254/latest/meta-data. For example data/public-ipv4 shows your Public IP address (Whats my IP)
@@ -580,9 +600,9 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 - A golden image is simply an AMI that you have fully customized to your liking with all necessary software/data/configuration details set and ready to go once. This personal AMI can then be the source from which you launch new instances.
 - Instance status checks check the health of the running EC2 server, systems status check monitor the health of the underlying hypervisor. If you ever notice a systems status issue, just stop the instance and start it again (no need to reboot) as the VM will start up again on a new hypervisor.
 - IAM policy changes can be applied/updated at run time and take effect almost imediately. 
-- Costing: 
- - Instances and storage have charges as you'd expect.
- - For EC2 to S3 in the same region, you pay S3 access (PUT's, DELETE's, etc.) charges, no throughput or data transfer.
+- Costing
+  - Instances and storage have charges as you'd expect.
+  - For EC2 to S3 in the same region, you pay S3 access (PUT's, DELETE's, etc.) charges, no throughput or data transfer.
 
 ### 1.6.3. EC2 AMI's (updated 9/29/2020)
 - AMI's are region specific.
@@ -830,7 +850,7 @@ Within the storage and content delivery domains, CloudWatch can inform you about
 ![Screen Shot 2020-06-17 at 8 16 23 PM](https://user-images.githubusercontent.com/13093517/84963455-71af6a00-b0d7-11ea-8168-15dd791bf000.png)
 
 - You can customize your CloudWatch dashboards for insights.
-- There is a multi-platform CloudWatch agent which can be installed on both Linux and Windows-based instances. This agent enables you to select the metrics to be collected, including sub-resource metrics such as per-CPU core. You can use this single agent to collect both system metrics and log files from Amazon EC2 instances and on-premises servers.
+- There is a multi-platform CloudWatch agent for both Linux and Windows (separate install). This agent enables you to select the metrics to be collected, including sub-resource metrics such as per-CPU core. You can use this single agent to collect both system metrics and log files from Amazon EC2 instances and on-premises servers. (TDJ)  You can then use custom CloudWatch metrics to create alarms.
 - The following metrics are not collected from EC2 instances via CloudWatch:
   - Memory utilization
   - Disk swap utilization
@@ -1458,19 +1478,24 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - If you are using NAT Gateway along with your NACL, you must ensure the availability of the NAT Gateway ephemeral port range within the rules of your NACL. Because NAT Gateway traffic can appear on any of range's ports for the duration of its connection, you must ensure that all possible ports are accounted for and open.
 - NACL can have a small impact on how EC2 instances in a private subnet will communicate with any service, including VPC Endpoints.
 
-## 3.5. NAT Instances vs. NAT Gateways:
+## 3.5. NAT Instances vs. NAT Gateways
 - Attaching an Internet Gateway to a VPC allows instances with public IPs to directly access the internet. NAT does a similar thing, however it is for instances that do not have a public IP. It serves as an intermediate step which allow private instances to first masked their own private IP as the NAT's public IP before accessing the internet.
 - You would want your private instances to access the internet so that they can have normal software updates. NAT prevents any initiating of a connection from the internet.
-- **NAT instances** are individual EC2 instances that perform the function of providing private subnets a means to securely access the internet. 
+
+### 3.5.1. NAT instances
+- Individual EC2 instances that perform the function of providing private subnets a means to securely access the internet. 
 - Because they are individual instances, High Availability is not a built-in feature and they can become a choke point in your VPC. They are not fault-tolerant and serve as a single point of failure. While it is possible to use auto-scaling groups, scripts to automate failover, etc. to prevent bottlenecking, it is far better to use the NAT Gateway as an alternative for a scalable solution.
-- **NAT Gateway** is a managed service that is composed of multiple instances linked together within an availability zone in order to achieve HA by default.  The NAT gateway is replaced by AWS if it fails, but there is a short disruption of service during the replacement (PPT). NAT Gateways are a charge item - not free. 
-- To achieve further HA and a zone-independent architecture, create a NAT gateway for each Availability Zone and configure your routing to ensure that resources use the NAT gateway in their corresponding Availability Zone. 
 - NAT instances are deprecated, but still useable. NAT Gateways are the prefered means to achieve Network Address Translation. 
+- When creating NAT instances, it is important to remember that EC2 instances have source/destination checks on them by default. What these checks do is ensure that any traffic it comes across must be either generated by the instance or be the intended recipient of that traffic. Otherwise, the traffic is dropped because the EC2 instance is neither the source nor the destination.
+- So because NAT instances act as a sort of proxy, you *must* disable source/destination checks when musing a NAT instance.
+  
+### 3.5.2. NAT Gateway
+- A managed service that is composed of multiple instances linked together within an availability zone in order to achieve HA by default.  The NAT gateway is replaced by AWS if it fails, but there is a short disruption of service during the replacement (PPT). NAT Gateways are a charge item - not free. 
+- To achieve further HA and a zone-independent architecture, create a NAT gateway for each Availability Zone and configure your routing to ensure that resources use the NAT gateway in their corresponding Availability Zone. 
 - There is no need to patch NAT Gateways as the service is managed by AWS. You do need to patch NAT Instances though because they’re just individual EC2 instances.
 - Because communication must always be initiated from yout private instances, you need a route rule to route traffic from a private subnet to your NAT gateway.
 - Your NAT instance/gateway will have to live in a public subnet as your public subnet is the subnet configured to have internet access.
-- When creating NAT instances, it is important to remember that EC2 instances have source/destination checks on them by default. What these checks do is ensure that any traffic it comes across must be either generated by the instance or be the intended recipient of that traffic. Otherwise, the traffic is dropped because the EC2 instance is neither the source nor the destination.
-- So because NAT instances act as a sort of proxy, you *must* disable source/destination checks when musing a NAT instance.
+
 
 ## 3.6. Bastion Hosts:
 - Bastion Hosts are special purpose computers designed and configured to withstand attacks. This server generally runs a single program and is stripped beyond this purpose in order to reduce attack vectors. [From wikipedia, added 9/4/2020]
@@ -1641,15 +1666,15 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
 - The ReceiveMessageWaitTimeSeconds is the queue attribute that determines whether you are using Short or Long polling. By default, its value is zero which means it is using short-polling. If it is set to a value greater than zero, then it is long-polling.
 - Everytime you poll the queue, you incur a charge. Long polling is recommeended. 
 
-## 5.4. Simple Workflow Service (SWF) (Updated 9/28/2020)
+#  6. Simple Workflow Service (SWF) (Updated 9/28/2020)
 
-### 5.4.1. SWF Simplified:
+## 6.1. SWF Simplified
 SWF is a web service that makes it easy to coordinate work across distributed application components. SWF has a range of use cases including media processing, web app backends, business process workflows, and analytical pipelines. 
 - Tasks: processing steps in an application - exec code, HTTP web service call, people, scripts, lamba functions, etc.  NOTE: SQS uses messages, SWF uses tasks (common test question).
 - Delivery: gaurantees single Delivery ONCE.  Most test tools advise to prefer tasks + single delivery, even though messages is also legit.
 - Amazon uses this for its order processing / shipping pipeline in the warehouse. No real restriction on programming language.
 
-### 5.4.2. SWF Key Details (Updated 9/28/2020)
+## 6.2. SWF Key Details (Updated 9/28/2020)
 - SWF is a way of coordinating tasks between application and people. It is a service that combines digital and human-oriented workflows. Related workflows are called a "domain". (Added 9/28/2020)
 - An example of a human-oriented workflow is the process in which Amazon warehouse workers find and ship your item as part of your Amazon order.
 - SWF provides a task-oriented API and ensures a task is assigned only once and is never duplicated. Using Amazon warehouse workers as an example again, this would make sense. Amazon wouldn’t want to send you the same item twice as they'd lose money.
@@ -1662,12 +1687,12 @@ SWF is a web service that makes it easy to coordinate work across distributed ap
   - SWF API's are task oriented, SQS is message oriented. 
   - SQS needs you to create your own app level tracking, whereas SWF handles all that.
 
-## 5.5. Simple Notification Service (SNS)
+# 7. Simple Notification Service (SNS)
 
-### 5.5.1. SNS Simplified
+## 7.1. SNS Simplified
 Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible, and cost-effective (inexpensive) method to publish a custom messages to subscribers who wish to be informed about a certain topic. First steps for new customers is to setup a billing alert. Publish messages and imediately deliver to subscribers or applications. 
 
-### 5.5.2. SNS Key Details (Updated 9/28/20)
+## 7.2. SNS Key Details (Updated 9/28/20)
 - SNS is mainly used to send alarms or alerts.  SNS assigns a default policy to the topic when created. This policy can be modified to grant additional permissions. (PPT)
 - SNS provides topics for high-throughput, push-based, many-to-many messaging. 
 - Using Amazon SNS topics (which have a unique ARN), your publisher systems can fan out messages to a large number of subscriber endpoints for parallel processing, including Amazon SQS queues, AWS Lambda functions, and HTTP/S webhooks. Additionally, SNS can be used to fan out notifications to end users using mobile push, SMS, and email. 
@@ -1679,17 +1704,17 @@ Simple Notification Service is a pushed-based messaging service that provides a 
 - SNS has flexible message delivery over multiple transport protocols and has a simple API.
 - To build a decopled architecture, pass messages downstream in a resilant manner. For that, best bet is to use SQS and HTTP. (Pearson Practice Test).
 
-### 5.5.3. SNS vs. SQS
+## 7.3. SNS vs. SQS
 - Both support messaging capabilities. 
 - SNS: Push notification service - push the message 'now' to subscribers.
 - SQS: Worker nodes poll the queue 'quicly'.
 
-## 5.6. Kinesis (Updated 9/27/2020)
+#  8. Kinesis (Updated 9/27/2020)
 
-### 5.6.1. Kinesis Simplified
+## 8.1. Kinesis Simplified
 Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information (think KB in size). With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications. Amazon Kinesis enables you to process and analyze data as it arrives and respond instantly instead of having to wait until all your data is collected before the processing can begin. Examples: stock, social network, gaming, eCommerce, geospatial. 
 
-### 5.6.2. Kinesis Key Details
+## 8.2. Kinesis Key Details
 - Amazon Kinesis makes it easy to load and analyze the large volumes of data entering AWS (a platform.) 
 - Kinesis is used for processing real-time data streams (data that is generated continuously) from devices constantly sending data into AWS so that said data can be collected and analyzed.
 - It is a fully managed service that automatically scales to match the throughput of your data and requires no ongoing administration. It can also batch, compress, and encrypt the data before loading it, minimizing the amount of storage used at the destination and increasing security.
@@ -1722,20 +1747,19 @@ Kinesys Analyitics (Updated 9/27/2020)
 - The total capacity of a Kinesis stream is the sum of data within its constituent shards.
 - You can always increase the write capacity assigned to your shard table.
 
-## 5.7. Lambda (Updated 10/12/2020)
+# 9. Lambda (Updated 10/12/2020)
 
-
-### 5.7.1. Lambda Simplified (Updated 10/12/2020)
+## 9.1. Lambda Simplified (Updated 10/12/2020)
 AWS Lambda lets you run code without provisioning or managing servers. It is an event driven service. You pay only for the compute time you consume. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. You upload your code and Lambda takes care of everything required to run and scale your code with high availability. You can set up your code to be automatically triggered from other AWS services or be called directly from any web or mobile app.  Scales out, not up. 
 
-### 5.7.2. Example Patterns (Added 10/12/2020)
+## 9.2. Example Patterns (Added 10/12/2020)
 - An HTTP request comes into API GW, which proxies to Lambda, which runs code, and returns information back to GW, and then the user. Each execution is separate from one anohter. Not the same as auto scaling (It just scales...) Compare to Traditional architecture.
   - Request comes into a load balancer, then a web server,which talks to the DB, does some action, and returns data.
   - Instead, API GW to Lambda which can write Dynamo DB and other activities.
   - Triggers: You can invoke with Lambda console, Lambda API, AWS SDK, CLI, and AWS toolkits.
  - An application is running from an EC2 instance and it must invoke Lambda functions asynchronously in a decoupled manner. To achieve push based architecture this, use a SNS message and configure the target of the message to be a Lambda function (SQS can't trigger a Lambda function.)
 
-### 5.7.3. Lambda Key Details:
+## 9.3. Lambda Key Details
 - Lambda is a compute service where you upload your code as a function and AWS provisions the necessary details underneath the function so that the function executes successfully. 
 - AWS Lambda is the ultimate abstraction layer. You only worry about code, AWS does everything else.
 - Lambda supports Go, Python, C#, PowerShell, Node.js, and Java. To access print statements produced by your code, you need to review Cloud Watch logs. Primt stmts aren't ignored (AWS SAA Prep).
@@ -1756,8 +1780,7 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 - To enable your Lambda function to access resources inside a private VPC, you must provide additional VPC-specific configuration information that includes VPC subnet IDs and security group IDs. AWS Lambda uses this information to set up elastic network interfaces (ENIs) that enable your function to connect securely to other resources within a private VPC.
 - AWS X-Ray allows you to debug your Lambda function in case of unexpected behavior.
 
-
-### 5.7.4. Lambda@Edge:
+## 9.4. Lambda@Edge
 - You can use Lambda@Edge to allow your Lambda functions to customize the content that CloudFront delivers.
 - It adds compute capacity to your CloudFront edge locations and allows you to execute the functions in AWS locations closer to your application's viewers. The functions run in response to CloudFront events, without provisioning or managing servers. You can use Lambda functions to change CloudFront requests and responses at the following points:
   - After CloudFront receives a request from a viewer (viewer request)
@@ -1770,12 +1793,12 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 - You'd use Lambda@Edge to simplify and reduce origin infrastructure.
 
 
-## 5.8. API Gateway (Updated 9/28/20)
+# 10. API Gateway (Updated 9/28/20)
 
-### 5.8.1. API Gateway Simplified: (Updated 9/27/20)
+## 10.1. API Gateway Simplified: (Updated 9/27/20)
 API Gateway is a fully managed service for developers that makes it easy to build, publish, manage, and secure entire APIs. You can create an API that acts as a “front door” for applications to access data, business logic, or functionality from your back-end services, such as workloads running on EC2) code running on AWS Lambda, or any web application. Somewhat like a load balancer. Typically used for Lambda functions; other targets are EC2 and Dynamo DB.
 
-### 5.8.2. API Gateway Key Details: (Updated 9/27/20)
+## 10.2. API Gateway Key Details: (Updated 1/29/2021)
 - Amazon API Gateway handles all the tasks involved in accepting and processing up to hundreds of thousands of concurrent API calls, including traffic management, authorization and access control, monitoring, and API version management.
 - Amazon API Gateway has no minimum fees or startup costs. You pay only for the API calls you receive and the amount of data transferred out.
 - API Gateway does the following for your APIs:
@@ -1790,8 +1813,8 @@ API Gateway is a fully managed service for developers that makes it easy to buil
   - Can be connected to CloudWatch for logging, monitoring, and observability
 - Since API Gateway can function with AWS Lambda, you can run your APIs and code without needing to maintain servers.
 - Amazon API Gateway provides throttling at multiple levels including global and by a service call. Therefore customers can control cost by setting an upper limit (PPT).
-  - Throttling limits can be set for standard rates and bursts. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure Amazon API Gateway to handle a burst of 2,000 requests per second for a few seconds. 
-  - Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response. The client SDKs generated by Amazon API Gateway retry calls automatically when met with this response.
+  - Throttling limits can be set for standard rates and bursts. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure API Gateway to handle a burst of 2,000 requests per second for a few seconds. 
+  -  API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response. The client SDKs generated by Amazon API Gateway retry calls automatically when met with this response.
 - You can add caching to API calls by provisioning an Amazon API Gateway cache and specifying its size in gigabytes. The cache is provisioned for a specific stage of your APIs. This improves performance and reduces the traffic sent to your back end. Cache settings allow you to control the way the cache key is built and the time-to-live in seconds (TTL) of the data stored for each method. Amazon API Gateway also exposes management APIs that help you invalidate the cache for each stage. For example, a GET. If the same GET was recently seen, the prior results are sent back. 
 - You can enable API caching for improving latency and reducing I/O for your endpoint.
 - When caching for a particular API stage (version controlled version), you cache responses for a particular TTL in seconds.
@@ -1802,14 +1825,14 @@ API Gateway is a fully managed service for developers that makes it easy to buil
   - API calls set up by the developers to deliver their custom functionality: These are not logged in CloudTrail.
   - NOTE: The API GW policy is evaluated before any user authentication event occurs (PPT).
 
-### 5.8.3. Deployment (Added 9/27/2020)
+### 10.2.1. Deployment (Added 9/27/2020)
 - Configure API GW by defining the container, define resources and nested resources which are URL paths.
 - For ea. resource, select HTTP verbs (methods), set security, and chose target.
 - Can also set response transforms.
 - Uses its own domain name by default, which can be customized
 - Now supports AWS Cert mgr for TLS certificats (these are no cost if using SSL mgr)
 
-### 5.8.4. Cross Origin Resource Sharing and Same Origin Policy: (Updated 9/27/2020)
+### 10.2.2. Cross Origin Resource Sharing and Same Origin Policy: (Updated 9/27/2020)
 - In computing, the same-origin policy (SOP) is an important concept where a web browser access such as scripts, cookies, etc. (Prior was incorrect - not only scripts) contained in one page to access data from another page, but only if both pages have the same origin.  Note: ACG lists this as a 'hinderence' - it isn't. It is *critical* for web browser security and end user acceptance. 
 - SOP:  An origin is defined as a combination of URI scheme, host name, and port number. (Wikipedia)
 - This behavior is enforced by browsers, but is ignored by command line tools like cURL and PostMan.
@@ -1820,12 +1843,12 @@ API Gateway is a fully managed service for developers that makes it easy to buil
 - A common example of this issue is if you are using a site with Javascript/AJAX for multiple domains under API Gateway. You would need to ensure that CORS is enabled.
 - CORS does not prevent XSS attacks, but does protect against CSRF attacks. What it does is controls who can use the data served by your endpoint. So if you have a weather website with callbacks to an API that checks the forecast, you could stop someone from writing a website that serves JavaScript calls into your API when they navigate to your website.
 - When someone attempts the malicious calls, your browser will read the CORS headers and it will not allow the request to take place thus protecting you from the attack.
-## 5.9. CloudFormation
+## 10.3. CloudFormation
 
-### 5.9.1. CloudFormation Simplified:
+### 10.3.1. CloudFormation Simplified:
 CloudFormation is an automated tool for provisioning entire cloud-based environments. It is similar to Terraform where you codify the instructions for what you want to have inside your application setup (X many web servers of Y type with a Z type DB on the backend, etc). It makes it a lot easier to just describe what you want in markup and have AWS do the actual provisioning work involved.
 
-### 5.9.2. CloudFormation Key Details:
+### 10.3.2. CloudFormation Key Details:
 - The main use case for CloudFormation is for advanced setups and production environments as it is complex and has many robust features.
 - CloudFormation templates can be used to create, update, and delete infrastructure.
 - The templates are written in YAML or JSON (not XML).
@@ -1844,24 +1867,24 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 - CloudFormation compliments Beanstalk. BS covers deploying (auto provisioning) everything for an application, as it is integrated w/ the developer lifecycle. BS uses CF to create / maintain instances - a PaaS like layer for apps.
 
 
-## 5.10. ElasticBeanstalk
+## 10.4. ElasticBeanstalk
 
-### 5.10.1. ElasticBeanstalk Simplified:
+### 10.4.1. ElasticBeanstalk Simplified:
 ElasticBeanstalk is another way to script out your provisioning process by deploying existing applications to the cloud. ElasticBeanstalk is aimed toward developers who know very little about the cloud and want the simplest way of deploying their code.
 
-### 5.10.2. Elastic Beanstalk Key Details:
+### 10.4.2. Elastic Beanstalk Key Details:
 - Just upload your application and ElasticBeanstalk will take care of the underlying infrastructure.
 - Elastic Beanstalk has capacity provisioning, meaning you can use it with autoscaling from the get-go.
-Elastic Beanstalk applies updates to your application by having a duplicate ready with the already updated version. This duplicate is then swapped with the original. This is done as a preventative measure in case your updated application fails. If the app does fail, ElasticBeanstalk will switch back to the original copy with the older version and there will be no downtime experienced by the users who are using your application. 
+- Elastic Beanstalk applies updates to your application by having a duplicate ready with the already updated version. This duplicate is then swapped with the original. This is done as a preventative measure in case your updated application fails. If the app does fail, ElasticBeanstalk will switch back to the original copy with the older version and there will be no downtime experienced by the users who are using your application. 
 - You can use Elastic Beanstalk to even host Docker as Elastic Beanstalk supports the deployment of web applications from containers. With Docker containers, you can define your own runtime environment, your own platform, programming language, and any application dependencies (such as package managers or tools) that aren't supported by other platforms. ElasticBeanstalk makes it easy to deploy Docker as Docker containers are already self-contained and include all the configuration information and software required to run. 
 - Programming: Go, Java, .NET, Node.js, PHP, Python, and Ruby (not Scala, c++)
 
-## 5.11. AWS Organizations
+## 10.5. AWS Organizations
 
-### 5.11.1. AWS Organizations Simplified:
+### 10.5.1. AWS Organizations Simplified:
 AWS Organizations is an account management service that enables you to consolidate multiple AWS accounts into an organization that you create and centrally manage.
 
-### 5.11.2. AWS Organizations Key Details:
+### 10.5.2. AWS Organizations Key Details:
 - Best practices is to use the root account to manage billing only with separate accounts used to deploy resources.
 - The point of AWS Organizations is to deploy permissions to the separate accounts underneath the root account and have those policies trickle down. AWS Organizations helps you centrally govern your environment as you grow and scale your workloads on AWS. 
 - You can use organizational units (OUs) to group similar accounts together to administer as a single unit. This greatly simplifies the management of your accounts. 
@@ -1870,7 +1893,7 @@ AWS Organizations is an account management service that enables you to consolida
 - Use SCPs with AWS Organizations to establish access controls so that all IAM principals (users and roles) adhere to them. With SCPs, you can specify *Conditions*, *Resources*, and *NotAction* to deny access across accounts in your organization or organizational unit. For example, you can use SCPs to restrict access to specific AWS Regions, or prevent deleting common resources, such as an IAM role used for your central administrators.  SCPs do not affect the root credentials, either console or API.  
 - An AWS Organizations SCP can be used for setting permission boundaries (Max Permissions) for the member accounts.) [Permission Boundaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) A permissions boundary is an advanced feature for using a managed policy to set the maximum permissions that an identity-based policy can grant to an IAM entity. An entity's permissions boundary allows it to perform only the actions that are allowed by both its identity-based policies and its permissions boundaries. (Added 11/13/2020)
 
-# 6. Web Identity Federation (Updated 12/6/2020)
+# 11. Web Identity Federation (Updated 12/6/2020)
 - Provide access based on a third party web based auth provider. An auth code comes to AWS, and it is traded for a temp access code. Allows you to use AWS w/ external IdP.
 - Offing: Cognito is the AWS IdP service. 
 - Sign up/Sign In.
@@ -1878,26 +1901,31 @@ AWS Organizations is an account management service that enables you to consolida
 - Synch's user data on multiple devices. 
 - A user must authenticate w/ a external service, which will give them a token. They send the token to Cognito, which will give them access. They can then interact w/ specific services. Basically - brokering, allowing access to an IAM role.
 
-## 6.1. Cognotio User Pools (Added 9/28/2020)
+## 11.1. Cognotio User Pools (Added 9/28/2020)
 - Directories used to manage sign up / sign in for mobile/web apps. Pools provide temp access.
 - User Pools are email address, password. Handles registration, authentication, account recovery CIA: Authentication component.
 - Identity Pools are granting to an access resource CIA: Authorization component
 - Successful authentication generates and uses a JSON Web Token = JWT. The JWT is checked against a Identity Pool
 - Cognito tracks login devices. Uses SNS to send notifications to devices as well via "silent push".
 
-# 7. Event Processing Patterns (Added 9/28/2020)
+## 11.2. Integrating with AD for User Home Directories (Added 1/29/2021)
+- Q: You want to use S3 for your domain users and integrate AD for SSO. How?
+- A: There are three parts. 1) Federation and a proxy or identity provider (ADFS, ...) 2) Setup STS for temp tokens for users. 3) Configure an IAM role + policy.
+- R: This can be accomplished with (a specific IAM policy.)[https://aws.amazon.com/blogs/security/writing-iam-policies-grant-access-to-user-specific-folders-in-an-amazon-s3-bucket/] What happens in the policy is the users name is mapped in through a variable: `"home/${aws:username}/*"` (see article)
+
+# 12. Event Processing Patterns (Added 9/28/2020)
 - Event Driven apps are a core AWS (and cloud) functionality. Need to understand the concepts of several event processing patterns.
 - Pub / Sub: Facilitated by SNS
 - DLQ: Supported by SNS, SQS, Lamba
 - Fanout: SNS
 - S3 event notification: New, Delete, Replication errors.
 
-## 7.1. Publisher / Subscriber (Added 9/28/2020)
+## 12.1. Publisher / Subscriber (Added 9/28/2020)
 - Asynch notifications receive messages via SNS Topics. 
 - Sub's perform different functions when they get the notification (notifications are instaneous)
 - Pub's send to the topic when "something happens" that another cares about. Publisher sends a message to the topic.
 
-## 7.2. Dead Letter Queue (Added 9/28/2020
+## 12.2. Dead Letter Queue (Added 9/28/2020
 - A lost / found, message may stay there.
 - An SQS queue. Messages that can't be delivered end up here.
 - SQS - When a max receive count is hit, SQS drops message in the DLQ.
@@ -1906,10 +1934,10 @@ AWS Organizations is an account management service that enables you to consolida
 - Example: a User uploads.
 - S3 Events: S3 can send a notification on a bucket event such as a new PNG or MOV file. These can be received by SQS queue, SNS topic, Lambda. S3 events are Object Created, Object Removed, Object Restore from Glacier, and Replication related failures. 
 
-## 7.3. FanOut Pattern
+## 12.3. FanOut Pattern
 - A system/solution that need to send the same message to two sides, say the fullfillment warehouse and the data warehouse directly. A better way is to dend a message to a SNS topic, and then have fullfillment/data-warehouse subscribe. 
 - 
-# 8. Authentication
+# 13. Authentication
 - You can enable single singn on (SSO) so your on prem users can directly authenticate into AWS. To do this, use the AWS Secure Token Service (STS) and SAML to achieve federation. Normally, use AD and SAML 2.0. 
 - To Grant resource from one AWS account to another AWS account( P = Prod, D = Dev):
   - You need a trust between accounts. 
@@ -1920,19 +1948,19 @@ AWS Organizations is an account management service that enables you to consolida
   - In the "D" account, select the user group. On the permissions tab, inline policies. Create a policy to allow the "sts:AssumeRole" Action. Apply the policy.
   - At this point, users in "D" can swich roles and gain access to the "P" resource.
 
-# 9. Miscellaneous
+# 14. Miscellaneous
 
 
 The following section includes services, features, and techniques that may appear on the exam. They are also extremely useful to know as an engineer using AWS. If the following items do appear on the exam, they will not be tested in detail. You'll just have to know what the meaning is behind the name. It is a great idea to learn each item in depth for your career's benefit, but it is not necessary for the exam.
 
-## 9.1. Reducing Security Threats (Added 10/12/2020)
+## 14.1. Reducing Security Threats (Added 10/12/2020)
 We inheriently trust that clients are well behaved and using services as intended. "Bad Actors" can fake a browsers user agent, or otherwise perform recon. Some will attempt DDOS. Protection mechanisms include Network ACL's to disallow inbound evil IP's, a host based firewall on EC2. For Linux - uwf, iptables. An application load balancer introduces a problem area though - the host won't see hte originating IP, so a host FW is ineffective because communication terminates at the ALB. Can allow the ALB's Sec Group access (only) to the EC2.  Won't completely block traffic through - still need a NACL. How about a Net Load Balancer (NLB)? With a NLB, the origin IP is visible to the EC2 instance, so the FW would be effective. 
 
 Enter WAF - it will montiro web access requests, and can block/allow. WAF has prefoncifugred excetipns for common attacks / exploits (SQL I, XSS). This works because WAF operations at the web applicaiton layer. Public web apps prefer WAF.
 
 Enter Cloud Front - Clients connection term at the Cloud Front distribution - so the client IP isn't visible to the EC2 FW. Can use geoblocking to stop traffic from a country all together. 
 
-### 9.1.1. What is the Amazon Cognito? (Legacy text)
+### 14.1.1. What is the Amazon Cognito? (Legacy text)
 - Before discussing Amazon Cognito, it is first important to understand what Web Identity Federation is. Web Identity Federation lets you give your users access to AWS resources after they have successfully authenticated into a web-based identity provider such as Facebook, Google, Amazon, etc. Following a successful login into these services, the user is provided an auth code from the identity provider which can be used to gain temporary AWS credentials.
 - Amazon Cognito is the Amazon service that provides Web Identity Federation. You don’t need to write the code that tells users to sign in for Facebook or sign in for Google on your application. Cognito does that already for you out of the box.
 - Once authenticated into an identity provider (say with Facebook as an example), the provider supplies an auth token. This auth token is then supplied to cognito which responds with limited access to your AWS environment. You dictate how limited you would like this access to be in the IAM role.
@@ -1946,7 +1974,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - You can retrieve a unique Amazon Cognito identifier (identity ID) for your end user immediately if you're allowing unauthenticated users or after you've set the login tokens in the credentials provider if you're authenticating users.
 - When you need to easily add authentication to your mobile and desktop app, think Amazon Cognito.
 
-### 9.1.2. What is AWS Resource Access Manager?
+### 14.1.2. What is AWS Resource Access Manager?
 - AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM. Underlying technology used in a Multi Account Strategy. 
 - Many organizations use multiple accounts to create administrative or billing isolation, and to limit the impact of errors as part of the AWS Organizations service.
 - RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. 
@@ -1954,14 +1982,14 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - RAM is available at no additional charge.
 - A resource in account 1 must be shared out to account 2 using the RAM. A shared resource initially lists as "associated" and the shared principle as "associating". There is a pending invite in account 2, which must be accepted in account 2. In 2, the name will say "Shared from Acct 1".
 
-### 9.1.3. What is Athena?
+### 14.1.3. What is Athena?
 - Athena is an interactive query service which allows you to interact and query data from S3 using standard SQL commands. This is beneficial for programmatic querying for the average developer. It is serverless, requires no provisioning, and you pay per query and per TB scanned. You basically turn S3 into a SQL supported database by using Athena. 
 - Example use cases:
   - Query logs that are dumped into S3 buckets as an alternative or supplement to the ELK stack
   - Setting queries to run business reports based off of the data regularly entering S3
   - Running queries on click-stream data to have further insight of customer behavior
 
-### 9.1.4. What is AWS Macie?
+### 14.1.4. What is AWS Macie?
 - To understand Macie, it is important to understand PII or Personally Identifiable Information:
   - Personal data used to establish an individual’s identity which can be exploited
   - Examples: Social Security number, phone number, home address, email address, D.O.B, passport number, etc.
@@ -1971,7 +1999,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - Macie continuously monitors data access activity for anomalies, and delivers alerts when it detects risk of unauthorized access or inadvertent data leaks. 
 - Macie has ability to detect global access permissions inadvertently being set on sensitive data, detect uploading of API keys inside source code, and verify sensitive customer data is being stored and accessed in a manner that meets their compliance standards.
 
-### 9.1.5. What is AWS KMS? (Updated 10/12/2020)
+### 14.1.5. What is AWS KMS? (Updated 10/12/2020)
 - AWS Key Management Service (AWS KMS) is a regional managed service that makes it easy for you to create and control the encryption keys used to encrypt your data. KMS manages Customer Managed Keys - CMKs. CMK's can encrypt/decrypt data up to 4KB in size (ideal for a Symetric Key).  The master keys that you create in AWS KMS are protected by FIPS 140-2 validated cryptographic modules. 
 - Three types of CMK's
   - Cusomter Managed - Customers can create and are in charge of life cycle
@@ -2003,16 +2031,21 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - The CMK is embedded in the data. Note that the file that is querried is binary. 
 - To encrypt data sizes > 4K, we ask for a data encryption key.  Once you get a DEK, you can use it to bulk encrypt. Envelope Encryption. 
   - `aws kms generate-data-key --keyid "alias/something_useful" --key-spec AES_256` :: returns a three component JSON output. Store the ciphertextblob as well.  Need to be able to call KMS to get at the cipher text blob. 
-- You pay for each API call
+- You pay for each API call.
 
-### 9.1.6. What is Cloud HSM (Added 11/12/2020)
+### 14.1.6. Example
+- Q: You want encryption at rest, AWS service integration, key control, ability to remove a key immediatly. Oh - and audit logs in CloudTrail.
+- A: Use KMS to create a cust mangaged key. Create the key in a custom key store. Store non-extractable material in CloudHSM (note there is an hourly cost for CloudHSM...)
+- R: When keys are created in KMS, you can (chose to store to generate material in CloudHSM.)[ttps://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html]
+
+### 14.1.7. What is Cloud HSM (Added 11/12/2020)
 - Dedicated Sec Module. KMS is L2 compliant, meaning it can show evidence of tampering. L3 is much higher.
 - Customers can't access the HSM directly. Single tennant, runs ina n AZ cluster.  Uses industry standard API's. There are no AWS API's - instead, industry standard are used.
 - Cloud HSM operates into its own VPC. It can project ENI's into other VPC's. 
 - Not high available by default - need to provision one HSM per subnet in two AZ's.
 - Solves for Strict regulatory compoiance. 
 
-### 9.1.7. What is Systems Manager Parameter Store (10/12/2020)
+### 14.1.8. What is Systems Manager Parameter Store (10/12/2020)
 - Secure management of sedrets - caching, distributing them. Part of SSM.  If you have an EC2 fleet that needs parameters like connection strings and passwords, SSM PS is for you.
 - Examples: Passwords, DB connect strings, license code, API keys, user accounts, ... in hierarchies ... with version control.
 - Parameters can be plain text or encrypted with a KMS key.
@@ -2027,7 +2060,7 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - In SSM, create parameter in a hierarchy. Like /prod/org/db/server.  Can use 'standard' for small values. Values are tring, string list, or secure string. The path is the KMS alias.  String list are comma separated. Store a password like /prod/org/servpass. Net is that KMS keys need to be associated with parameters. 
   - To trigger the Lambda, need a test event.  the console will give a variety of output. 
 
-### 9.1.8. What is AWS Secrets Manager? (Updated 10/12/2020)
+### 14.1.9. What is AWS Secrets Manager? (Updated 10/12/2020)
 - AWS Secrets Manager is an AWS service that makes it easier for you to manage secrets. You get 10K secrets at no charge. 
 - Secrets can be database credentials, passwords, third-party API keys, and even arbitrary text. You can store and control access to these secrets centrally by using the Secrets Manager console, the Secrets Manager command line interface (CLI), or the Secrets Manager API and SDKs.
 - In the past, when you created a custom application that retrieves information from a database, you typically had to embed the credentials (the secret) for accessing the database directly in the application. When it came time to rotate the credentials, you had to do much more than just create new credentials. You had to invest time to update the application to use the new credentials. Then you had to distribute the updated application. If you had multiple applications that shared credentials and you missed updating one of them, the application would break. 
@@ -2036,46 +2069,46 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - This helps ensure that the secret can't be compromised by someone examining your code, because the secret simply isn't there. 
 - Also, you can configure Secrets Manager to automatically rotate the secret for you according to a schedule that you specify with a highly randomized value. This enables you to replace long-term secrets with short-term ones, which helps to significantly reduce the risk of compromise.
 
-### 9.1.9. What is AWS STS?
+### 14.1.10. What is AWS STS?
 - AWS Security Token Service (AWS STS) is the service that you can use to create and provide trusted users with temporary security credentials that can control access to your AWS resources. 
 - Temporary security credentials work almost identically to the long-term access key credentials that your IAM users can use.
 - Temporary security credentials are short-term, as the name implies. They can be configured to last for anywhere from a few minutes to several hours. After the credentials expire, AWS no longer recognizes them or allows any kind of access from API requests made with them.
 
-### 9.1.10. What is OpsWorks?
+### 14.1.11. What is OpsWorks?
 - AWS OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. Chef and Puppet are automation platforms that allow you to use code to automate the configurations of your servers. 
 - OpsWorks lets you use Chef and Puppet to automate how servers are configured, deployed, and managed across your Amazon EC2 instances or on-premises compute environments. 
 - OpsWorks has three offerings - AWS Opsworks for Chef Automate, AWS OpsWorks for Puppet Enterprise, and AWS OpsWorks Stacks.
 - AWS OpsWorks Stacks lets you manage applications and servers on AWS and on-premises. With OpsWorks Stacks, you can model your application as a stack containing different layers, such as load balancing, database, and application server.
 - OpsWorks Stacks  is complex enough for you to deploy and configure Amazon EC2 instances in each layer or connect to other resources such as Amazon RDS databases.
 
-### 9.1.11. What is Elastic Transcoder?
+### 14.1.12. What is Elastic Transcoder?
 - A media transcoder in the cloud. Basically, it is a service that converts media files from their original format to the media format specified whether for phones, tablets, PCs, etc.  Provides transcoding presets for output.
 - Because of the built-in support for different media types, you can trust that the resulting quality will be good.
 - With Elastic Transcoder, you pay per minute of the transcode job and the resolution of the finished work.
 - You pay for transcoded minutes by resolution. 
 - Process: Upload, which triggers a lambda function, transcoder runs, output is stored in a different bucket.
 
-### 9.1.12. What is AWS Directory Service?
+### 14.1.13. What is AWS Directory Service?
 - AWS Directory Service provides multiple ways to use Amazon Cloud Directory and Microsoft Active Directory (AD) with other AWS services. 
 - Directories store information about users, groups, and devices, and administrators use them to manage access to information and resources. 
 - AWS Directory Service provides multiple directory choices for customers who want to use existing Microsoft AD or Lightweight Directory Access Protocol (LDAP)–aware applications in the cloud. It also offers those same choices to developers who need a directory to manage users, groups, devices, and access.
 
-### 9.1.13. What is IoT Core?
+### 14.1.14. What is IoT Core?
 - AWS IoT Core is a managed cloud service that lets connected devices easily and securely interact with cloud applications and other devices. 
 - AWS IoT Core provides secure communication and data processing across different kinds of connected devices and locations so you can easily build IoT applications.
 
-### 9.1.14. What is AWS WorkSpaces?
+### 14.1.15. What is AWS WorkSpaces?
 - Amazon WorkSpaces is a managed, secure Desktop-as-a-Service (DaaS) solution. You can use Amazon WorkSpaces to provision either Windows or Linux desktops in just a few minutes and quickly scale to provide thousands of desktops to workers across the globe. 
 - Amazon WorkSpaces helps you eliminate the complexity in managing hardware inventory, OS versions and patches, and Virtual Desktop Infrastructure (VDI), which helps simplify your desktop delivery strategy. 
 - With Amazon WorkSpaces, your users get a fast, responsive desktop of their choice that they can access anywhere, anytime, from any supported device.
 
-### 9.1.15. What is AWS Fargate?
+### 14.1.16. What is AWS Fargate?
 - AWS Fargate is a serverless compute engine for containers.
 - The Fargate launch type allows you to run your containerized applications without the need to provision and manage the backend infrastructure. Just register your task definition and Fargate launches the container for you. 
 - It works with both Amazon Elastic Container Service (ECS) and Amazon Elastic Kubernetes Service (EKS). 
 - Fargate makes it easy for you to focus on building your applications. It removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design.
 
-### 9.1.16. What is Amazon Elastic Container Service?
+### 14.1.17. What is Amazon Elastic Container Service?
 - Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service. 
 - Amazon ECS eliminates the need for you to install, operate, and scale your own cluster management infrastructure. With simple API calls, you can launch and stop container-enabled applications, query the complete state of your cluster, and access many familiar features like security groups, Elastic Load Balancing, EBS volumes and IAM roles. 
 - You can use Amazon ECS to schedule the placement of containers across your cluster based on your resource needs and availability requirements. You can also integrate your own scheduler or third-party schedulers to meet business or application specific requirements.
@@ -2084,7 +2117,12 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - ECS is not "instant scaling" because ECS requires a short delay to deploy new containers during scaling (PPT.)
 - ECS has tasks. Tasks in a container need an IAM role with permissions to access a given service, like S3 (remember, a role needs a JSON policy doc.)
 
-### 9.1.17. What is Amazon Elastic Kubernetes Service?
+### 14.1.18. How do you give credentials to a container (added 1/20/2021)
+- Q: Can you provide secrets as Environment Variables to a container? 
+- A: Yep. Use System Manager Parameter Store. Create an IAM role for your containers. Reference it with the task def.  Within the container def, specify the secret names o/t param store. 
+- R: (Article)[https://aws.amazon.com/blogs/mt/the-right-way-to-store-secrets-using-parameter-store/]
+
+### 14.1.19. What is Amazon Elastic Kubernetes Service?
 - Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed Kubernetes service. EKS runs upstream Kubernetes and is certified Kubernetes conformant so you can leverage all benefits of open source tooling from the community. You can also easily migrate any standard Kubernetes application to EKS without needing to refactor your code.
 - Kubernetes is open source software that allows you to deploy and manage containerized applications at scale. Kubernetes groups containers into logical groupings for management and discoverability, then launches them onto clusters of EC2 instances. Using Kubernetes you can run containerized applications including microservices, batch processing workers, and platforms as a service (PaaS) using the same toolset on premises and in the cloud.
 - Amazon EKS provisions and scales the Kubernetes control plane, including the API servers and backend persistence layer, across multiple AWS availability zones for high availability and fault tolerance. Amazon EKS automatically detects and replaces unhealthy control plane nodes and provides patching for the control plane. 
@@ -2092,18 +2130,18 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
 - You can run EKS using AWS Fargate, which is serverless compute for containers. Fargate removes the need to provision and manage servers, lets you specify and pay for resources per application, and improves security through application isolation by design. 
 - Amazon EKS is integrated with many AWS services to provide scalability and security for your applications. These services include Elastic Load Balancing for load distribution, IAM for authentication, Amazon VPC for isolation, and AWS CloudTrail for logging.
 
-### 9.1.18. What does pilot light mean? (Updated 12/03/2020)
+### 14.1.20. What does pilot light mean? (Updated 12/03/2020)
 - The term pilot light is often used to describe a disaster recovery scenario in which a minimal version of an environment is always running in the cloud. In AWS Land, of course. 
 - The idea of the pilot light is an analogy that comes from the gas heater. In a gas heater, a small flame that’s always on and can quickly ignite the entire furnace to heat up a house. This scenario is similar to a backup-and-restore scenario.
 - For example, with AWS you can maintain a pilot light by configuring and running the most critical core elements of your system in AWS. When the time comes for recovery, you can rapidly provision a full-scale production environment around the critical core that has always been running.
 
-### 9.1.19. What are Blue-Green deployments?
+### 14.1.21. What are Blue-Green deployments?
 - One of the challenges with automating deployments is the cut-over from the final stage of testing to live production. You usually need to do this quickly in order to minimize downtime.
 - The Blue-Green deployment approach does this by ensuring you have two production environments, as identical as possible. At any time one of them, let's say blue for the example, is live. As you prepare a new release of your software you do your final stage of testing in the green environment. Once the software is working in the green environment, you switch the router so that all incoming requests go to the green environment - the blue one is now idle.
 - Blue-green deployment also gives you a rapid way to rollback - if anything goes wrong you switch the router back to your blue environment.
 - CloudFormation and CodeDeploy (AWS's version of Jenkins) both support this deployment technique.
 
-### 9.1.20. What is Amazon Data Lifecycle Manager?
+### 14.1.22. What is Amazon Data Lifecycle Manager?
 - You can use Amazon Data Lifecycle Manager (Amazon DLM) to automate the creation, retention, and deletion of snapshots taken to back up your Amazon EBS volumes. 
 - Automating snapshot management helps you to:
   - Protect valuable data by enforcing a regular backup schedule.
@@ -2111,27 +2149,27 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Reduce storage costs by deleting outdated backups.
 - Using Amazon DLM means that you no longer need to remember to take your EBS snapshots, thus reducing cognitive load on engineers.
 
-### 9.1.21. What is Route Origin Authorization?
+### 14.1.23. What is Route Origin Authorization?
 - You can bring part or all of your public IPv4 address range from your on-premises network to your AWS account. You continue to own the address range, but AWS advertises it on the Internet. After you bring the address range to AWS, it appears in your account as an address pool. 
 - You can then create an Elastic IP address from your address pool and use it with your AWS resources, such as EC2 instances, NAT gateways, and Network Load Balancers. This is also called "Bring Your Own IP Addresses (BYOIP)".
 - To ensure that only you can bring your address range to your AWS account, you must authorize Amazon to advertise the address range and provide proof that you own the address range.
 - The benefit of ROA is that you can migrate pre-existing applications to AWS without requiring your partners and customers to change their IP address whitelists.  
 
-### 9.1.22. What is AWS Shield (Added 10/12/2020)
+### 14.1.24. What is AWS Shield (Added 10/12/2020)
 - Standard: Included with AWS WAF. Protects against common OSI L3/L4 attacks, use as a UDP flood or SYN floods with half open connections. 
 - Can also respond to reflection attacks. 
 - In Feb 2020, AWS was hit with a 2.3 TBps DDOS for 3 days - but AWS stayed up.
 - Shield Advanced - $3k/mo per org. Users get 24/7 access to the DDOS response team and DDOS cost protection. 
 - Provides enhanced protection for EC2, ELB, Cloud Front, Global Accelerator. 
 
-### 9.1.23. What is Amazon MQ?
+### 14.1.25. What is Amazon MQ?
 - Amazon MQ is a managed message broker service that makes it easy to set up and operate message brokers in the cloud.
 - The service is used when migrating services and apps into the cloud from your on-prem which is how it differs from Amazon SQS.
 - Amazon MQ supports durability-optimized brokers backed by Amazon EFS to support high availability and message durability, and throughput-optimized brokers backed by Amazon EBS to support high-volume applications that require low latency and high throughput.
 - You can easily move from any message broker to Amazon MQ because you don’t have to rewrite any messaging code in your applications.
 - Amazon MQ is suitable for enterprise IT pros, developers, and architects who are managing a message broker themselves–whether on-premises or in the cloud–and want to move to a fully managed cloud service without rewriting the messaging code in their applications.
 
-### 9.1.24. What is AWS Config? (Updated 10/1/2020)
+### 14.1.26. What is AWS Config? (Updated 10/1/2020)
 - AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations.
 - With Config, you can review changes in configurations and relationships between AWS resources, dive into detailed resource configuration histories, and determine your overall compliance against the configurations specified in your internal guidelines. This enables you to simplify compliance auditing, security analysis, change management, and operational troubleshooting.
 - AWS Config allows you to do the following: ·        
@@ -2139,29 +2177,29 @@ Enter Cloud Front - Clients connection term at the Cloud Front distribution - so
   - Get a snapshot of the current configurations of the Skip to content
 Search or jump to…
 
-### 9.1.25.  Unified Scaling Service (Added 11/11/2020)
+### 14.1.27.  Unified Scaling Service (Added 11/11/2020)
 - The services covered by Unified Auto Scaling are EC2, Spot Fleets, DynamoDB, Aurora Read Replicas, and ECS on Fargate.
 
-### 9.1.26. LightSail 
+### 14.1.28. LightSail 
 - Easy way to get started. Focused on predefined servers to deploy and manage websites in the cloud. Sold as a "bundle".
 
-### 9.1.27. AWS EMR
+### 14.1.29. AWS EMR
 - Amazon EMR is a web service that enables businesses, researchers, data analysts, and developers to easily and cost-effectively process vast amounts of data. EMR utilizes a hosted Hadoop framework running on Amazon EC2 and Amazon S3. AWSCSAAPT.
 
-### 9.1.28. Amazon MQ (Added 12/03/2020)
+### 14.1.30. Amazon MQ (Added 12/03/2020)
 - A message queue services. Managed message broker service for Apache ActiveMQ. It uses industry-standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket.
 
 Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02]: 390 AWS Practice Exam Questions with Answers & detailed Explanations (p. 351). Kindle Edition. 
 
-### 9.1.29. AWS Marketplace (Added 1/8/2021)
+### 14.1.31. AWS Marketplace (Added 1/8/2021)
 - Offers free/paid software products; many run in free tier. There are prebuilt AMI's, trials, and services.
 - Copies data between NFS, CIFS/SMB, SnowCore, S3 Buckets, EFS file systems, and FSx for Windows.
 - Data sync agent is deployed on a local VM. It encrypts source data, pushes to AWS target. Targets can be FSx, S3, and EFS.
 
-### What is DataSync? (Added 1/23/2021)
+### 14.1.32. What is DataSync? (Added 1/23/2021)
 - An online data transfer service that simplifies, automates, and accelerates moving data between on-prem and cloudl. 
 
-# 10. KEY AMAZON AWS TERMS (Added 11/11/2020)
+# 15. KEY AMAZON AWS TERMS (Added 11/11/2020)
 - High Availability: System will continue to function despite the complete failure of any component in the architecture.(Pearson Practice Test).
 - Availability is related to whether a resource is accessible at a given time and is determined by a percentage uptime, in 9s. (PPT Term, not 100% thrilled with this though...)
 - Redundancy: Multiple resources dedicated to performing same task. Term often used interchangability with Fault Tolerance. (Pearson Practice Test).
@@ -2173,7 +2211,7 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 - Asynchronous: Asynchronous communication can be described as “fire and forget,” where the workflow can complete without the original requestor requiring a response (PPT.)
 - 
 
-# 11. Well Architected Frame Work (Added 11/13/2020)
+# 16. Well Architected Frame Work (Added 11/13/2020)
 - Cost optimization: Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs. As AWS releases new services and features, it is a best practice to review your existing architectural decisions to ensure they continue to be the most cost-effective.
 - Operational Excellance: Perform Ops with Code, annocate docs, make frequent + small + reversable changes. refine ops procedures often, anticiapte failure, and lear from op failure. Supported by AWS Config, CloudFormation, AWS Trusted Advisor, CloudTrail, VPC Flow Logs, and AWS Inspector (AWS SAA prep).  CloudWatch extracts data from logs, because it tracks and creats alarms as needed.
 - Security - Enable traceability, automate security best practices, protect data in transit. 
@@ -2181,33 +2219,33 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 - Performance efficiency - Selection, Review, Monitoring, and Tradeoffs.
   - Serverless architectures use resources only when absolutely necessary, thus exhibiting a high degree of performance efficiency. (PPT)
 
-# 12. Scenarios (Added 12/7/2020)
+# 17. Scenarios (Added 12/7/2020)
 
 Note: Many of these scenarios are adapted from various test question tools.
 
-## 12.1. Data Storage
+## 17.1. Data Storage
 - Q. You need to store records with a 7 year retention period based on regulatory. Infrequently asked after created during the first 3 months, then must be available within 10 minutes. What do you use to absolutely minimize cost?
 - A. Use S3 Standard Infrequently Accessed, then move to S3 Glacier. In Glacair, Expedided Access will get the data in 1-5 minutes. 
 
-## 12.2. VPC NACL Security
+## 17.2. VPC NACL Security
 - Q. You have a three tier app. App runs in an auto scale group, constantly launching/terminating instances, which writes to MySQL DB. How do you restrict access so the app tier can talk to the db tier?
 - A: Config the DB EC2 Security Group to accept traffic only from the App-Sec EC2 Security Group.
 
-## 12.3. HPC and MPI
+## 17.3. HPC and MPI
 - Q. Application is running tightly coupled HPC architecture using the MPI protocol. Which deployment option minimizes overhead?
 - A. Use AWS Batch for a multi node parallel job. This supports jobs that span EC2 instances. An AWS Batch multi-node parallel job supports IP-based, internode communication, such as Apache MXNet, TensorFlow, Caffe2, or Message Passing Interface (MPI).
 
 Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SAA-C02]: 390 AWS Practice Exam Questions with Answers & detailed Explanations (p. 357). Kindle Edition. 
 
-## 12.4. Database Migration
+## 17.4. Database Migration
 - Q. You have a DB that is huge, and cannot be migrated bacause of limited bandwidth in the time aloted (say a few weeks). How can you do this?
 - A. Use the Schema Conv Tool, load data onto Snowball Edge, then the Data Migration Svc to migrate to DynamoDB (or other).
 
-## 12.5. Collectng EC2 Stats
+## 17.5. Collectng EC2 Stats
 - Q. An app will gather info about a hosted site on an EC2 instance, write it to S3 bucket. Intention is to use API calls. What is the most operationally efficent setup?
 - A. Grant programatic access (key, secret id) and create a supporting IAM policy which will grant access to the S3 resource.
 
-## 12.6. Prototype Cloud Storage (Added 1/11/2011)
+## 17.6. Prototype Cloud Storage (Added 1/11/2011)
 - Small business interested in prototyping cloud storage, but wary of cloud. 
 - If Focused on cost savings:
   - Suggest storage gateway w/ storage volume because that keeps files local and will begin to synch up to S3.
@@ -2215,15 +2253,20 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
   - Suggest sotrage gateeway cached. 
 - Avoid complex VPN + S3 + Tiering options. 
 
-## 12.7. Web App and Storage
+## 17.7. Web App and Storage
 - Storage for applications that write small amounts of data, infrequently and customer is cost concious.
   - Magnetic can work. Infrequent access needs to be there, major driver. 
 
-## 12.8. RDS Pefrormance and Read Replicas
+## 17.8. RDS Pefrormance and Read Replicas
 - In response to questiosns about RDS performance: increate instance size, implement read replicas, implement cloud front to cache static and dynamic content.  Answers are shaped by the focus of the question. 
 - Reasons to use RR's include DB is showing memory saturation, customers are in a different region where your RDS system is. 
 
-# Test Axioms from AWS SAA Prep
+## 17.9. EC2 in AZ's
+- Q: You need 2 instances for your application, and there is an auto scale group that reaches 6 instances routinely. How do you redeploy for high avail + fault tollerance?
+- A: Configure the auto scale group for 2 AZ's with 2 instances each, scale up to 6. Set the ASG Min cap to 4. 
+- R: The reason for this is that you need Fault Tollerance. If you set 1 EC2 in each AZ and an AZ fails, Auto Scale would need to recognize and start a second instance. That would take time. Therefore 2 instances in 2 AZ's b/c that supports all criteria.
+
+# 18. Test Axioms from AWS SAA Prep
 - Never the right answer.
   - Single AZ
 - General
