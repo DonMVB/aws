@@ -1,6 +1,6 @@
 - [1. Introduction](#1-introduction)
   - [1.1. Identity Access Management (IAM)](#11-identity-access-management-iam)
-  - [1.2. Simple Storage Service (S3) OLDER](#12-simple-storage-service-s3-older)
+  - [1.2. Simple Storage Service (S3) (Updated 2/6/2021)](#12-simple-storage-service-s3-updated-262021)
   - [1.3. CloudFront](#13-cloudfront)
   - [1.4. Snowball](#14-snowball)
   - [1.5. Storage Gateway](#15-storage-gateway)
@@ -26,10 +26,13 @@
   - [1.25. External/Internet ELB (Added 11/06/2020):](#125-externalinternet-elb-added-11062020)
   - [1.26. Internal ELB (Added 11/06/2020):](#126-internal-elb-added-11062020)
   - [1.27. Main Configuration Steps (Added 11/06/2020):](#127-main-configuration-steps-added-11062020)
+  - [1.28. AWS Glue (Added 2/18/2021)](#128-aws-glue-added-2182021)
+  - [1.29. AWS Systems Manager (Added 2/10/2021)](#129-aws-systems-manager-added-2102021)
 - [2. Auto Scaling](#2-auto-scaling)
   - [2.1. Auto Scaling Simplified:](#21-auto-scaling-simplified)
-  - [2.2. Auto Scaling Key Details:](#22-auto-scaling-key-details)
-  - [2.3. Auto Scaling Default Termination Policy:](#23-auto-scaling-default-termination-policy)
+  - [2.2. Auto Scaling Key Details](#22-auto-scaling-key-details)
+  - [2.3. Auto Scaling and CloudWatch Step Scaling (Added 2/19/2021)](#23-auto-scaling-and-cloudwatch-step-scaling-added-2192021)
+  - [2.4. Auto Scaling Default Termination Policy:](#24-auto-scaling-default-termination-policy)
 - [3. Virtual Private Cloud (VPC)](#3-virtual-private-cloud-vpc)
   - [3.1. VPC Simplified:](#31-vpc-simplified)
   - [3.2. VPC Key Details (Updated 9/4/2020):](#32-vpc-key-details-updated-942020)
@@ -79,6 +82,7 @@
   - [12.2. Dead Letter Queue (Added 9/28/2020](#122-dead-letter-queue-added-9282020)
   - [12.3. FanOut Pattern](#123-fanout-pattern)
 - [13. Authentication](#13-authentication)
+  - [13.1. MS Windows Authentication Specific (ToDo)](#131-ms-windows-authentication-specific-todo)
 - [14. Miscellaneous](#14-miscellaneous)
   - [14.1. Reducing Security Threats (Added 10/12/2020)](#141-reducing-security-threats-added-10122020)
 - [15. KEY AMAZON AWS TERMS (Added 11/11/2020)](#15-key-amazon-aws-terms-added-11112020)
@@ -93,6 +97,10 @@
   - [17.7. Web App and Storage](#177-web-app-and-storage)
   - [17.8. RDS Pefrormance and Read Replicas](#178-rds-pefrormance-and-read-replicas)
   - [17.9. EC2 in AZ's](#179-ec2-in-azs)
+  - [17.10. Mobile app (added 2/6/2021)](#1710-mobile-app-added-262021)
+  - [17.11. Game that leverages Serverless (added 2/6/2021)](#1711-game-that-leverages-serverless-added-262021)
+  - [17.12. Cost Control / Cost Mgmt / Service Limits (Added 2/19/2021)](#1712-cost-control--cost-mgmt--service-limits-added-2192021)
+  - [17.13. Load Sharing with Cloud and on Prem (Added 2/19/2021)](#1713-load-sharing-with-cloud-and-on-prem-added-2192021)
 - [18. Test Axioms from AWS SAA Prep](#18-test-axioms-from-aws-saa-prep)
 Last Updated: 1/29/2021 8:21 PM EST USA (Gobble x3)
 
@@ -254,7 +262,7 @@ The underlying identifier is called the Amazon Resource Name, or ARN. ARN's uniq
 - **Default Deny (or Implicit Deny)**: IAM identities start off with no resource access. Access instead must be granted.
 
 
-## 1.2. Simple Storage Service (S3) OLDER
+## 1.2. Simple Storage Service (S3) (Updated 2/6/2021)
 
 ### 1.2.1. S3 Simplified:
 S3 provides developers and IT teams with secure, durable, and highly-scalable object storage. Object storage, as opposed to block storage, is a general term that refers to data composed of three things:
@@ -330,13 +338,14 @@ Availability varies, Durability is 9 9's.  You don't specify an AZ for an S3 buc
 
 **S3 Intelligent Tiering** - Uses built-in ML/AI to determine the most cost-effective storage class and then automatically moves your data to the appropriate tier. It does this without operational overhead or performance impact.
 
-**S3 Glacier** - low-cost storage class for data archiving. This class is for pure storage purposes where retrieval isn’t needed often at all. Retrieval times range from minutes to hours. There are differing retrieval methods depending on how acceptable the default retrieval times are for you:
+**S3 Glacier** - low-cost storage class for data archiving. This class is for pure storage purposes where retrieval isn’t needed often at all. Retrieval times range from minutes to hours. There are differing retrieval methods depending on how acceptable the default retrieval times are for you. This option is set in the Tier parameter inside the job.
 
-    Expedited: 1 - 5 minutes, but this option is the most expensive.
+    Expedited: 1 - 5 minutes, but this option is the most expensive.  If you bought provisioned capacity, it is used first when you request 'expedited'.
     Standard: 3 - 5 hours to restore.
     Bulk: 5 - 12 hours. This option has the lowest cost and is good for a large set of data.
 
 The Expedited duration listed above could possibly be longer during rare situations of unusually high demand across all of AWS. If it is absolutely critical to have quick access to your Glacier data under all circumstances, you must purchase *Provisioned Capacity*. Provisioned Capacity guarentees that Expedited retrievals always work within the time constraints of 1 to 5 minutes.
+Each unit of provisioned capacity provides 3+ expedited retrievals every 5 minutes, and up to 150 MB of throughput. (added 2/720211)
 
 **Glacier Vault** - There is a compliance focused version of Glacier called 'vault'. You set data retnion for X yrs. Once the Vault Lock poiicy is defined, it cannot be modified or removed after the initial 24-hour grace period, even by AWS (PPT - and somwhere else, but not ACG).
 
@@ -370,10 +379,15 @@ You can encrypted on the AWS supported server-side in the following ways:
   - `aws s3api put-bucket-versioning --bucket <yourbucket> --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa "arn:aws:iam::<account number>:mfa/root-account-mfa-device <mfa code>"`
 
 
-### 1.2.6. S3 Lifecycle Management:
+### 1.2.6. S3 Lifecycle Management (Ipdated 2/19/2021)
 - Automates the moving of objects between the different storage tiers.
 - Can be used in conjunction with versioning.
 - Lifecycle rules can be applied to both current and previous versions of an object.
+- Livecycle storage changes have constraints. 
+  - From STD to Standard_IA, OneZone_IA - objects less than 128 KB in size are not moved. Cost efficency.
+  - Obj's must be in their current storage for 30 days before they can move to Standard_IA or OneZone_IA.
+  - Not restricted if going from Standard to Glacier, Intelligent Tiering, Glacier Deep Archive.
+  - Objects from Glacier take time. To retrieve data quikly, need to use expedited retrieval, which has a cost.
 
 ### 1.2.7. S3 Cross Region Replication:
 - Cross region replication only work if versioning is enabled.
@@ -408,6 +422,7 @@ The Amazon S3 notification feature enables you to receive and send notifications
 
 ### 1.2.11. Maximizing S3 Read/Write Performance
 - Chose regions for S3 buckets based on placing storage close to your users, to reduce network latency, and distance from your operations center (DR scenarios.)
+- Currently (as of Q4 2020) S3 Read performance is 3500/requests a second to add data, 5500/requests to retrieve data (TDJ Quiz #5)
 - If the request rate for reading and writing objects to S3 is extremely high, then you can use hash keys or random strings to prefix the object's name. In such cases, the partitions used to store the objects will be better distributed and therefore will allow better read/write performance on your objects. 
 - If your S3 data is receiving a high number of GET requests from users, you should consider using Amazon CloudFront for performance optimization. By integrating CloudFront with S3, you can distribute content via CloudFront's cache to your users for lower latency and a higher data transfer rate. This also has the added bonus of sending fewer direct requests to S3 which will reduce costs. For example, suppose that you have a few objects that are very popular. CloudFront fetches those objects from S3 and caches them. CloudFront can then serve future requests for the objects from its cache, reducing the total number of GET requests it sends to Amazon S3.
 - <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html "> More information on how to ensure high performance in S3</a>
@@ -608,9 +623,10 @@ EC2 spins up resizeable server instances that can scale up and down quickly. An 
 - AMI's are region specific.
 - If you build an AMI and need it in other regions, it needs to be copied to other regions <a href="https://aws.amazon.com/premiumsupport/knowledge-center/copy-ami-region/"> Tutorial </a>
 
-### 1.6.4. EC2 Instance Pricing:
-- **On-Demand instances** are based on a fixed rate by the hour or second. As the name implies, you can start an On-Demand instance whenever you need one and can stop it when you no longer need it. There is no requirement for a long-term commitment.
-- **Reserved instances** ensure that you keep exclusive use of an instance on 1 or 3 year contract terms. The long-term commitment provides significantly reduced discounts at the hourly rate. These can't be moved between regions (updated 9/29/2020)
+### 1.6.4. EC2 Instance Pricing
+- Volumes and Elastic IP's are charged separately from instances (link)[https://aws.amazon.com/premiumsupport/knowledge-center/ec2-billing-terminated/] Also, you cannot sell reserved instances in GovCloud. 
+- **On-Demand instances** are based on a fixed rate by the hour or second. As the name implies, you can start an On-Demand instance whenever you need one and can stop it when you no longer need it. There is no requirement for a long-term commitment. You don't pay for "pending", you do pay for "running" and when hibernating, even when it is in "stopping" state but not if you are truly stopping the instance (2/6/2/21)
+- **Reserved instances** ensure that you keep exclusive use of an instance on 1 or 3 year contract terms. The long-term commitment provides significantly reduced discounts at the hourly rate. These can't be moved between regions (updated 9/29/2020). You pay for reserved even when they are "terminated"; to recoup costs, you need to seem them in the "Resered Instance marketplace". (2/6/2021)
 - **Spot instances** take advantage of Amazon’s excess capacity and work in an interesting manner - you bid for them. This option makes sense only if your app has flexible start and end times. You won’t be charged if your instance stops due to a price change (e.g., someone else just bid a higher price for the access); your workload doesn’t complete. If you terminate the instance are charged for any hour the instance ran. Spot instances are normally used in batch processing jobs. The "Spot Market" is where you bit on spot instances. 
 
 ### 1.6.5. Standard Reserved vs. Convertible Reserved vs. Scheduled Reserved:
@@ -643,6 +659,11 @@ The following table highlights the many instance states that a VM can be in at a
     - `aws ec2 create-key-pair  --key-name KEY-NAME-HERE --query 'KeyMaterial' --output text > ~/.ssh/KEY-NAME-HERE .pem`
     - `aws ec2 describe-key-pairs --key-name KEY-NAME-HERE` 
     - `aws iam upload-ssh-public-key --user-name KEY-NAME-HERE --ssh-public-key-body "$(< ~/.ssh/KEY-NAME-HERE.pub)"
+- NOTE: If you receive an error message that says "Server refused our key", it may be from:
+  - For the private key, there is no matching public key in authorized_keys.
+  - You do not have access to authorized_keys.
+  - You don't have access/permissions to .ssh directory.
+- Note: IF you get a "unprotected private key" message, the file has 0777 permissions on Linux
 
 ### 1.6.8. EC2 Placement Groups (Updated 1/11/2011)
 -  Placement groups balance the tradeoff between risk tolerance and network performance when it comes to your fleet of EC2 instances. The more you care about risk, the more isolated you want your instances to be from each other. The more you care about performance, the more conjoined you want your instances to be with each other. 
@@ -765,9 +786,9 @@ An Amazon EBS volume is a durable, block-level storage device that you can attac
 ### 1.8.1. ENI Simplified:
 An elastic network interface is a networking component that represents a virtual network card. When you provision a new instance, there will be an ENI attached automatically and you can create and configure additional network interfaces if desired. When you move a network interface from one instance to another, network traffic is redirected to the new instance. 
 
-### 1.8.2. ENI Key Details (Updated 8/29/2020)
+### 1.8.2. ENI Key Details (Updated 2/19/2021)
 - ENI is used mainly for low-budget, high-availability network solutions
-- However, if you suspect you need high network throughput then you can use Enhanced Networking ENI.
+- However, if you suspect you need high network throughput then you can use Enhanced Networking ENI.  This is enabled with the Enhanced Networking Adapter (ENA).
 - Enhanced Networking ENI uses single root I/O virtualization to provide high-performance networking capabilities on supported instance types. SR-IOV provides higher I/O and lower throughput and it ensures higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies. SR-IOV does this by dedicating the interface to a single instance and effectively bypassing parts of the Hypervisor which allows for better performance. SR-IOV = Single Root I/O Virtualization. 25Gbps is the theoretical maximum for an ENI (in theory...) (PPT.)
 - Adding more ENIs won’t necessarily speed up your network throughput, but Enhanced Networking ENI will.
 - There is no extra charge for using Enhanced Networking ENI and the better network performance it provides. The only downside is that Enhanced Networking ENI is not available on all EC2 instance families and types.
@@ -777,7 +798,7 @@ An elastic network interface is a networking component that represents a virtual
   - When the instance is being launched (cold attach).
 - If an EC2 instance fails with ENI properly configured, you (or more likely,the code running on your behalf) can attach the network interface to a hot standby instance. Because ENI interfaces maintain their own private IP addresses, Elastic IP addresses, and MAC address, network traffic will begin to flow to the standby instance as soon as you attach the network interface on the replacement instance. Users will experience a brief loss of connectivity between the time the instance fails and the time that the network interface is attached to the standby instance, but no changes to the VPC route table or your DNS server are required.
 - For instances that work with Machine Learning and High Performance Computing, use EFA (Elastic Fabric Adaptor). EFAs accelerate the work required from the above use cases. EFA provides lower and more consistent latency and higher throughput than the TCP transport traditionally used in cloud-based High Performance Computing systems. 
-- EFA can also use OS-bypass (on linux only) that will enable ML and HPC applications to interface with the Elastic Fabric Adaptor directly, rather than be normally routed to it through the OS. This gives it a huge performance increase.
+- EFA can also use OS-bypass (on linux only - NOT Windows) that will enable ML and HPC applications to interface with the Elastic Fabric Adaptor directly, rather than be normally routed to it through the OS. This gives it a huge performance increase.
 - You can enable a VPC flow log on your network interface to capture information about the IP traffic going to and from a network interface. 
 
 ## 1.9. Security Groups
@@ -913,7 +934,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 - Think of Data events as things normally done by software when hitting various AWS endpoints. Examples:
   - S3 object-level API activity
   - Lambda function execution activity 
-- By default, CloudTrail logs management events, but not data events. 
+- By default, CloudTrail logs management events, but not data events.  They are also encrypted with S3 SSE (Server Side Encryption). (Updated 2/19/2021)
 - By default, CloudTrail Events log files are encrypted using Amazon S3 server-side encryption (SSE). You can also choose to encrypt your log files with an AWS Key Management Service (AWS KMS) key. As these logs are stored in S3, you can define Amazon S3 lifecycle rules to archive or delete log files automatically. If you want notifications about log file delivery and validation, you can set up Amazon SNS notifications.
 - A robust CloudTrail environment example:
   - Multiple VPCs in multiple regions, want IAM, CloudFront, WAF, Route53 - the works - both CLI and Console.
@@ -925,7 +946,7 @@ AWS CloudTrail is a service that enables governance, compliance, operational aud
 ### 1.13.1. EFS Simplified:
 - EFS provides a simple and fully managed elastic NFS file system for use within AWS. EFS automatically and instantly scales your file system storage capacity up or down as you add or remove files without disrupting your application.
 
-### 1.13.2. EFS Key Details (Updated 11/11/2020)
+### 1.13.2. EFS Key Details (Updated 2/19/2021)
 - In EFS, storage capacity is elastic (grows and shrinks automatically) and its size changes based on adding or removing files.
 - On the "File System Settings" screen (at create time), you can specify one of two provisioned modes: General Purpose (latency-sensitive) or MaxIO (High levels of aggregate throughput). Troughput is either Bursting or Provisioned. In provisioned, you can specify a 1-1024 MiB/Sec rate. While it is only achievable in some regions, the maximum throughput for EFS is 3Gbps (PPT.) General Purpose performance mode file systems have the lowest metadata latency and perform best for jobs like a UNIX find command (PPT - really nit picky, eh?)
 - While EBS mounts one EBS volume to one instance, you can attach one EFS volume across multiple EC2 instances.
@@ -1091,9 +1112,14 @@ Aurora is the AWS flagship DB known to combine the performance and availability 
 - It also helps the cluster to scale the capacity to handle simultaneous SELECT queries, proportional to the number of Aurora Replicas in the cluster. Each Aurora DB cluster has one reader endpoint.
 - If the cluster contains one or more Aurora Replicas, the reader endpoint load-balances each connection request among the Aurora Replicas. In that case, you can only perform read-only statements such as SELECT in that session. If the cluster only contains a primary instance and no Aurora Replicas, the reader endpoint connects to the primary instance directly. In that case, you can perform write operations through the endpoint.
 
+### 1.17.6. Aurora Primary DB Failure Notes (Added 2/19/2021)
+- If you provision a single Aurora instance, when it fails,  Aurora will attempt to create a replacement DB in the same AZ on a best effort basis.
+- If you have a replica in the same or a different AZ, it will filp the Canonical name (CNAME) DNS record to the healthy replica, which will now be promoted to the master. Typically 30 seconds. 
+
+
 ## 1.18. DynamoDB
 
-### 1.18.1. DynamoDB Simplified:
+### 1.18.1. DynamoDB Simplified
 Amazon DynamoDB is a key-value and document database that delivers single-digit millisecond performance at any scale. It's a fully managed, multiregion, multimaster, durable non-SQL database. It comes with built-in security, backup and restore, and in-memory caching for internet-scale applications.
 
 ### 1.18.2. DynamoDB Key Details:
@@ -1207,13 +1233,14 @@ The ElastiCache service makes it easy to deploy, operate, and scale an in-memory
 
 ## 1.23. Route 53 (Updated 1/11/2021)
 
-### 1.23.1. Route53 Simplified:
+### 1.23.1. Route53 Simplified
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) service. You can use Route 53 to perform three main functions in any combination: domain registration, DNS routing, and health checking. Route 53 has a 100% SLA uptime (PPT)
 
-### 1.23.2. Route53 Key Details:
+### 1.23.2. Route53 Key Details
 - DNS is used to map human-readable domain names into an internet protocol address similarly to how phonebooks map company names with phone numbers.
 - AWS has its own domain registrar.
 - When you buy a domain name there is a Start of Authority (SOA) record created in the registration service. Every DNS ~~address domain ~~starts has with an SOA record. The SOA record stores information about the name of the server that kicked off the transfer of ownership, the administrator who will now use the domain, the serial number of the SOA Rec the current metadata available, and the default number of seconds or TTL.  (Revised 9/3/2020)
+- Of note on Apex Records: This is the FQDN record, like "site.com". It is implemented with an alias record (Route 53 specific).  An alias can be used to map the FQDN to an ELB DNS name so that using the FQDN will recolve to the ELB, which can change its IP from time to time.
 - NS records, or Name Server records, are used to identify the name server that is authoratative for the domain. The Top Level Domain hosts (.org, .com, .uk, etc.) to direct traffic to the Content servers. The Content DNS servers contain the authoritative DNS records.
 - By default, an account can manage up to 50 domains. Support can increase that number. (Added 9/3/2020)
 - ~~Browsers~~ Resolvers talk to the Top Level Domain Servers (called Root DNS servers) whenever they are queried and encounter domain name that they do not recognize.
@@ -1236,7 +1263,7 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) serv
 - Further, Route53 health checks can be used for any AWS endpoint that can be accessed via the Internet. This makes it an ideal option for monitoring the health of your AWS endpoints.
 - To flush your local cache on Windows you can run "`ipconfig flushdns`" in a command prompt.
 
-### 1.23.3. Route53 Routing Policies:
+### 1.23.3. Route53 Routing Policies
 - When you create a record, you choose a routing policy, which determines how Amazon Route 53 responds to DNS queries. The routing policies available are:
   - Simple Routing
   - Weighted Routing
@@ -1343,12 +1370,18 @@ For example, with Path Patterns you can route general requests to one target gro
 - Classic Load Balancers do not support Server Name Indication (SNI). SNI allows the server (the ALB/NLB in this case) to safely host multiple TLS Certificates for multiple sites all under a single IP address (the Alias record or CName record in this case). To allow SNI, you have to use an Application Load Balancer instead or use it with a CloudFront web distribution. 
 - SSL/TLS termination: Done at the ELB level, not the EC2 instance level (takes heavy lift off of EC2). Back end *can* be either encrypted or not.  If you need end to end, ALB can support - but this requires you manually manage the certificate on the EC2 instance(s). You can only use ACM at the ELB level. 
 
+## 1.28. AWS Glue (Added 2/18/2021)
+Glue is an ETL system. Used to prep and load data into a data store, like an RDBMS. Glue does perform automatic data discovery. It stores extracted table definitions in the Glue Catalog.
+
+## 1.29. AWS Systems Manager (Added 2/10/2021)
+From the TDJ Quiz #5: AWS Systems Manager Run Command lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon EC2 instance or on-premises machine in your hybrid environment that has been configured for Systems Manager. Run Command enables you to automate common administrative tasks and perform ad hoc configuration changes at scale.
+
 # 2. Auto Scaling
 
 ## 2.1. Auto Scaling Simplified:
 AWS Auto Scaling lets you build scaling plans that automate how groups of different resources respond to changes in demand. You can optimize availability, costs, or a balance of both. AWS Auto Scaling automatically creates all of the scaling policies and sets targets for you based on your preference. 
 
-## 2.2. Auto Scaling Key Details:
+## 2.2. Auto Scaling Key Details
 - Auto Scaling is a major benefit from the cloud's economies of scale so if you ever have a requirement for scaling, automatically think of using the Auto Scaling service. 
 - Auto Scaling has three components:
   - **Groups**: These are logical components. A webserver group of EC2 instances, a database group of RDS instances, etc.
@@ -1367,10 +1400,11 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
   - **Maintain**: Auto Scaling can ensure the current number of instances at all times. This option will always maintain the number of servers you want running even when they fail.
   - **Manual**. Auto Scaling can scale only with manual intervention. If want to control all of the scaling yourself, this option makes sense.
   - **Schedule**: Auto Scaling can scale based on a schedule. If you can reliably predict spikes in traffic, this option makes sense.
-  - Auto Scaling based off of predictive scaling. This option lets AWS AI/ML learn more about your environment in order to predict the best time to scale for both performance improvements and cost-savings.
-- There are two policy types. 
+  - Auto Scaling is based off of predictive scaling. This option lets AWS AI/ML learn more about your environment in order to predict the best time to scale for both performance improvements and cost-savings.
+- There are Three policy types (orig version of these notes had two): UPDATED 2/19/2021
   - Simple: After a scaling action starts, policy must wait for activity to finish or health check replacement to complete and cooldown period to expire before responding to the next alarm. Cooldown period helps prevent initiation of additional activities before prior activity is visible.
-  - Target: Increase / decrease capacity based on specific target value metric. Helps resolve over provisioniong. Add/Remove to keep metric as close as possible to target value.
+  - Step scaling:  Increase or decrease the current capacity of the group based on a set of scaling adjustments, known as step adjustments, that vary based on the size of the alarm breach. (from TDJ AWS quiz 5)
+  - Target: Increase / decrease capacity based on specific target value metric. You may see the phrase "a set of scaling adjustments" on the test. Metrics Helps resolve over provisioniong. Add/Remove to keep metric as close as possible to target value.
 - In maintaining the current running instance, Auto Scaling will perform occasional health checks on the running instances to ensure that they are all healthy. When the service detects that an instance is unhealthy, it will terminate that instance and then bring up a new one online.
 - When designing HA for your Auto Scaling, use multiple AZs and multiple regions wherever you can.
 - Auto Scaling allows you to suspend and then resume one or more of the Auto Scaling processes in your Auto Scaling Group. This can be very useful when you want to investigate a problem in your application without triggering the Auto Scaling process when making changes.
@@ -1379,7 +1413,10 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 - If there is a requirement to combine both on-demand and spot instances in the same Auto Scaling group, use a launch template because only launch templates support a mixture of on-demand and spot instances at the same time (PPT.)
 - Launch templates allow for versioning so that it is simple to utilize a previous version if a rollback is required (PPT.) Launch templates over lanuch configurations have these benefits: multiple instance types, can use t2, can use on- demand and spot (PPT).
 
-## 2.3. Auto Scaling Default Termination Policy:
+## 2.3. Auto Scaling and CloudWatch Step Scaling (Added 2/19/2021)
+You can use "step scaling" for the CloudWatch alarm that triggers the scaling process.  Step Scaling allows you to increase/decrease capacity of a scale target. Adjustment is based on the amount of an alarm breach.  Used in "Dynamic Scaling".
+
+## 2.4. Auto Scaling Default Termination Policy:
 - The default termination policy for an Auto Scaling Group is to automatically terminate a stopped instance, so unless you've configured it to do otherwise, stopping an instance will result in termination regardless if you wanted that to happen or not. A new instance will be spun up in its place. 
 - The default termination policy will spare instances that you tell it in case some servers are running critical systems or applications. These critical servers are protected from "scale in", which is just the deletion process of instances deemed superfluous to requirements.
 - The default termination policy is designed to help ensure that your network architecture spans Availability Zones evenly. With the default termination policy, the behavior of the Auto Scaling group is as follows:
@@ -1390,11 +1427,11 @@ AWS Auto Scaling lets you build scaling plans that automate how groups of differ
 
 ![Screen Shot 2020-06-19 at 5 19 02 PM](https://user-images.githubusercontent.com/13093517/85180270-0093c200-b251-11ea-97e3-ed9a80ee5d65.png)
 
-### 2.3.1. Auto Scaling and Rebalancing (Added 12/03/2020)
+### 2.4.1. Auto Scaling and Rebalancing (Added 12/03/2020)
 - Happens if auto scaling finds the number of instances in AZ's isn't balanced. It launches instances in lower count AZ until equal, then it will start terminating instances based on performance. 
 - Auto Scaling can be configured to send email via a SNS notification (start, stop, fail to launch, fail to term). 
 
-### 2.3.2. Auto Scaling Cooldown Period:
+### 2.4.2. Auto Scaling Cooldown Period:
 - The cooldown period is a configurable setting for your Auto Scaling Group that helps to ensure that it doesn't launch or terminate additional instances before the previous scaling activity takes effect.  The Cloud Watch alarm evaluation period is the number of most recent data points to evaluate.
 - After the Auto Scaling Group scales using a policy, it waits for the cooldown period to complete before resuming further scaling activities if needed.
 - The default waiting period is 300 seconds, but this can be modified.
@@ -1560,6 +1597,7 @@ VPC lets you provision a logically isolated section of the AWS cloud where you c
   5. Once the VPN connection is available, set up the VPN either on the customer gateway or the on-prem firewall itself
 - Data flow into AWS via DirectConnect looks like the following: On-prem router -> dedicated line -> your own cage / DMZ -> cross connect line -> AWS Direct Connect Router -> AWS backbone -> AWS Cloud
 - To connect to muliple VPC's, you can also configure a transit gateway. TGW's are a routing construct, and require that IP address ranges not overlap. Solution requires: Direct Connect GW, Transit GW w/ VPC connections, Associations between DC and TGW, Transit Virtual interface. (12/3/2020)
+- By attaching a Transit GW to a Direct Connect GW using a transit virtual interface, you can manage a single connection for multiple VPC's in the same AWS Region.(2/6/2021)  
 - If you need a cost effective alternate: you could use an IPSec VPN conection with the same BGP prefix. Both will be advertised (same BGP number). Direct Conn will alwasy be preferred, unless down.
 - **Summary**: DirectConnect connects your *on-prem with your VPC* through a non-public tunnel.
 
@@ -1717,6 +1755,7 @@ Amazon Kinesis makes it easy to collect, process, and analyze real-time, streami
 ## 8.2. Kinesis Key Details
 - Amazon Kinesis makes it easy to load and analyze the large volumes of data entering AWS (a platform.) 
 - Kinesis is used for processing real-time data streams (data that is generated continuously) from devices constantly sending data into AWS so that said data can be collected and analyzed.
+- A common test question - how would you analyze logs from several sources in real time. Solutions like EMR require an ETL process of some sort.
 - It is a fully managed service that automatically scales to match the throughput of your data and requires no ongoing administration. It can also batch, compress, and encrypt the data before loading it, minimizing the amount of storage used at the destination and increasing security.
 - There are three different types of Kinesis:
   - Kinesis Data Stream: For consuming and storing data. 
@@ -1736,7 +1775,7 @@ Kinesis Streams (Updated 9/27/2020)
 - Key components are producers, shards, and consumers.
 
 Kinesis Firehose (Updated 9/28/2020)
-- Amazon Kinesis Firehose is the easiest way to load streaming data into data stores and analytics tools. When data is streamed into Kinesis Firehose, there is no persistent storage there to hold onto it. The data must be analyzed as it comes in. It is optional to have Lambda functions inside your Kinesis Firehose. Once processed, you send the data elsewhere like S3, RedShift, Splunk, or Elastic Search cluster. Key components are delivery streams, records of data, and destinations. 
+- Amazon Kinesis Firehose is the easiest way to capture, transform, and load streaming data into data stores and analytics tools. When data is streamed into Kinesis Firehose, there is no persistent storage there to hold onto it. The data must be analyzed as it comes in. It is optional to have Lambda functions inside your Kinesis Firehose. Once processed, you send the data elsewhere like S3, RedShift, Splunk, or Elastic Search cluster. Key components are delivery streams, records of data, and destinations. (Updated 2/7/2021, TDJ)
 - Kinesis Firehose can capture, transform, and load streaming data into Amazon S3, Amazon Redshift, Amazon Elasticsearch Service, and Splunk, enabling near real-time analytics with existing business intelligence tools and dashboards you’re already using today.
 
 Kinesys Analyitics (Updated 9/27/2020)
@@ -1772,6 +1811,7 @@ AWS Lambda lets you run code without provisioning or managing servers. It is an 
 - You can use Lambda as an event-driven service that executes based on changes in your AWS ecosystem.
 - You can also use Lambda as a handler in response to HTTP events via API calls over the AWS SDK or API Gateway.
 - Variety of permissions can be applied in IAM policy: InvokeFunction, Version, Function, Alias, and others.
+- IAM Policy can also use Tags. You can use this feature to control access to instance based on "type", where type is an artifical tag like "SystemTyoe:Prod" vs. "SystemType:UAT".
 
 ![Screen Shot 2020-06-30 at 9 19 33 AM](https://user-images.githubusercontent.com/13093517/86130894-df35a000-bab2-11ea-9908-acbe3e8d4824.png)
 
@@ -1845,10 +1885,10 @@ API Gateway is a fully managed service for developers that makes it easy to buil
 - When someone attempts the malicious calls, your browser will read the CORS headers and it will not allow the request to take place thus protecting you from the attack.
 ## 10.3. CloudFormation
 
-### 10.3.1. CloudFormation Simplified:
+### 10.3.1. CloudFormation Simplified
 CloudFormation is an automated tool for provisioning entire cloud-based environments. It is similar to Terraform where you codify the instructions for what you want to have inside your application setup (X many web servers of Y type with a Z type DB on the backend, etc). It makes it a lot easier to just describe what you want in markup and have AWS do the actual provisioning work involved.
 
-### 10.3.2. CloudFormation Key Details:
+### 10.3.2. CloudFormation Key Details
 - The main use case for CloudFormation is for advanced setups and production environments as it is complex and has many robust features.
 - CloudFormation templates can be used to create, update, and delete infrastructure.
 - The templates are written in YAML or JSON (not XML).
@@ -1864,6 +1904,7 @@ CloudFormation is an automated tool for provisioning entire cloud-based environm
 - For any Logical Resources in the stack, CloudFormation will make a corresponding Physical Resources in your AWS account. It is CloudFormation’s job to keep the logical and physical resources in sync.
 - If you create a new EC2 instance and a new EBS volume in a CloudFormatin template, you will need to specify the EC2 logical ID and the EBS volume ID to link them. 
 - Templates do not have to be region specific, although since AMI's are region specific you would need to use CF "mappings" to specify the base AMI (AWS SAA Prep).
+- To coordinate builds such that one step must complete before the next starts, like standing up a MS SQL server before a SharePoint server, use the Associate the `CreationPolicy` attribute with a resource. This can prevent the step from being complete until a set of signals is received. To signal resources use the `cfn-signal` helper or the `SignalResource` API.
 - CloudFormation compliments Beanstalk. BS covers deploying (auto provisioning) everything for an application, as it is integrated w/ the developer lifecycle. BS uses CF to create / maintain instances - a PaaS like layer for apps.
 
 
@@ -1947,6 +1988,9 @@ AWS Organizations is an account management service that enables you to consolida
   - Create a role in "P" now that you have a policy for "D" to use.  Get the ARN of the role.
   - In the "D" account, select the user group. On the permissions tab, inline policies. Create a policy to allow the "sts:AssumeRole" Action. Apply the policy.
   - At this point, users in "D" can swich roles and gain access to the "P" resource.
+
+## 13.1. MS Windows Authentication Specific (ToDo)
+- For on prem services (Windows, AD, SharePoint.)
 
 # 14. Miscellaneous
 
@@ -2265,6 +2309,26 @@ Davis, Neal. AWS Certified Solutions Architect Associate Practice Tests 2020 [SA
 - Q: You need 2 instances for your application, and there is an auto scale group that reaches 6 instances routinely. How do you redeploy for high avail + fault tollerance?
 - A: Configure the auto scale group for 2 AZ's with 2 instances each, scale up to 6. Set the ASG Min cap to 4. 
 - R: The reason for this is that you need Fault Tollerance. If you set 1 EC2 in each AZ and an AZ fails, Auto Scale would need to recognize and start a second instance. That would take time. Therefore 2 instances in 2 AZ's b/c that supports all criteria.
+
+## 17.10. Mobile app (added 2/6/2021)
+- Q: You have a mobile application which will experience high (millions) demand in short windows of time. Transactions must be in a highly scalable / available data store which will support queries for real time transaction ranking.
+- A: Use Dynamo DB and AppSync.  DynamoDB is highly scalable and durable. AppSync makes it easier to build colab apps to present shared data. 
+
+## 17.11. Game that leverages Serverless (added 2/6/2021)
+- Q: You have a mobile game w/ a serverless back end. Primary storage is a Dynamo DB table for user and game play data. How can you improve performance while minimizing costs?
+- A!: Use DynamoDB Accelerator (DAX) - a fully managed in memory cache which delivers up to 10x improvement, ensure auto scaling is enabled, increase max provisioned read/writes.
+- A2: You could also use API GW and Lambda functions, enable data caching, and DynamoDB global replication. 
+- API GW has no fee or startup cost. Lambda scales on your behalf. 
+
+## 17.12. Cost Control / Cost Mgmt / Service Limits (Added 2/19/2021)
+Q: You want to make sure that the services you use don't go past the "Service Limit". What do you use?
+A: Trusted Advisor, because it provides real time guidance. Trusted Advisor inspects your environment, and makes recommendations, specifically advising of a service is at 80% or more of its limit.
+
+## 17.13. Load Sharing with Cloud and on Prem (Added 2/19/2021)
+Q: How can you share the load of 2+ servers for a web application where one is in the data center and one is in AWS? (these questions will talk about mograting an app to the cloud)
+A: You can use ELB with a weighted Target Group. Note the assumption is that either a) this is a direct connect, or t b) the web app is publically facing in both environments. Use a 50-50 approach. Weighted Target Groups are often used for blue/green deployment scenarios. May see "Zero downtime migration".
+A: You can use Route53 with a weighted routing policy. Again - this assumes that requests are resolved by Route 53
+Questions won't necessarily give you enough to make these assumptions though. 
 
 # 18. Test Axioms from AWS SAA Prep
 - Never the right answer.
